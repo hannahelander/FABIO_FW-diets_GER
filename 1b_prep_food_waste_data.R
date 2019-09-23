@@ -3,6 +3,9 @@
 # ---------------------------------------
 # This script is adapted from Alice Piccolo <alice.piccolo94@gmail.com> and Elena Fourcroy <elenafourcroy@gmail.com>
 
+# load food waste data
+waste_shares <- read.csv2(paste0(path,"fabio_waste_shares.csv"))  # change source!
+waste_shares[is.na(waste_shares)] <- 0                            # set NA to 0
 
 # create data frame for waste (for each country, for all products in each stage)
 NrOfProducts <- 130

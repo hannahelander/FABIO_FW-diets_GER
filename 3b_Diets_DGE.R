@@ -1,20 +1,21 @@
-###
-# Load data
+################
+### This script export the "Diets" for SQ and DGE_rec (before kcal standardization)
+################
 
 index <- read.csv2(file = "data/14.8.2019/index_data_frame.csv")
 
-Y_SQ_diet <- read.csv2(file = "data/Y_SQ_diet.csv") # the Y matrix for eaten!TO BE USED!
-Y_SQ_diet <- Y_SQ_diet[,2]
+Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv") # the Y matrix for eaten!TO BE USED! (Generated in 3_Y_modifier)
+Y_SQ_eaten <- Y_SQ_eaten[,2]
 
-Y_DGErec_diet <- read.csv2("data/Y_DGErec_diet.csv") # the Y matrix for eaten!TO BE USED!
-Y_DGErec_diet <- Y_DGErec_diet[,2]
+Y_DGErec_eaten <- read.csv2("data/Y_DGErec_eaten.csv") # the Y matrix for eaten!TO BE USED!
+Y_DGErec_eaten <- Y_DGErec_eaten[,2]
 
 #sum(Y_SQ_diet)
 #sum(Y_DGErec_diet)
 
 # Converting unit (from tonnes/year) to: eaten food grams/person/day
-Y_SQ_diet <- Y_SQ_diet * 1000000 / population / 365
-Y_DGErec_diet <- Y_DGErec_diet * 1000000 / population / 365
+Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365
+Y_DGErec_diet <- Y_DGErec_eaten * 1000000 / population / 365
 
 # load nutritional data and save is as per gram specifications
 items <- read.csv2(file = "data/Items_nutr_.csv", stringsAsFactors = FALSE)

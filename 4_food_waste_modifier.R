@@ -6,3 +6,5 @@ waste$distribution[index$country=="DEU"] <- waste$distribution[index$country=="D
 waste$consumption[index$country=="DEU"] <- waste$consumption[index$country=="DEU"] * 0.5
 
 ## Afterwards 2_footprints and 2b_quantaties can be run again
+
+# teständring

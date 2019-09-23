@@ -5,15 +5,12 @@
 library(tidyr)
 library(dplyr)
 
-path <- "C:/Hanna/Germany_foodWaste_diets/input/"
+path <- "C:/Hanna/FABIO_FW-diets_GER/input/"
 
 # load classification data
 countries <- read.csv2(paste0(path,"fabio_countries.csv"))
 products <- read.csv2(paste0(path, "items.csv"))
 
-# load food waste data
-waste_shares <- read.csv2(paste0(path,"fabio_waste_shares.csv"))  # change source!
-waste_shares[is.na(waste_shares)] <- 0                            # set NA to 0
 
 
 # load FABIO output data

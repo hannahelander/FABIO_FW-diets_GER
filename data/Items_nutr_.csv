@@ -1,0 +1,132 @@
+
+Com.Code;Item.Code;Item;Unit;Group;Moisture;Feedtype;Com.Group;120;Source_nutr (Food_consumption_table_FAO);Kcal;G_prot;G_fat
+c001;2805;Rice (Milled Equivalent);tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'RICE MILLED';360;6.7;0.7
+c002;2511;Wheat and products;tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'WHEAT';334;12.2;2.3
+c003;2513;Barley and products;tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'BARLEY';332;11;1.8
+c004;2514;Maize and products;tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'MAIZE';356;9.5;4.3
+c005;2515;Rye and products;tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'RYE';319;11;1.9
+c006;2516;Oats;tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'OATS';385;13;7.5
+c007;2517;Millet and products;tonnes;Primary crops;0.12;Feed crops;Cereals;TRUE;'MILLET';340;9.7;3
+c008;2518;Sorghum and products;tonnes;Primary crops;0.11;Feed crops;Cereals;TRUE;'SORGHUM';343;10.1;3.3
+c009;2520;Cereals. Other;tonnes;Primary crops;0.14;Feed crops;Cereals;TRUE;'CEREALS NES';340;8;1.5
+c010;2531;Potatoes and products;tonnes;Primary crops;0.78;Feed crops;Roots and tubers;TRUE;'POTATOES';67;1.6;0.1
+c011;2532;Cassava and products;tonnes;Primary crops;0.7;Feed crops;Roots and tubers;TRUE;'CASSAVA';109;0.9;0.2
+c012;2533;Sweet potatoes;tonnes;Primary crops;0.7;Feed crops;Roots and tubers;TRUE;'SWEET POTATOES';92;0.7;0.2
+c013;2534;Roots. Other;tonnes;Primary crops;0.75;Feed crops;Roots and tubers;TRUE;'ROOTS. TUBERS NES';91;1.6;0.2
+c014;2535;Yams;tonnes;Primary crops;0.74;Feed crops;Roots and tubers;TRUE;'YAMS';101;1.3;0.2
+c015;2536;Sugar cane;tonnes;Primary crops;0.825;Feed crops;Sugar crops;TRUE;'SUGAR CANE';30;0.2;0
+c016;2537;Sugar beet;tonnes;Primary crops;0.77;Feed crops;Sugar crops;TRUE;'SUGAR BEETS';70;1.3;0.1
+c017;2546;Beans;tonnes;Primary crops;0.8;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'BEANS. DRY';341;22.1;1.7
+c018;2547;Peas;tonnes;Primary crops;0.83;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'PEAS. DRY';346;22.5;1.8
+c019;2549;Pulses. Other and products;tonnes;Primary crops;0.1;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'PULSES NES';340;22;2
+c020;2551;Nuts and products;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'NUTS NES';262;7;25
+c021;2555;Soyabeans;tonnes;Primary crops;0.1;Feed crops;Oil crops;TRUE;'SOYBEANS';335;38;18
+c022;2556;Groundnuts (Shelled Eq);tonnes;Primary crops;0.06;Feed crops;Oil crops;TRUE;'GROUNDNUTS SHELLED';567;25.7;49.2
+c023;2557;Sunflower seed;tonnes;Primary crops;0.07;Feed crops;Oil crops;TRUE;'SUNFLOWER SEED';308;12.3;26.8
+c024;2558;Rape and Mustardseed;tonnes;Primary crops;0.12;Feed crops;Oil crops;TRUE;'RAPESEED';494;19.6;45
+c025;328;Seed cotton;tonnes;Primary crops;0;Feed crops;Oil crops;TRUE;'COTTONSEED';253;17.3;17.9
+c026;2560;Coconuts - Incl Copra;tonnes;Primary crops;0.4;Feed crops;Oil crops;TRUE;'COCONUTS';184;1.7;17.4
+c027;2561;Sesame seed;tonnes;Primary crops;0.06;Feed crops;Oil crops;TRUE;'SESAME SEED';573;17.7;49.7
+c028;254;Oil. palm fruit;tonnes;Primary crops;0;Feed crops;Oil crops;TRUE;'OIL PALM FRUIT';158;0.3;13.2
+c029;2563;Olives (including preserved);tonnes;Primary crops;0;Feed crops;Oil crops;TRUE;'OLIVES';175;1.3;17.5
+c030;2570;Oilcrops. Other;tonnes;Primary crops;0.1;Feed crops;Oil crops;TRUE;'OILSEEDS NES';387;14.7;31.7
+c031;2601;Tomatoes and products;tonnes;Primary crops;0.94;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'TOMATOES';17;0.8;0.2
+c032;2602;Onions;tonnes;Primary crops;0.89;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'ONIONS. DRY';31;1.1;0.2
+c033;2605;Vegetables. Other;tonnes;Primary crops;0.95;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'VEGETABLES NES FRESH';22;1.4;0.2
+c034;2611;Oranges. Mandarines;tonnes;Primary crops;0.86;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'ORANGES';34;0.7;0.1
+c035;2612;Lemons. Limes and products;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'LEMONS AND LIMES';15;0.6;0.2
+c036;2613;Grapefruit and products;tonnes;Primary crops;0.88;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'GRAPEFRUIT AND POMELO';16;0.3;0.1
+c037;2614;Citrus. Other;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'CITRUS FRUIT NES';26;0.5;0.2
+c038;2615;Bananas;tonnes;Primary crops;0.75;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'BANANAS';60;0.7;0.3
+c039;2616;Plantains;tonnes;Primary crops;0.66;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'PLANTAINS';75;0.8;0.3
+c040;2617;Apples and products;tonnes;Primary crops;0.85;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'APPLES';48;0.1;0.3
+c041;2618;Pineapples and products;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'PINEAPPLES';26;0.2;0.2
+c042;2619;Dates;tonnes;Primary crops;0.22;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'DATES';156;1.5;0.4
+c043;2620;Grapes and products (excl wine);tonnes;Primary crops;0.81;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'GRAPES';53;0.5;0.4
+c044;2625;Fruits. Other;tonnes;Primary crops;0.85;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'FRUIT NES FRESH';45;0.5;0.5
+c045;2630;Coffee and products;tonnes;Primary crops;0;Feed crops;Coffee. tea. cocoa;TRUE;'COFFEE ROASTED';56;8;0
+c046;2633;Cocoa Beans and products;tonnes;Primary crops;0.1;Feed crops;Coffee. tea. cocoa;TRUE;'COCOA BEANS';414;4;40
+c047;2635;Tea (including mate);tonnes;Primary crops;0.1;Feed crops;Coffee. tea. cocoa;TRUE;'TEA';40;10;0
+c048;677;Hops;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;NA ;0;0;0
+c049;2640;Pepper;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'PEPPER WHITE/LONG/BLACK';276;10.7;2.7
+c050;2641;Pimento;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'PIMENTO';318;12;17.3
+c051;2642;Cloves;tonnes;Primary crops;0.05;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'CLOVES';323;6;20.1
+c052;2645;Spices. Other;tonnes;Primary crops;0;Feed crops;Vegetables. fruit. nuts. pulses. spices;TRUE;'SPICES NES';337;11.3;15.5
+c053;2662;Jute;tonnes;Primary crops;0;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c054;2663;Jute-Like Fibres;tonnes;Primary crops;0;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c055;2664;Soft-Fibres. Other;tonnes;Primary crops;0;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c056;2665;Sisal;tonnes;Primary crops;0;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c057;2666;Abaca;tonnes;Primary crops;0;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c058;2667;Hard Fibres. Other;tonnes;Primary crops;0;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c059;2671;Tobacco;tonnes;Primary crops;0;Feed crops;Tobacco. rubber;TRUE;NA;Na;Na;Na
+c060;2672;Rubber;tonnes;Primary crops;0;Feed crops;Tobacco. rubber;TRUE;NA;Na;Na;Na
+c061;2000;Fodder crops;tonnes;Primary crops;0.85;Grass;Fodder crops. grazing;TRUE;NA;Na;Na;Na
+c062;2001;Grazing;tonnes;Primary crops;0.8;Grass;Fodder crops. grazing;TRUE;NA;Na;Na;Na
+c063;2559;Cottonseed;tonnes;Crop products;0.1;Feed crops;Fibre crops;TRUE;'COTTONSEED';253;17.3;17.9
+c064;2562;Palm kernels;tonnes;Crop products;0.1;Feed crops;Oil crops;TRUE;'PALM KERNELS';514;7.3;43.4
+c065;2541;Sugar non-centrifugal;tonnes;Crop products;0.01;Feed crops;Sugar. sweeteners;TRUE;'SUGAR. NONCENTRIFUGAL';351;1;0
+c066;2544;Molasses;tonnes;Crop products;0.17;Feed crops;Sugar. sweeteners;TRUE;'MOLASSES';232;0;0
+c067;2818;Sugar. Refined Equiv;tonnes;Crop products;0;Feed crops;Sugar. sweeteners;TRUE;'SUGAR REFINED';387;0;0
+c068;2543;Sweeteners. Other;tonnes;Crop products;0.1;Feed crops;Sugar. sweeteners;TRUE;'SUGAR AND SYRUP NES';310;0;0
+c069;2571;Soyabean Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF SOYABEANS';884;0;100
+c070;2572;Groundnut Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF GROUNDNUTS';884;0;100
+c071;2573;Sunflowerseed Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF SUNFLOWER SEED';884;0;100
+c072;2574;Rape and Mustard Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF RAPESEED';884;0;100
+c073;2575;Cottonseed Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF COTTON SEED';884;0;100
+c074;2576;Palmkernel Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF PALM KERNELS';884;0;100
+c075;2577;Palm Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'PALM OIL';884;0;100
+c076;2578;Coconut Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF COCONUTS';884;0;100
+c077;2579;Sesameseed Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF SESAME SEED';884;0;100
+c078;2580;Olive Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OLIVE OIL';884;0;100
+c079;2581;Ricebran Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF RICE BRAN';884;0;100
+c080;2582;Maize Germ Oil;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF MAIZE';884;0;100
+c081;2586;Oilcrops Oil. Other;tonnes;Crop products;0;Feed crops;Vegetable oils;TRUE;'OIL OF VEGETABLE ORIGIN NES';884;0;100
+c082;2590;Soyabean Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;'CAKE OF SOYA BEANS';261;46;5
+c083;2591;Groundnut Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;'CAKE OF GROUNDNUTS';363;41.7;7.6
+c084;2592;Sunflowerseed Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;NA;Na;Na;Na
+c085;2593;Rape and Mustard Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;NA;Na;Na;Na
+c086;2594;Cottonseed Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;NA;Na;Na;Na
+c087;2595;Palmkernel Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;NA;Na;Na;Na
+c088;2596;Copra Cake;tonnes;Crop products;0.12;Feed crops;Oil cakes;TRUE;NA;Na;Na;Na
+c089;2597;Sesameseed Cake;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;'CAKE OF SESAME SEED';376;40.7;3.4
+c090;2598;Oilseed Cakes. Other;tonnes;Crop products;0.1;Feed crops;Oil cakes;TRUE;NA;Na;Na;Na
+c091;2655;Wine;tonnes;Crop products;0.85;Feed crops;Alcohol;TRUE;'WINE';68;0;0
+c092;2656;Beer;tonnes;Crop products;0.95;Feed crops;Alcohol;TRUE;'WHEAT FERMENTED BEVERAGE';60;1.9;0.3
+c093;2657;Beverages. Fermented;tonnes;Crop products;0.9;Feed crops;Alcohol;TRUE;'FERMENTED BEVERAGES. CIDER ETC.';47;0.1;0
+c094;2658;Beverages. Alcoholic;tonnes;Crop products;0.8;Feed crops;Alcohol;TRUE;'BEVERAGES DIST. ALCOHOL';295;0;0
+c095;2659;Alcohol. Non-Food;tonnes;Crop products;0.2;Feed crops;Ethanol;TRUE;NA;Na;Na;Na
+c096;2661;Cotton lint;tonnes;Crop products;0.1;Feed crops;Fibre crops;TRUE;NA;Na;Na;Na
+c097;866;Cattle;1000 Head;Livestock;0;NA;Live animals;TRUE;NA;Na;Na;Na
+c098;946;Buffaloes;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c099;976;Sheep;1000 Head;Livestock;0;NA;Live animals;TRUE;NA;Na;Na;Na
+c100;1016;Goats;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c101;1034;Pigs;1000 Head;Livestock;0;NA;Live animals;TRUE;NA;Na;Na;Na
+c102;2029;Poultry Birds;1000 Head;Livestock;0;NA;Live animals;TRUE;NA;Na;Na;Na
+c103;1096;Horses;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c104;1107;Asses;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c105;1110;Mules;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c106;1126;Camels;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c107;1157;Camelids. other;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c108;1140;Rabbits and hares;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c109;1150;Rodents. other;1000 Head;Livestock;0;NA;Live animals;FALSE;NA;Na;Na;Na
+c110;1171;Live animals. other;1000 Head;Livestock;0;NA;Live animals;TRUE;NA;Na;Na;Na
+c111;2848;Milk - Excluding Butter;tonnes;Livestock products;0.875;Animal products;Milk;TRUE;STANDARDIZED MILK';48;3.3;1.5
+c112;2740;Butter. Ghee;tonnes;Livestock products;0.15;Animal products;Milk;FALSE;'BUTTER OF COW MILK';717;0.9;81.1
+c113;2744;Eggs;tonnes;Livestock products;0.744;Animal products;Eggs;TRUE;'HEN EGGS';139;10.7;9.8
+c114;2746;Wool (Clean Eq.);tonnes;Livestock products;0;Animal products;Hides. skins. wool;TRUE;NA;Na;Na;Na
+c115;2731;Bovine Meat;tonnes;Livestock products;0.65;Animal products;Meat;TRUE;'BEEF BONELESS';150;18.5;7.9
+c116;2732;Mutton & Goat Meat;tonnes;Livestock products;0.6;Animal products;Meat;TRUE;'MUTTON AND LAMB';263;13.5;22.8
+c117;2733;Pigmeat;tonnes;Livestock products;0.6;Animal products;Meat;TRUE;'PIGMEAT';326;11;31
+c118;2734;Poultry Meat;tonnes;Livestock products;0.6;Animal products;Meat;TRUE;'CHICKEN MEAT';122;12.3;7.7
+c119;2735;Meat. Other;tonnes;Livestock products;0.65;Animal products;Meat;TRUE;'MEAT NES';126;16.4;6
+c120;2736;Offals. Edible;tonnes;Livestock products;0.65;Animal products;Meat;TRUE;'OFFALS OF CATTLE';105;18.4;2.5
+c121;2737;Fats. Animals. Raw;tonnes;Livestock products;0.01;Animal products;Animal fats;TRUE;'FAT OF CATTLE';847;2;93
+c122;2748;Hides and skins;tonnes;Livestock products;0;Animal products;Hides. skins. wool;TRUE;NA;Na;Na;Na
+c123;2749;Meat Meal;tonnes;Livestock products;0.075;Animal products;Meat;TRUE;'MEAT PREPARED NES';242;20.6;16.9
+c124;843;Pet food;tonnes;Livestock products;0.65;Animal products;Meat;TRUE;NA;Na;Na;Na
+c125;2745;Honey;tonnes;Livestock products;0.17;Animal products;Honey;TRUE;Honey_nutritiondata;304;0.3;0
+c126;2747;Silk;tonnes;Livestock products;0;Animal products;Hides. skins. wool;TRUE;NA;Na;Na;Na
+c127;2960;Fish. Seafood;tonnes;Fish;0.7;Animal products;Fish;TRUE;'MARINE FISH NES FRESH';64;10.3;2.2
+c128;1864;Wood fuel;m3;Wood;0;NA;Wood;TRUE;NA;Na;Na;Na
+c129;1866;Industrial roundwood. coniferous;m3;Wood;0;NA;Wood;TRUE;NA;Na;Na;Na
+c130;1867;Industrial roundwood. non-coniferous;m3;Wood;0;NA;Wood;TRUE;NA;Na;Na;Na

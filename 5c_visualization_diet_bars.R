@@ -1,6 +1,8 @@
 library(plotly)
 library(tidyr)
 
+Diets <- read.csv2(file ="input/Diets.csv" )
+
 y <- c('SQ', 'DGErec', 'Lancet', 'PlantB')
 data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 4]), sum(Diets[Diets$category == "Cereals ", 5]), 
                                            sum(Diets[Diets$category == "Cereals ", 6]), sum(Diets[Diets$category == "Cereals ", 7])),

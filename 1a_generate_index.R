@@ -3,6 +3,7 @@
 NrOfCountries <- 192
 NrOfProducts <- 130
 index <- data.frame(country = rep(countries$ISO, each=NrOfProducts),
+                    continent = rep(countries$Continent, each=NrOfProducts),
                     product = rep(products$Item, NrOfCountries),
                     item_code = rep(products$Item.Code, NrOfCountries),
                     com_group = rep(products$Com.Group, NrOfCountries),

@@ -11,6 +11,8 @@ path <- "C:/Hanna/FABIO_FW-diets_GER/input/"
 countries <- read.csv2(paste0(path,"fabio_countries.csv"))
 products <- read.csv2(paste0(path, "items.csv"))
 
+# POPULATION 2013
+population <- 80645605 #2013 Source: World bank
 
 
 # load FABIO output data
@@ -28,5 +30,3 @@ MP <- e * L
 rm(L) # to save RAM
 rm(E) 
 
-# POPULATION 2013
-population <- 80645605 #2013 Source: World bank

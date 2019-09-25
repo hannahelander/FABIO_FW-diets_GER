@@ -56,7 +56,7 @@ index$DGE_group[!index$DGE_group %in% c("Meat, sausages, fish, eggs", "vegetable
 # exclude pet food from DGE_groups
 index$DGE_group[index$product =="Pet food"] <- "excluded"
 
-#write.csv2(index, file = "data/14.8.2019/index_data_frame.csv")     # write to file in data-folder! 
+write.csv2(index, file = "data/index_data_frame.csv")     # write to file in data-folder! 
 
 ######################################
 

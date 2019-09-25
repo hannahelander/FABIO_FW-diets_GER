@@ -7,9 +7,11 @@
 
 # --------------- LOAD DATA ----------------- #
 ## Prepare extension and define footprint (if needed)
-e <- E$Biomass / X * (1 + waste$harvest_production/100)                   ### taking X (=crop harvested") + waste stream from harvets/production to get the total amount of produced food (including losses)
+e <- E$Landuse / X * (1 + waste$harvest_production/100)                   ### taking X (=crop harvested") + waste stream from harvets/production to get the total amount of produced food (including losses)
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
+
+rm(L)
 
 ## Load index and waste data
 index <- read.csv2("data/index_data_frame.csv")
@@ -54,27 +56,18 @@ sum(Y_DGE)
 sum(Y_SQ)
 
 
-
-Y_tot <- Y_SQ  # choose scenario
+##### SCENARIO CHOISE ###########
+Y_tot <- Y_plantbased  # choose scenario
 
 # Total footprint -
 FP_tot <- t(t(MP) * Y_tot)           
 
 
-####### codes from Martinn
-FP <- data.frame(country = index$country, 
-                 value = rowSums(FP_tot), 
-                 continent)
-FP <- aggregate(value ~country + continent, FP, sum) # footprint pro ursprungsland 
-
-
-
-
 # per capita footprint
-FP_capita <- sum(FP_tot) / population             # gives ~3 tonnes for Biomass and SQ and 1.97 for DGErec
-sum(FP_tot)                                       # 159 *10^6 for DGErec Biomass
+#FP_capita <- sum(FP_tot) / population             # gives ~3 tonnes for Biomass and SQ and 1.8248 for DGErec
+#sum(FP_tot)                                       # 159 *10^6 for DGErec Biomass
 
-# create output matrix 
+########## create output matrix ###########################
 supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
                               flow = c("cont", "waste", "cont", "waste"))
 
@@ -131,7 +124,7 @@ Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set
 FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
 #FP_lvst_capita <- sum(FP_lvst) / population       # For control (FP per capta == FP_lvst_capita + FP_plant_capita)
 
-sum(FP_lvst)        # DGErec Biomass -> 159327128
+#sum(FP_lvst)        # Gammalt värde: DGErec Biomass -> 159327128
 
 ####################################################
 ### Calculate Footprints of flows and fill in Table: 
@@ -163,13 +156,43 @@ rm(Output_consumption)
 
 
 ########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/16.9.2019/supply_chain_biomass_DGErec.csv")     # write to file in output-folder! 
+write.csv2(supply_chain_FP, file = "output/25.9.2019/supply_chain_landuse_SQ.csv")     # write to file in output-folder! 
 
 
 
 
+#######################################################
+###------ Continent-specific footprints ----------#####
+#######################################################
+
+FP <- data.frame(country = index$country, 
+                 continent = index$continent,
+                 value = rowSums(FP_tot))
+FP <- aggregate(value ~country + continent, FP, sum) # footprint pro ursprungsland 
+
+FP_Continent <- data.frame(continent = unique(FP$continent), 
+                           SQ = rep(NA, length(unique(FP$continent))), 
+                           DGE = rep(NA, length(unique(FP$continent))), 
+                           lancet = rep(NA, length(unique(FP$continent))), 
+                           plantbased = rep(NA, length(unique(FP$continent))))
+
+for (i in 1:nrow(FP_Continent)){
+  FP_Continent$SQ[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+}
+# 
+# for (i in 1:nrow(FP_Continent)){
+#   FP_Continent$DGE[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+# }
+# 
+# for (i in 1:nrow(FP_Continent)){
+#   FP_Continent$lancet[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+# }
+# for (i in 1:nrow(FP_Continent)){
+#   FP_Continent$plantbased[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+# }
 
 
+write.csv2(FP_Continent, file = "output/FP_Landuse_continents")
 
 ########## notes ################
 

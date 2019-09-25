@@ -7,21 +7,14 @@
 
 # --------------- LOAD DATA ----------------- #
 ## Prepare extension and define footprint (if needed)
-e <- E$Biomass / X                    ###### DEFINE FOOTPRINT
+e <- E$Biomass / X * (1 + waste$harvest_production/100)                   ### taking X (=crop harvested") + waste stream from harvets/production to get the total amount of produced food (including losses)
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
 
-## Load index
-index <- read.csv2("data/14.8.2019/index_data_frame.csv")
-
-## Load waste and Y data for relevant scenarios (e.g. SQ, waste, DGErec):
+## Load index and waste data
+index <- read.csv2("data/index_data_frame.csv")
 waste <- read.csv2(file = "data/waste_data_frame.csv")
-Y_SQ <- Y[,"DEU_Food"]                           # Status Quo
-Y_DGE <- read.csv2(file = "data/Y_DGE.csv")      # DGE recommendation scenario
-Y_DGE <- Y_DGE[,2]                               # need to delete column with index
 
-#sum(Y_DGE)
-#sum(Y_SQ)
 
 # --------------- RUN FUNCTIONS ------------------ #
 #### Function to calculate flows per step  #####
@@ -42,28 +35,47 @@ step.calculator2 <- function(waste_step, FP){                      # waste_step 
 }
 
 #########################################################
-# Biomass footprints along the Supply Chain - Status Quo 
+# Biomass footprints along the Supply Chain 
 #########################################################
 
-# Total footprint
-Y <- Y_DGE
-#Y <- Y[,"DEU_Food"] 
-FP_tot <- t(t(MP) * Y)           
+# Load Y-matrices
+Y_SQ <- Y[ ,"DEU_Food"]                           # Status Quo
+Y_DGE <- read.csv2(file = "data/Y_DGE.csv")      # DGE recommendation scenario (adapted to calories demand)
+Y_DGE <- Y_DGE[,2]
+
+Y_DGE <- as.numeric(Y_DGE)
+Y_lancet <- read.csv2(file = "data/Y_lancet.csv")
+Y_lancet <- Y_lancet[,2] 
+Y_plantbased <- read.csv2(file = "data/Y_plantbased.csv")
+Y_plantbased <- Y_plantbased[,2] 
+
+
+sum(Y_DGE)
+sum(Y_SQ)
+
+
+
+Y_tot <- Y_SQ  # choose scenario
+
+# Total footprint -
+FP_tot <- t(t(MP) * Y_tot)           
+
+
+####### codes from Martinn
+FP <- data.frame(country = index$country, 
+                 value = rowSums(FP_tot), 
+                 continent)
+FP <- aggregate(value ~country + continent, FP, sum) # footprint pro ursprungsland 
+
 
 
 
 # per capita footprint
-population <- 80645605 #2013 Source: World bank
 FP_capita <- sum(FP_tot) / population             # gives ~3 tonnes for Biomass and SQ and 1.97 for DGErec
 sum(FP_tot)                                       # 159 *10^6 for DGErec Biomass
 
-# create output matrix for Status Quo
-#supply_chain_FP <- data.frame(Scenario = rep("SQ", 4), 
-#                              chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
-#                              flow = c("cont", "waste", "cont", "waste"))
-
-supply_chain_FP <- data.frame(Scenario = rep("DGErec", 4), 
-                              chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
+# create output matrix 
+supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
                               flow = c("cont", "waste", "cont", "waste"))
 
 
@@ -72,7 +84,7 @@ supply_chain_FP <- data.frame(Scenario = rep("DGErec", 4),
 ###############################################
 
 # Create a Y-matrix where all animal-products are 0
-Y_plant <- Y 
+Y_plant <- Y_tot 
 Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
 
 FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
@@ -113,7 +125,7 @@ rm(Output_consumption)
 ##############################################################
 
 # Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y
+Y_lvst <- Y_tot
 Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
 
 FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products

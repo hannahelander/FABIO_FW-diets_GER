@@ -7,7 +7,7 @@
 
 # --------------- LOAD DATA ----------------- #
 ## Prepare extension and define footprint (if needed)
-e <- E$Landuse / X * (1 + waste$harvest_production/100)                   ### taking X (=crop harvested") + waste stream from harvets/production to get the total amount of produced food (including losses)
+e <- E$Biomass / X 
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
 
@@ -50,14 +50,15 @@ Y_lancet <- read.csv2(file = "data/Y_lancet.csv")
 Y_lancet <- Y_lancet[,2] 
 Y_plantbased <- read.csv2(file = "data/Y_plantbased.csv")
 Y_plantbased <- Y_plantbased[,2] 
-
+Y_EATveg <- read.csv2(file = "data/Y_EATveg.csv")
+Y_EATveg <- Y_EATveg[,2] 
 
 sum(Y_DGE)
 sum(Y_SQ)
 
 
 ##### SCENARIO CHOISE ###########
-Y_tot <- Y_plantbased  # choose scenario
+Y_tot <- Y_EATveg  # choose scenario
 
 # Total footprint -
 FP_tot <- t(t(MP) * Y_tot)           
@@ -93,8 +94,8 @@ supply_chain_FP$harvest_production <- c(sum(FP_plant), FP_prod_waste, NA, NA) # 
 # Storage
 Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
 supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
-rm(FP_plant)                                                                 # remove big data to save space
-
+rm(FP_plant)                                                                # remove big data to save space
+ 
 # Processing
 Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
 supply_chain_FP$processing         <- Output_processing[[1]]
@@ -156,7 +157,7 @@ rm(Output_consumption)
 
 
 ########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/25.9.2019/supply_chain_landuse_SQ.csv")     # write to file in output-folder! 
+write.csv2(supply_chain_FP, file = "output/25.9.2019/supply_chain_biomass_EATveg.csv")     # write to file in output-folder! 
 
 
 
@@ -165,34 +166,44 @@ write.csv2(supply_chain_FP, file = "output/25.9.2019/supply_chain_landuse_SQ.csv
 ###------ Continent-specific footprints ----------#####
 #######################################################
 
+FP_Continent <- data.frame(continent = unique(FP$continent), 
+                           SQ = rep(NA, length(unique(FP$continent))), 
+                           DGE = rep(NA, length(unique(FP$continent))), 
+                           lancet = rep(NA, length(unique(FP$continent))), 
+                           plantbased = rep(NA, length(unique(FP$continent))),
+                           EATveg = rep(NA, length(unique(FP$continent))))
+
+
+Y_tot <- Y_EATveg  # choose scenario
+FP_tot <- t(t(MP) * Y_tot)  
+
 FP <- data.frame(country = index$country, 
                  continent = index$continent,
                  value = rowSums(FP_tot))
 FP <- aggregate(value ~country + continent, FP, sum) # footprint pro ursprungsland 
 
-FP_Continent <- data.frame(continent = unique(FP$continent), 
-                           SQ = rep(NA, length(unique(FP$continent))), 
-                           DGE = rep(NA, length(unique(FP$continent))), 
-                           lancet = rep(NA, length(unique(FP$continent))), 
-                           plantbased = rep(NA, length(unique(FP$continent))))
-
+# for EACH FP (footprint and scenario), fill in the data table!
 for (i in 1:nrow(FP_Continent)){
   FP_Continent$SQ[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
 }
 # 
-# for (i in 1:nrow(FP_Continent)){
-#   FP_Continent$DGE[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
-# }
-# 
-# for (i in 1:nrow(FP_Continent)){
-#   FP_Continent$lancet[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
-# }
-# for (i in 1:nrow(FP_Continent)){
-#   FP_Continent$plantbased[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
-# }
+for (i in 1:nrow(FP_Continent)){
+  FP_Continent$DGE[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+}
+ 
+ for (i in 1:nrow(FP_Continent)){
+   FP_Continent$lancet[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+ }
+for (i in 1:nrow(FP_Continent)){
+ FP_Continent$plantbased[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+}
+
+for (i in 1:nrow(FP_Continent)){
+  FP_Continent$EATveg[i] <- sum(FP$value[FP$continent==FP_Continent$continent[i]])
+}
 
 
-write.csv2(FP_Continent, file = "output/FP_Landuse_continents")
+write.csv2(FP_Continent, file = "output/FP_Landuse_continents.csv")
 
 ########## notes ################
 

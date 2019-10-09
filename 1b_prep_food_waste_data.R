@@ -2,9 +2,11 @@
 # prepare data structure for food waste data
 # ---------------------------------------
 # This script is adapted from Alice Piccolo <alice.piccolo94@gmail.com> and Elena Fourcroy <elenafourcroy@gmail.com>
+# The food waste data comes mainly from FAO and is given per region (continent). 
+# For Germany, national data is used, based on two sources (Schmidt et al 2019 and WWF).
 
 # load food waste data
-waste_shares <- read.csv2(paste0(path,"fabio_waste_shares.csv"))  # change source!
+waste_shares <- read.csv2(paste0(path,"waste_shares_ger.csv"))  # change source!
 waste_shares[is.na(waste_shares)] <- 0                            # set NA to 0
 
 # create data frame for waste (for each country, for all products in each stage)
@@ -14,6 +16,7 @@ waste <- data.frame(ISO = rep(countries$ISO, each=NrOfProducts),                
                     group = rep(countries$Group, each=NrOfProducts))
 waste$country <- as.character(waste$country)
 waste$group   <- as.character(waste$group)
+waste$group[waste$country == "Germany"] <- "Germany"
 
 waste$com_code  <- waste_shares$Com.Code[1:NrOfProducts]          # adds Com.Code
 waste$com_name  <- waste_shares$FAO.Name[1:NrOfProducts]          # adds Product names

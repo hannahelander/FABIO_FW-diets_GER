@@ -7149,136 +7149,136 @@
 "7148";"GMB";"Gambia";"SSAfr";"c128";"Wood fuel";"Wood";0;0;0;0;0
 "7149";"GMB";"Gambia";"SSAfr";"c129";"Industrial roundwood, coniferous";"Wood";0;0;0;0;0
 "7150";"GMB";"Gambia";"SSAfr";"c130";"Industrial roundwood, non-coniferous";"Wood";0;0;0;0;0
-"7151";"DEU";"Germany";"Europe";"c001";"Rice (Milled Equivalent)";"Cereals";2;4;0,5;2;25
-"7152";"DEU";"Germany";"Europe";"c002";"Wheat and products";"Cereals";2;4;0,5;2;25
-"7153";"DEU";"Germany";"Europe";"c003";"Barley and products";"Cereals";2;4;0,5;2;25
-"7154";"DEU";"Germany";"Europe";"c004";"Maize and products";"Cereals";2;4;0,5;2;25
-"7155";"DEU";"Germany";"Europe";"c005";"Rye and products";"Cereals";2;4;0,5;2;25
-"7156";"DEU";"Germany";"Europe";"c006";"Oats";"Cereals";2;4;0,5;2;25
-"7157";"DEU";"Germany";"Europe";"c007";"Millet and products";"Cereals";2;4;0,5;2;25
-"7158";"DEU";"Germany";"Europe";"c008";"Sorghum and products";"Cereals";2;4;0,5;2;25
-"7159";"DEU";"Germany";"Europe";"c009";"Cereals, Other";"Cereals";2;4;0,5;2;25
-"7160";"DEU";"Germany";"Europe";"c010";"Potatoes and products";"Roots and tubers";20;9;15;7;17
-"7161";"DEU";"Germany";"Europe";"c011";"Cassava and products";"Roots and tubers";20;9;15;7;17
-"7162";"DEU";"Germany";"Europe";"c012";"Sweet potatoes";"Roots and tubers";20;9;15;7;17
-"7163";"DEU";"Germany";"Europe";"c013";"Roots, Other";"Roots and tubers";20;9;15;7;17
-"7164";"DEU";"Germany";"Europe";"c014";"Yams";"Roots and tubers";20;9;15;7;17
-"7165";"DEU";"Germany";"Europe";"c015";"Sugar cane";"Sugar crops";2;4;0,5;2;25
-"7166";"DEU";"Germany";"Europe";"c016";"Sugar beet";"Sugar crops";20;9;15;7;17
-"7167";"DEU";"Germany";"Europe";"c017";"Beans";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7168";"DEU";"Germany";"Europe";"c018";"Peas";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7169";"DEU";"Germany";"Europe";"c019";"Pulses, Other and products";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7170";"DEU";"Germany";"Europe";"c020";"Nuts and products";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7171";"DEU";"Germany";"Europe";"c021";"Soyabeans";"Oil crops";10;1;5;1;4
-"7172";"DEU";"Germany";"Europe";"c022";"Groundnuts (Shelled Eq)";"Oil crops";10;1;5;1;4
-"7173";"DEU";"Germany";"Europe";"c023";"Sunflower seed";"Oil crops";10;1;5;1;4
-"7174";"DEU";"Germany";"Europe";"c024";"Rape and Mustardseed";"Oil crops";10;1;5;1;4
-"7175";"DEU";"Germany";"Europe";"c025";"Seed cotton";"Oil crops";10;1;5;1;4
-"7176";"DEU";"Germany";"Europe";"c026";"Coconuts - Incl Copra";"Oil crops";10;1;5;1;4
-"7177";"DEU";"Germany";"Europe";"c027";"Sesame seed";"Oil crops";10;1;5;1;4
-"7178";"DEU";"Germany";"Europe";"c028";"Oil, palm fruit";"Oil crops";10;1;5;1;4
-"7179";"DEU";"Germany";"Europe";"c029";"Olives (including preserved)";"Oil crops";10;1;5;1;4
-"7180";"DEU";"Germany";"Europe";"c030";"Oilcrops, Other";"Oil crops";10;1;5;1;4
-"7181";"DEU";"Germany";"Europe";"c031";"Tomatoes and products";"Vegetables, fruit, nuts, pulses, spices";12,5;5;2;10;19
-"7182";"DEU";"Germany";"Europe";"c032";"Onions";"Vegetables, fruit, nuts, pulses, spices";16;5;2;10;19
-"7183";"DEU";"Germany";"Europe";"c033";"Vegetables, Other";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7184";"DEU";"Germany";"Europe";"c034";"Oranges, Mandarines";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7185";"DEU";"Germany";"Europe";"c035";"Lemons, Limes and products";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7186";"DEU";"Germany";"Europe";"c036";"Grapefruit and products";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7187";"DEU";"Germany";"Europe";"c037";"Citrus, Other";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7188";"DEU";"Germany";"Europe";"c038";"Bananas";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7189";"DEU";"Germany";"Europe";"c039";"Plantains";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7190";"DEU";"Germany";"Europe";"c040";"Apples and products";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7191";"DEU";"Germany";"Europe";"c041";"Pineapples and products";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7192";"DEU";"Germany";"Europe";"c042";"Dates";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7193";"DEU";"Germany";"Europe";"c043";"Grapes and products (excl wine)";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7194";"DEU";"Germany";"Europe";"c044";"Fruits, Other";"Vegetables, fruit, nuts, pulses, spices";20;5;2;10;19
-"7195";"DEU";"Germany";"Europe";"c045";"Coffee and products";"Coffee, tea, cocoa";0;0;0;0;0
-"7196";"DEU";"Germany";"Europe";"c046";"Cocoa Beans and products";"Coffee, tea, cocoa";0;0;0;0;0
-"7197";"DEU";"Germany";"Europe";"c047";"Tea (including mate)";"Coffee, tea, cocoa";0;0;0;0;0
-"7198";"DEU";"Germany";"Europe";"c048";"Hops";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7199";"DEU";"Germany";"Europe";"c049";"Pepper";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7200";"DEU";"Germany";"Europe";"c050";"Pimento";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7201";"DEU";"Germany";"Europe";"c051";"Cloves";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7202";"DEU";"Germany";"Europe";"c052";"Spices, Other";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
-"7203";"DEU";"Germany";"Europe";"c053";"Jute";"Fibre crops";0;0;0;0;0
-"7204";"DEU";"Germany";"Europe";"c054";"Jute-Like Fibres";"Fibre crops";0;0;0;0;0
-"7205";"DEU";"Germany";"Europe";"c055";"Soft-Fibres, Other";"Fibre crops";0;0;0;0;0
-"7206";"DEU";"Germany";"Europe";"c056";"Sisal";"Fibre crops";0;0;0;0;0
-"7207";"DEU";"Germany";"Europe";"c057";"Abaca";"Fibre crops";0;0;0;0;0
-"7208";"DEU";"Germany";"Europe";"c058";"Hard Fibres, Other";"Fibre crops";0;0;0;0;0
-"7209";"DEU";"Germany";"Europe";"c059";"Tobacco";"Tobacco, rubber";0;0;0;0;0
-"7210";"DEU";"Germany";"Europe";"c060";"Rubber";"Tobacco, rubber";0;0;0;0;0
-"7211";"DEU";"Germany";"Europe";"c061";"Fodder crops";"Fodder crops, grazing";0;0;0;0;0
-"7212";"DEU";"Germany";"Europe";"c062";"Grazing";"Fodder crops, grazing";0;0;0;0;0
-"7213";"DEU";"Germany";"Europe";"c063";"Cottonseed";"Fibre crops";0;0;0;0;0
-"7214";"DEU";"Germany";"Europe";"c064";"Palm kernels";"Oil crops";0;0;5;1;4
-"7215";"DEU";"Germany";"Europe";"c065";"Sugar non-centrifugal";"Sugar, sweeteners";0;0;0,5;2;25
-"7216";"DEU";"Germany";"Europe";"c066";"Molasses";"Sugar, sweeteners";0;0;0,5;2;25
-"7217";"DEU";"Germany";"Europe";"c067";"Sugar, Refined Equiv";"Sugar, sweeteners";0;0;0,5;2;25
-"7218";"DEU";"Germany";"Europe";"c068";"Sweeteners, Other";"Sugar, sweeteners";0;0;0,5;2;25
-"7219";"DEU";"Germany";"Europe";"c069";"Soyabean Oil";"Vegetable oils";0;0;5;1;4
-"7220";"DEU";"Germany";"Europe";"c070";"Groundnut Oil";"Vegetable oils";0;0;5;1;4
-"7221";"DEU";"Germany";"Europe";"c071";"Sunflowerseed Oil";"Vegetable oils";0;0;5;1;4
-"7222";"DEU";"Germany";"Europe";"c072";"Rape and Mustard Oil";"Vegetable oils";0;0;5;1;4
-"7223";"DEU";"Germany";"Europe";"c073";"Cottonseed Oil";"Vegetable oils";0;0;5;1;4
-"7224";"DEU";"Germany";"Europe";"c074";"Palmkernel Oil";"Vegetable oils";0;0;5;1;4
-"7225";"DEU";"Germany";"Europe";"c075";"Palm Oil";"Vegetable oils";0;0;5;1;4
-"7226";"DEU";"Germany";"Europe";"c076";"Coconut Oil";"Vegetable oils";0;0;5;1;4
-"7227";"DEU";"Germany";"Europe";"c077";"Sesameseed Oil";"Vegetable oils";0;0;5;1;4
-"7228";"DEU";"Germany";"Europe";"c078";"Olive Oil";"Vegetable oils";0;0;5;1;4
-"7229";"DEU";"Germany";"Europe";"c079";"Ricebran Oil";"Vegetable oils";0;0;5;1;4
-"7230";"DEU";"Germany";"Europe";"c080";"Maize Germ Oil";"Vegetable oils";0;0;5;1;4
-"7231";"DEU";"Germany";"Europe";"c081";"Oilcrops Oil, Other";"Vegetable oils";0;0;5;1;4
-"7232";"DEU";"Germany";"Europe";"c082";"Soyabean Cake";"Oil cakes";0;0;5;1;4
-"7233";"DEU";"Germany";"Europe";"c083";"Groundnut Cake";"Oil cakes";0;0;5;1;4
-"7234";"DEU";"Germany";"Europe";"c084";"Sunflowerseed Cake";"Oil cakes";0;0;5;1;4
-"7235";"DEU";"Germany";"Europe";"c085";"Rape and Mustard Cake";"Oil cakes";0;0;5;1;4
-"7236";"DEU";"Germany";"Europe";"c086";"Cottonseed Cake";"Oil cakes";0;0;5;1;4
-"7237";"DEU";"Germany";"Europe";"c087";"Palmkernel Cake";"Oil cakes";0;0;5;1;4
-"7238";"DEU";"Germany";"Europe";"c088";"Copra Cake";"Oil cakes";0;0;5;1;4
-"7239";"DEU";"Germany";"Europe";"c089";"Sesameseed Cake";"Oil cakes";0;0;5;1;4
-"7240";"DEU";"Germany";"Europe";"c090";"Oilseed Cakes, Other";"Oil cakes";0;0;5;1;4
-"7241";"DEU";"Germany";"Europe";"c091";"Wine";"Alcohol";0;0;5;1;4
-"7242";"DEU";"Germany";"Europe";"c092";"Beer";"Alcohol";0;0;5;1;4
-"7243";"DEU";"Germany";"Europe";"c093";"Beverages, Fermented";"Alcohol";0;0;5;1;4
-"7244";"DEU";"Germany";"Europe";"c094";"Beverages, Alcoholic";"Alcohol";0;0;5;1;4
-"7245";"DEU";"Germany";"Europe";"c095";"Alcohol, Non-Food";"Ethanol";0;0;0;0;0
-"7246";"DEU";"Germany";"Europe";"c096";"Cotton lint";"Fibre crops";0;0;0;0;0
-"7247";"DEU";"Germany";"Europe";"c097";"Cattle";"Live animals";0;0;0;0;0
-"7248";"DEU";"Germany";"Europe";"c098";"Buffaloes";"Live animals";0;0;0;0;0
-"7249";"DEU";"Germany";"Europe";"c099";"Sheep";"Live animals";0;0;0;0;0
-"7250";"DEU";"Germany";"Europe";"c100";"Goats";"Live animals";0;0;0;0;0
-"7251";"DEU";"Germany";"Europe";"c101";"Pigs";"Live animals";0;0;0;0;0
-"7252";"DEU";"Germany";"Europe";"c102";"Poultry Birds";"Live animals";0;0;0;0;0
-"7253";"DEU";"Germany";"Europe";"c103";"Horses";"Live animals";0;0;0;0;0
-"7254";"DEU";"Germany";"Europe";"c104";"Asses";"Live animals";0;0;0;0;0
-"7255";"DEU";"Germany";"Europe";"c105";"Mules";"Live animals";0;0;0;0;0
-"7256";"DEU";"Germany";"Europe";"c106";"Camels";"Live animals";0;0;0;0;0
-"7257";"DEU";"Germany";"Europe";"c107";"Camelids, other";"Live animals";0;0;0;0;0
-"7258";"DEU";"Germany";"Europe";"c108";"Rabbits and hares";"Live animals";0;0;0;0;0
-"7259";"DEU";"Germany";"Europe";"c109";"Rodents, other";"Live animals";0;0;0;0;0
-"7260";"DEU";"Germany";"Europe";"c110";"Live animals, other";"Live animals";0;0;0;0;0
-"7261";"DEU";"Germany";"Europe";"c111";"Milk - Excluding Butter";"Milk";3,5;0,5;1,2;0,5;7
-"7262";"DEU";"Germany";"Europe";"c112";"Butter, Ghee";"Milk";3,5;0,5;1,2;0,5;7
-"7263";"DEU";"Germany";"Europe";"c113";"Eggs";"Eggs";4;0;0,5;2;8
-"7264";"DEU";"Germany";"Europe";"c114";"Wool (Clean Eq.)";"Hides, skins, wool";0;0;0;0;0
-"7265";"DEU";"Germany";"Europe";"c115";"Bovine Meat";"Meat";2,3;0,613;2,5;4;11
-"7266";"DEU";"Germany";"Europe";"c116";"Mutton & Goat Meat";"Meat";10;0,618;5;4;11
-"7267";"DEU";"Germany";"Europe";"c117";"Pigmeat";"Meat";2,5;0,23;5;4;11
-"7268";"DEU";"Germany";"Europe";"c118";"Poultry Meat";"Meat";2,5;1,65;5;4;11
-"7269";"DEU";"Germany";"Europe";"c119";"Meat, Other";"Meat";3,2;0,7;2,5;4;11
-"7270";"DEU";"Germany";"Europe";"c120";"Offals, Edible";"Meat";3,2;0,7;2,5;4;11
-"7271";"DEU";"Germany";"Europe";"c121";"Fats, Animals, Raw";"Animal fats";3,2;0,7;2,5;4;11
-"7272";"DEU";"Germany";"Europe";"c122";"Hides and skins";"Hides, skins, wool";0;0;0;0;0
-"7273";"DEU";"Germany";"Europe";"c123";"Meat Meal";"Meat";3,2;0,7;2,5;4;11
-"7274";"DEU";"Germany";"Europe";"c124";"Pet food";"Meat";3,2;0,7;2,5;4;11
-"7275";"DEU";"Germany";"Europe";"c125";"Honey";"Honey";10;1;5;1;4
-"7276";"DEU";"Germany";"Europe";"c126";"Silk";"Hides, skins, wool";0;0;0;0;0
-"7277";"DEU";"Germany";"Europe";"c127";"Fish, Seafood";"Fish";9,4;0,5;6;9;11
-"7278";"DEU";"Germany";"Europe";"c128";"Wood fuel";"Wood";0;0;0;0;0
-"7279";"DEU";"Germany";"Europe";"c129";"Industrial roundwood, coniferous";"Wood";0;0;0;0;0
-"7280";"DEU";"Germany";"Europe";"c130";"Industrial roundwood, non-coniferous";"Wood";0;0;0;0;0
+"7151";"DEU";"Germany";"Germany";"c001";"Rice (Milled Equivalent)";"Cereals";2;2,5;4,44;5,96;23
+"7152";"DEU";"Germany";"Germany";"c002";"Wheat and products";"Cereals";2;2,5;4,44;5,96;23
+"7153";"DEU";"Germany";"Germany";"c003";"Barley and products";"Cereals";2;2,5;4,44;5,96;23
+"7154";"DEU";"Germany";"Germany";"c004";"Maize and products";"Cereals";2;2,5;4,44;5,96;23
+"7155";"DEU";"Germany";"Germany";"c005";"Rye and products";"Cereals";2;2,5;4,44;5,96;23
+"7156";"DEU";"Germany";"Germany";"c006";"Oats";"Cereals";2;2,5;4,44;5,96;23
+"7157";"DEU";"Germany";"Germany";"c007";"Millet and products";"Cereals";2;2,5;4,44;5,96;23
+"7158";"DEU";"Germany";"Germany";"c008";"Sorghum and products";"Cereals";2;2,5;4,44;5,96;23
+"7159";"DEU";"Germany";"Germany";"c009";"Cereals, Other";"Cereals";2;2,5;4,44;5,96;23
+"7160";"DEU";"Germany";"Germany";"c010";"Potatoes and products";"Roots and tubers";20;5,2;2,4;5,13;26
+"7161";"DEU";"Germany";"Germany";"c011";"Cassava and products";"Roots and tubers";20;5,2;2,4;5,13;26
+"7162";"DEU";"Germany";"Germany";"c012";"Sweet potatoes";"Roots and tubers";20;5,2;2,4;5,13;26
+"7163";"DEU";"Germany";"Germany";"c013";"Roots, Other";"Roots and tubers";20;5,2;2,4;5,13;26
+"7164";"DEU";"Germany";"Germany";"c014";"Yams";"Roots and tubers";20;5,2;2,4;5,13;26
+"7165";"DEU";"Germany";"Germany";"c015";"Sugar cane";"Sugar crops";2;0,5;1,77;7;15
+"7166";"DEU";"Germany";"Germany";"c016";"Sugar beet";"Sugar crops";20;0,5;1,77;7;15
+"7167";"DEU";"Germany";"Germany";"c017";"Beans";"Vegetables, fruit, nuts, pulses, spices";10;0,1;4,7;2,8;19
+"7168";"DEU";"Germany";"Germany";"c018";"Peas";"Vegetables, fruit, nuts, pulses, spices";10;0,1;4,7;2,8;19
+"7169";"DEU";"Germany";"Germany";"c019";"Pulses, Other and products";"Vegetables, fruit, nuts, pulses, spices";10;0,1;4,7;2,8;19
+"7170";"DEU";"Germany";"Germany";"c020";"Nuts and products";"Vegetables, fruit, nuts, pulses, spices";10;1;5;1;4
+"7171";"DEU";"Germany";"Germany";"c021";"Soyabeans";"Oil crops";10;1;5;1;4
+"7172";"DEU";"Germany";"Germany";"c022";"Groundnuts (Shelled Eq)";"Oil crops";10;1;5;1;4
+"7173";"DEU";"Germany";"Germany";"c023";"Sunflower seed";"Oil crops";10;1;5;1;4
+"7174";"DEU";"Germany";"Germany";"c024";"Rape and Mustardseed";"Oil crops";10;1;5;1;4
+"7175";"DEU";"Germany";"Germany";"c025";"Seed cotton";"Oil crops";10;1;5;1;4
+"7176";"DEU";"Germany";"Germany";"c026";"Coconuts - Incl Copra";"Oil crops";10;1;5;1;4
+"7177";"DEU";"Germany";"Germany";"c027";"Sesame seed";"Oil crops";10;1;5;1;4
+"7178";"DEU";"Germany";"Germany";"c028";"Oil, palm fruit";"Oil crops";10;1;5;1;4
+"7179";"DEU";"Germany";"Germany";"c029";"Olives (including preserved)";"Oil crops";10;1;5;1;4
+"7180";"DEU";"Germany";"Germany";"c030";"Oilcrops, Other";"Oil crops";10;1;5;1;4
+"7181";"DEU";"Germany";"Germany";"c031";"Tomatoes and products";"Vegetables, fruit, nuts, pulses, spices";12,5;5,12;2,4;5,13;26
+"7182";"DEU";"Germany";"Germany";"c032";"Onions";"Vegetables, fruit, nuts, pulses, spices";16;5,12;2,4;5,13;26
+"7183";"DEU";"Germany";"Germany";"c033";"Vegetables, Other";"Vegetables, fruit, nuts, pulses, spices";20;5,12;2,4;5,13;26
+"7184";"DEU";"Germany";"Germany";"c034";"Oranges, Mandarines";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7185";"DEU";"Germany";"Germany";"c035";"Lemons, Limes and products";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7186";"DEU";"Germany";"Germany";"c036";"Grapefruit and products";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7187";"DEU";"Germany";"Germany";"c037";"Citrus, Other";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7188";"DEU";"Germany";"Germany";"c038";"Bananas";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7189";"DEU";"Germany";"Germany";"c039";"Plantains";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7190";"DEU";"Germany";"Germany";"c040";"Apples and products";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7191";"DEU";"Germany";"Germany";"c041";"Pineapples and products";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7192";"DEU";"Germany";"Germany";"c042";"Dates";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7193";"DEU";"Germany";"Germany";"c043";"Grapes and products (excl wine)";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7194";"DEU";"Germany";"Germany";"c044";"Fruits, Other";"Vegetables, fruit, nuts, pulses, spices";20;8,53;2,4;5,13;24
+"7195";"DEU";"Germany";"Germany";"c045";"Coffee and products";"Coffee, tea, cocoa";0;0;0;0;0
+"7196";"DEU";"Germany";"Germany";"c046";"Cocoa Beans and products";"Coffee, tea, cocoa";0;0;0;0;0
+"7197";"DEU";"Germany";"Germany";"c047";"Tea (including mate)";"Coffee, tea, cocoa";0;0;0;0;0
+"7198";"DEU";"Germany";"Germany";"c048";"Hops";"Vegetables, fruit, nuts, pulses, spices";10;5,12;2,4;5,13;26
+"7199";"DEU";"Germany";"Germany";"c049";"Pepper";"Vegetables, fruit, nuts, pulses, spices";10;5,12;2,4;5,13;26
+"7200";"DEU";"Germany";"Germany";"c050";"Pimento";"Vegetables, fruit, nuts, pulses, spices";10;5,12;2,4;5,13;26
+"7201";"DEU";"Germany";"Germany";"c051";"Cloves";"Vegetables, fruit, nuts, pulses, spices";10;5,12;2,4;5,13;26
+"7202";"DEU";"Germany";"Germany";"c052";"Spices, Other";"Vegetables, fruit, nuts, pulses, spices";10;5,12;2,4;5,13;26
+"7203";"DEU";"Germany";"Germany";"c053";"Jute";"Fibre crops";0;0;0;0;0
+"7204";"DEU";"Germany";"Germany";"c054";"Jute-Like Fibres";"Fibre crops";0;0;0;0;0
+"7205";"DEU";"Germany";"Germany";"c055";"Soft-Fibres, Other";"Fibre crops";0;0;0;0;0
+"7206";"DEU";"Germany";"Germany";"c056";"Sisal";"Fibre crops";0;0;0;0;0
+"7207";"DEU";"Germany";"Germany";"c057";"Abaca";"Fibre crops";0;0;0;0;0
+"7208";"DEU";"Germany";"Germany";"c058";"Hard Fibres, Other";"Fibre crops";0;0;0;0;0
+"7209";"DEU";"Germany";"Germany";"c059";"Tobacco";"Tobacco, rubber";0;0;0;0;0
+"7210";"DEU";"Germany";"Germany";"c060";"Rubber";"Tobacco, rubber";0;0;0;0;0
+"7211";"DEU";"Germany";"Germany";"c061";"Fodder crops";"Fodder crops, grazing";0;0;0;0;0
+"7212";"DEU";"Germany";"Germany";"c062";"Grazing";"Fodder crops, grazing";0;0;0;0;0
+"7213";"DEU";"Germany";"Germany";"c063";"Cottonseed";"Fibre crops";0;0;0;0;0
+"7214";"DEU";"Germany";"Germany";"c064";"Palm kernels";"Oil crops";0;0;5;1;4
+"7215";"DEU";"Germany";"Germany";"c065";"Sugar non-centrifugal";"Sugar, sweeteners";0;0,5;1,77;7;15
+"7216";"DEU";"Germany";"Germany";"c066";"Molasses";"Sugar, sweeteners";0;0,5;1,77;7;15
+"7217";"DEU";"Germany";"Germany";"c067";"Sugar, Refined Equiv";"Sugar, sweeteners";0;0,5;1,77;7;15
+"7218";"DEU";"Germany";"Germany";"c068";"Sweeteners, Other";"Sugar, sweeteners";0;0,5;1,77;7;15
+"7219";"DEU";"Germany";"Germany";"c069";"Soyabean Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7220";"DEU";"Germany";"Germany";"c070";"Groundnut Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7221";"DEU";"Germany";"Germany";"c071";"Sunflowerseed Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7222";"DEU";"Germany";"Germany";"c072";"Rape and Mustard Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7223";"DEU";"Germany";"Germany";"c073";"Cottonseed Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7224";"DEU";"Germany";"Germany";"c074";"Palmkernel Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7225";"DEU";"Germany";"Germany";"c075";"Palm Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7226";"DEU";"Germany";"Germany";"c076";"Coconut Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7227";"DEU";"Germany";"Germany";"c077";"Sesameseed Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7228";"DEU";"Germany";"Germany";"c078";"Olive Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7229";"DEU";"Germany";"Germany";"c079";"Ricebran Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7230";"DEU";"Germany";"Germany";"c080";"Maize Germ Oil";"Vegetable oils";0;1,12;0,09;1;15
+"7231";"DEU";"Germany";"Germany";"c081";"Oilcrops Oil, Other";"Vegetable oils";0;1,12;0,09;1;15
+"7232";"DEU";"Germany";"Germany";"c082";"Soyabean Cake";"Oil cakes";0;1,12;0,09;1;15
+"7233";"DEU";"Germany";"Germany";"c083";"Groundnut Cake";"Oil cakes";0;1,12;0,09;1;15
+"7234";"DEU";"Germany";"Germany";"c084";"Sunflowerseed Cake";"Oil cakes";0;1,12;0,09;1;15
+"7235";"DEU";"Germany";"Germany";"c085";"Rape and Mustard Cake";"Oil cakes";0;1,12;0,09;1;15
+"7236";"DEU";"Germany";"Germany";"c086";"Cottonseed Cake";"Oil cakes";0;1,12;0,09;1;15
+"7237";"DEU";"Germany";"Germany";"c087";"Palmkernel Cake";"Oil cakes";0;1,12;0,09;1;15
+"7238";"DEU";"Germany";"Germany";"c088";"Copra Cake";"Oil cakes";0;1,12;0,09;1;15
+"7239";"DEU";"Germany";"Germany";"c089";"Sesameseed Cake";"Oil cakes";0;1,12;0,09;1;15
+"7240";"DEU";"Germany";"Germany";"c090";"Oilseed Cakes, Other";"Oil cakes";0;1,12;0,09;1;15
+"7241";"DEU";"Germany";"Germany";"c091";"Wine";"Alcohol";0;0;5;1;4
+"7242";"DEU";"Germany";"Germany";"c092";"Beer";"Alcohol";0;0;5;1;4
+"7243";"DEU";"Germany";"Germany";"c093";"Beverages, Fermented";"Alcohol";0;0;5;1;4
+"7244";"DEU";"Germany";"Germany";"c094";"Beverages, Alcoholic";"Alcohol";0;0;5;1;4
+"7245";"DEU";"Germany";"Germany";"c095";"Alcohol, Non-Food";"Ethanol";0;0;0;0;0
+"7246";"DEU";"Germany";"Germany";"c096";"Cotton lint";"Fibre crops";0;0;0;0;0
+"7247";"DEU";"Germany";"Germany";"c097";"Cattle";"Live animals";0;0;0;0;0
+"7248";"DEU";"Germany";"Germany";"c098";"Buffaloes";"Live animals";0;0;0;0;0
+"7249";"DEU";"Germany";"Germany";"c099";"Sheep";"Live animals";0;0;0;0;0
+"7250";"DEU";"Germany";"Germany";"c100";"Goats";"Live animals";0;0;0;0;0
+"7251";"DEU";"Germany";"Germany";"c101";"Pigs";"Live animals";0;0;0;0;0
+"7252";"DEU";"Germany";"Germany";"c102";"Poultry Birds";"Live animals";0;0;0;0;0
+"7253";"DEU";"Germany";"Germany";"c103";"Horses";"Live animals";0;0;0;0;0
+"7254";"DEU";"Germany";"Germany";"c104";"Asses";"Live animals";0;0;0;0;0
+"7255";"DEU";"Germany";"Germany";"c105";"Mules";"Live animals";0;0;0;0;0
+"7256";"DEU";"Germany";"Germany";"c106";"Camels";"Live animals";0;0;0;0;0
+"7257";"DEU";"Germany";"Germany";"c107";"Camelids, other";"Live animals";0;0;0;0;0
+"7258";"DEU";"Germany";"Germany";"c108";"Rabbits and hares";"Live animals";0;0;0;0;0
+"7259";"DEU";"Germany";"Germany";"c109";"Rodents, other";"Live animals";0;0;0;0;0
+"7260";"DEU";"Germany";"Germany";"c110";"Live animals, other";"Live animals";0;0;0;0;0
+"7261";"DEU";"Germany";"Germany";"c111";"Milk - Excluding Butter";"Milk";3,5;0,6;1,5;1,55;14
+"7262";"DEU";"Germany";"Germany";"c112";"Butter, Ghee";"Milk";3,5;1,12;0,09;1;15
+"7263";"DEU";"Germany";"Germany";"c113";"Eggs";"Eggs";4;5,62;4;1,5;16
+"7264";"DEU";"Germany";"Germany";"c114";"Wool (Clean Eq.)";"Hides, skins, wool";0;0;0;0;0
+"7265";"DEU";"Germany";"Germany";"c115";"Bovine Meat";"Meat";2,3;2,06;0,22;2,1;16
+"7266";"DEU";"Germany";"Germany";"c116";"Mutton & Goat Meat";"Meat";10;2,06;0,22;2,1;16
+"7267";"DEU";"Germany";"Germany";"c117";"Pigmeat";"Meat";2,5;2,06;0,22;2,1;16
+"7268";"DEU";"Germany";"Germany";"c118";"Poultry Meat";"Meat";2,5;2,06;0,22;2,1;16
+"7269";"DEU";"Germany";"Germany";"c119";"Meat, Other";"Meat";3,2;2,06;0,22;2,1;16
+"7270";"DEU";"Germany";"Germany";"c120";"Offals, Edible";"Meat";3,2;2,06;0,22;2,1;16
+"7271";"DEU";"Germany";"Germany";"c121";"Fats, Animals, Raw";"Animal fats";3,2;2,06;0,22;2,1;16
+"7272";"DEU";"Germany";"Germany";"c122";"Hides and skins";"Hides, skins, wool";0;0;0;0;0
+"7273";"DEU";"Germany";"Germany";"c123";"Meat Meal";"Meat";3,2;2,06;0,22;2,1;16
+"7274";"DEU";"Germany";"Germany";"c124";"Pet food";"Meat";3,2;2,06;0,22;2,1;16
+"7275";"DEU";"Germany";"Germany";"c125";"Honey";"Honey";10;1;5;1;4
+"7276";"DEU";"Germany";"Germany";"c126";"Silk";"Hides, skins, wool";0;0;0;0;0
+"7277";"DEU";"Germany";"Germany";"c127";"Fish, Seafood";"Fish";9,4;5,51;4;9;11
+"7278";"DEU";"Germany";"Germany";"c128";"Wood fuel";"Wood";0;0;0;0;0
+"7279";"DEU";"Germany";"Germany";"c129";"Industrial roundwood, coniferous";"Wood";0;0;0;0;0
+"7280";"DEU";"Germany";"Germany";"c130";"Industrial roundwood, non-coniferous";"Wood";0;0;0;0;0
 "7281";"BIH";"Bosnia and Herzegovina";"Europe";"c001";"Rice (Milled Equivalent)";"Cereals";2;4;0,5;2;25
 "7282";"BIH";"Bosnia and Herzegovina";"Europe";"c002";"Wheat and products";"Cereals";2;4;0,5;2;25
 "7283";"BIH";"Bosnia and Herzegovina";"Europe";"c003";"Barley and products";"Cereals";2;4;0,5;2;25

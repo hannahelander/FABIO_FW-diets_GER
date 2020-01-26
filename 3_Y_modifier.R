@@ -33,14 +33,29 @@ add.percentage <- function(diet){  # take a data frame as input and return it wi
 ########### Scenario 1 - DGE recommended Diet ##########
 # Using index$DGE_group (see 1a_generate_index.R for details)
 
+### DGE diet redistribution that excludes alcohol and regulates sugar (halving suggar from SQ)
+# Y_eaten[index$diet_group == "alcohol"] <- 0  # need to adjust some inconsistency in data
+# sugar <- 0.025 
+# 
+# SQ_DGEgroups <- data.frame(cereals_potatoes = c(sum(Y_eaten[index$DGE_group == "Cereals and potatoes"]) / population, NA, 0.3*(1-sugar)), #order of columns must stay the same)
+#                            excluded      = c(0, NA, 0),
+#                            vegetables_legumes = c(sum(Y_eaten[index$DGE_group == "vegetables incl. legumes"]) / population, NA, 0.26*(1-sugar)),
+#                            fruits        = c(sum(Y_eaten[index$DGE_group == "Fruits"]) / population, NA, 0.17*(1-sugar)), 
+#                            alcohol_sugar = c(sum(Y_eaten[index$DGE_group == "Alcohol, sugar and honey"]) / population, NA, sugar),                             
+#                            veg_oils      = c(sum(Y_eaten[index$DGE_group == "Vegetable oils"]) / population, NA, 0.02*(1-sugar)),
+#                            #milk         = c(0.069715, NA, 0.18* (1-sugar)),                           # data from NEOMIT
+#                            milk          = c(sum(Y_eaten[index$DGE_group == "Milk"]) / population, NA, 0.18*(1-sugar)),
+#                            meat_egg_fish = c(sum(Y_eaten[index$DGE_group == "Meat, sausages, fish, eggs"]) / population, NA, 0.07*(1-sugar)),
+#                            row.names = c("SQ_capita", "SQ_percentage", "DGE_rec"))
 
-# CHECK OIL CROPS AND NUTS
-empty_cal <- 0.1 
+
+##### Including alcohol and suger, but limit to 10%
+empty_cal <- 0.1
 SQ_DGEgroups <- data.frame(cereals_potatoes = c(sum(Y_eaten[index$DGE_group == "Cereals and potatoes"]) / population, NA, 0.3*(1-empty_cal)), #order of columns must stay the same)
                               excluded      = c(0, NA, 0),
                               vegetables_legumes = c(sum(Y_eaten[index$DGE_group == "vegetables incl. legumes"]) / population, NA, 0.26*(1-empty_cal)),
-                              fruits        = c(sum(Y_eaten[index$DGE_group == "Fruits"]) / population, NA, 0.17*(1-empty_cal)), 
-                              alcohol_sugar = c(sum(Y_eaten[index$DGE_group == "Alcohol, sugar and honey"]) / population, NA, empty_cal),                             
+                              fruits        = c(sum(Y_eaten[index$DGE_group == "Fruits"]) / population, NA, 0.17*(1-empty_cal)),
+                              alcohol_sugar = c(sum(Y_eaten[index$DGE_group == "Alcohol, sugar and honey"]) / population, NA, empty_cal),
                               veg_oils      = c(sum(Y_eaten[index$DGE_group == "Vegetable oils"]) / population, NA, 0.02*(1-empty_cal)),
                               #milk         = c(0.069715, NA, 0.18* (1-empty_cal)),                           # data from NEOMIT
                               milk          = c(sum(Y_eaten[index$DGE_group == "Milk"]) / population, NA, 0.18*(1-empty_cal)),

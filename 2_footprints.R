@@ -7,15 +7,17 @@
 
 # --------------- LOAD DATA ----------------- #
 ## Prepare extension and define footprint (if needed)
-e <- E$Biomass / X 
+e <- E$Biomass / X
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
 
 rm(L)
+rm(E)
 
 ## Load index and waste data
 index <- read.csv2("data/index_data_frame.csv")
-waste <- read.csv2(file = "data/waste_data_frame.csv")
+
+
 
 
 # --------------- RUN FUNCTIONS ------------------ #
@@ -37,28 +39,42 @@ step.calculator2 <- function(waste_step, FP){                      # waste_step 
 }
 
 #########################################################
-# Biomass footprints along the Supply Chain 
+# Footprints along the Supply Chain 
 #########################################################
 
 # Load Y-matrices
 Y_SQ <- Y[ ,"DEU_Food"]                           # Status Quo
 Y_DGE <- read.csv2(file = "data/Y_DGE.csv")      # DGE recommendation scenario (adapted to calories demand)
 Y_DGE <- Y_DGE[,2]
-
-Y_DGE <- as.numeric(Y_DGE)
 Y_lancet <- read.csv2(file = "data/Y_lancet.csv")
 Y_lancet <- Y_lancet[,2] 
-Y_plantbased <- read.csv2(file = "data/Y_plantbased.csv")
-Y_plantbased <- Y_plantbased[,2] 
 Y_EATveg <- read.csv2(file = "data/Y_EATveg.csv")
 Y_EATveg <- Y_EATveg[,2] 
+# Load Y-matrices for FWL minimum and maximum
+Y_DGE_minW <- read.csv2(file = "data/Y_DGE_minimumWaste.csv")      # DGE recommendation scenario (adapted to calories demand)
+Y_DGE_minW <- Y_DGE_minW[,2]
+Y_lancet_minW <- read.csv2(file = "data/Y_lancet_minimumWaste.csv")
+Y_lancet_minW <- Y_lancet_minW[,2] 
+Y_EATveg_minW <- read.csv2(file = "data/Y_EATveg_minimumWaste.csv")
+Y_EATveg_minW <- Y_EATveg_minW[,2] 
 
+Y_DGE_maxW <- read.csv2(file = "data/Y_DGE_maximumWaste.csv")      # DGE recommendation scenario (adapted to calories demand)
+Y_DGE_maxW <- Y_DGE_maxW[,2]
+Y_lancet_maxW <- read.csv2(file = "data/Y_lancet_maximumWaste.csv")
+Y_lancet_maxW <- Y_lancet_maxW[,2] 
+Y_EATveg_maxW <- read.csv2(file = "data/Y_EATveg_maximumWaste.csv")
+Y_EATveg_maxW <- Y_EATveg_maxW[,2] 
+
+sum(Y_DGE_minW)
 sum(Y_DGE)
+sum(Y_DGE_maxW)
 sum(Y_SQ)
-
+sum(Y_lancet_maxW)
+sum(Y_EATveg)
 
 ##### SCENARIO CHOISE ###########
-Y_tot <- Y_EATveg  # choose scenario
+Y_tot <- Y_SQ  # choose scenario
+waste <- read.csv2(file = "data/waste_data.csv") # need to be consistent with diet scenario! 
 
 # Total footprint -
 FP_tot <- t(t(MP) * Y_tot)           
@@ -88,8 +104,8 @@ FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based produ
 ### Calculate Footprints of flows and fill in Table: 
 
 # Production
-FP_prod_waste <- sum(FP_plant * waste$harvest_production) / 100               # waste shares are given as percentage (8% = 0,08)
-supply_chain_FP$harvest_production <- c(sum(FP_plant), FP_prod_waste, NA, NA) # column has 4 rows # FAO production data reflect 'cont' flow
+#FP_prod_waste <- sum(FP_plant * waste$harvest_production) / 100               # waste shares are given as percentage (8% = 0,08)
+#supply_chain_FP$harvest_production <- c(sum(FP_plant), FP_prod_waste, NA, NA) # column has 4 rows # FAO production data reflect 'cont' flow
 
 # Storage
 Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
@@ -122,6 +138,7 @@ rm(Output_consumption)
 Y_lvst <- Y_tot
 Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
 
+
 FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
 #FP_lvst_capita <- sum(FP_lvst) / population       # For control (FP per capta == FP_lvst_capita + FP_plant_capita)
 
@@ -131,8 +148,8 @@ FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based produc
 ### Calculate Footprints of flows and fill in Table: 
 
 # Production 
-FP_prod_waste <- sum(FP_lvst * waste$harvest_production) / 100               # waste shares are given as percentage (8% = 0,08)
-supply_chain_FP$harvest_production[3:4] <- c(sum(FP_lvst), FP_prod_waste) # column has 4 rows # FAO production data reflect 'cont' flow
+#FP_prod_waste <- sum(FP_lvst * waste$harvest_production) / 100               # waste shares are given as percentage (8% = 0,08)
+#supply_chain_FP$harvest_production[3:4] <- c(sum(FP_lvst), FP_prod_waste) # column has 4 rows # FAO production data reflect 'cont' flow
 
 # Storage and transport
 Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
@@ -157,7 +174,7 @@ rm(Output_consumption)
 
 
 ########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/25.9.2019/supply_chain_biomass_EATveg.csv")     # write to file in output-folder! 
+write.csv2(supply_chain_FP, file = "output/supply_chain_BIOMASS_MILK_MEAT_SQ.csv")     # write to file in output-folder! 
 
 
 

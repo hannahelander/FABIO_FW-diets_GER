@@ -3,31 +3,82 @@ library(tidyr)
 
 Diets <- read.csv2(file ="input/Diets.csv" )
 
-y <- c('SQ', 'DGErec', 'Lancet', 'PlantB')
-data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 4]), sum(Diets[Diets$category == "Cereals ", 5]), 
-                                           sum(Diets[Diets$category == "Cereals ", 6]), sum(Diets[Diets$category == "Cereals ", 7])),
-                    "Potatoes"        = c(sum(Diets[Diets$category == "Potatoes & roots", 4]), sum(Diets[Diets$category == "Potatoes & roots", 5]), 
-                                           sum(Diets[Diets$category == "Potatoes & roots", 6]), sum(Diets[Diets$category == "Potatoes & roots", 7])),
-                    "Vegetables"       = c(sum(Diets[Diets$category == "Vegetables", 4]), sum(Diets[Diets$category == "Vegetables", 5]), 
-                                           sum(Diets[Diets$category == "Vegetables", 6]), sum(Diets[Diets$category == "Vegetables", 7])),
-                    "Fruits"           = c(sum(Diets[Diets$category == "Fruits", 4]), sum(Diets[Diets$category == "Fruits", 5]), 
-                                           sum(Diets[Diets$category == "Fruits", 6]), sum(Diets[Diets$category == "Fruits", 7])),
-                   "Pulses_beans_nuts" = c(sum(Diets[Diets$category == "Pulses, beans & nuts", 4]), sum(Diets[Diets$category == "Pulses, beans & nuts", 5]), 
-                                              sum(Diets[Diets$category == "Pulses, beans & nuts", 6]), sum(Diets[Diets$category == "Pulses, beans & nuts", 7])),
-                   "Vegetable_oils"    = c(sum(Diets[Diets$category == "Vegetable oils", 4]), sum(Diets[Diets$category == "Vegetable oils", 5]),
-                                           sum(Diets[Diets$category == "Vegetable oils", 6]), sum(Diets[Diets$category == "Vegetable oils", 7])),
+y <- c('D. Status Quo ', 'C. German Rec. ',  'B. Sust. Diet ', 'A. Vegetarian ')
+data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 5]), sum(Diets[Diets$category == "Cereals ", 6]), 
+                                           sum(Diets[Diets$category == "Cereals ", 7]),  sum(Diets[Diets$category == "Cereals ", 9])),
+                    "Potatoes"        = c(sum(Diets[Diets$category == "Potatoes & roots", 5]), sum(Diets[Diets$category == "Potatoes & roots", 6]), 
+                                          sum(Diets[Diets$category == "Potatoes & roots", 7]),  sum(Diets[Diets$category == "Potatoes & roots", 9])),
+                    "Vegetables"       = c(sum(Diets[Diets$category == "Vegetables", 5]), sum(Diets[Diets$category == "Vegetables", 6]), 
+                                           sum(Diets[Diets$category == "Vegetables", 7]), sum(Diets[Diets$category == "Vegetables", 9])),
+                    "Fruits"           = c(sum(Diets[Diets$category == "Fruits", 5]), sum(Diets[Diets$category == "Fruits", 6]), 
+                                           sum(Diets[Diets$category == "Fruits", 7]), sum(Diets[Diets$category == "Fruits", 9])),
+                    "Pulses_beans_nuts" = c(sum(Diets[Diets$category == "Pulses, beans & nuts", 5]), sum(Diets[Diets$category == "Pulses, beans & nuts", 6]),
+                                            sum(Diets[Diets$category == "Pulses, beans & nuts", 7]),  sum(Diets[Diets$category == "Pulses, beans & nuts", 9])),
+                    "Vegetable_oils"    = c(sum(Diets[Diets$category == "Vegetable oils", 5]),sum(Diets[Diets$category == "Vegetable oils", 6]), 
+                                            sum(Diets[Diets$category == "Vegetable oils", 7]), sum(Diets[Diets$category == "Vegetable oils", 9])),
+                    "Milk"              = c(sum(Diets[Diets$category == "Milk & products", 5]), sum(Diets[Diets$category == "Milk & products", 6]),
+                                            sum(Diets[Diets$category == "Milk & products", 7]), sum(Diets[Diets$category == "Milk & products", 9])),
+                    "Eggs"              = c(sum(Diets[Diets$category == "Eggs", 5]), sum(Diets[Diets$category == "Eggs", 6]),
+                                            sum(Diets[Diets$category == "Eggs", 7]), sum(Diets[Diets$category == "Eggs", 9])),
+                    "Fish"              = c(sum(Diets[Diets$category == "Fish", 5]), sum(Diets[Diets$category == "Fish", 6]), 
+                                            sum(Diets[Diets$category == "Fish", 7]), sum(Diets[Diets$category == "Fish", 9])),
+                    "Meat"              = c(sum(Diets[Diets$category == "Meat", 5]), sum(Diets[Diets$category == "Meat", 6]), 
+                                            sum(Diets[Diets$category == "Meat", 7]), sum(Diets[Diets$category == "Meat", 9])),
+                    "Sugar_Alcohol"     = c(sum(Diets[Diets$category == "Sugar & Alcohol", 5]),sum(Diets[Diets$category == "Sugar & Alcohol", 6]), 
+                                            sum(Diets[Diets$category == "Sugar & Alcohol", 7]),  sum(Diets[Diets$category == "Sugar & Alcohol", 9])),
+                    row.names = c('Status Quo', 'National recommendations', 'EAT Lancet sustainable reference diet', 'EAT veg'))
 
-                   "Milk"              = c(sum(Diets[Diets$category == "Milk & products", 4]), sum(Diets[Diets$category == "Milk & products", 5]),
-                                           sum(Diets[Diets$category == "Milk & products", 6]), sum(Diets[Diets$category == "Milk & products", 7])),
-                   "Eggs"              = c(sum(Diets[Diets$category == "Eggs", 4]), sum(Diets[Diets$category == "Eggs", 5]), 
-                                           sum(Diets[Diets$category == "Eggs", 6]), sum(Diets[Diets$category == "Eggs", 7])),
-                   "Fish"              = c(sum(Diets[Diets$category == "Fish", 4]), sum(Diets[Diets$category == "Fish", 5]), 
-                                           sum(Diets[Diets$category == "Fish", 6]), sum(Diets[Diets$category == "Fish", 7])),
-                   "Meat"              = c(sum(Diets[Diets$category == "Meat", 4]), sum(Diets[Diets$category == "Meat", 5]), 
-                                           sum(Diets[Diets$category == "Meat", 6]), sum(Diets[Diets$category == "Meat", 7])),
-                   "Sugar_Alcohol"     = c(sum(Diets[Diets$category == "Sugar & Alcohol", 4]), sum(Diets[Diets$category == "Sugar & Alcohol", 5]), 
-                                           sum(Diets[Diets$category == "Sugar & Alcohol", 6]), sum(Diets[Diets$category == "Sugar & Alcohol", 7])),
-                   row.names = c('Status Quo', 'National recommendations', 'EAT Lancet sustainable reference diet', 'Plant based reference diet'))
+  
+# y <- c('Status Quo ', 'German Rec. ',  'EAT Lancet rec.', 'German alternative ', 'EAT Lancet alt ')
+# data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 5]), sum(Diets[Diets$category == "Cereals ", 6]), sum(Diets[Diets$category == "Cereals ", 7]), 
+#                                            sum(Diets[Diets$category == "Cereals ", 8]), sum(Diets[Diets$category == "Cereals ", 9])),
+#                     "Potatoes"        = c(sum(Diets[Diets$category == "Potatoes & roots", 5]), sum(Diets[Diets$category == "Potatoes & roots", 6]), sum(Diets[Diets$category == "Potatoes & roots", 7]), 
+#                                            sum(Diets[Diets$category == "Potatoes & roots", 8]), sum(Diets[Diets$category == "Potatoes & roots", 9])),
+#                     "Vegetables"       = c(sum(Diets[Diets$category == "Vegetables", 5]), sum(Diets[Diets$category == "Vegetables", 6]), sum(Diets[Diets$category == "Vegetables", 7]), 
+#                                            sum(Diets[Diets$category == "Vegetables", 8]), sum(Diets[Diets$category == "Vegetables", 9])),
+#                     "Fruits"           = c(sum(Diets[Diets$category == "Fruits", 5]), sum(Diets[Diets$category == "Fruits", 6]), sum(Diets[Diets$category == "Fruits", 7]), 
+#                                            sum(Diets[Diets$category == "Fruits", 8]), sum(Diets[Diets$category == "Fruits", 9])),
+#                    "Pulses_beans_nuts" = c(sum(Diets[Diets$category == "Pulses, beans & nuts", 5]), sum(Diets[Diets$category == "Pulses, beans & nuts", 6]), sum(Diets[Diets$category == "Pulses, beans & nuts", 7]), 
+#                                               sum(Diets[Diets$category == "Pulses, beans & nuts", 8]), sum(Diets[Diets$category == "Pulses, beans & nuts", 9])),
+#                    "Vegetable_oils"    = c(sum(Diets[Diets$category == "Vegetable oils", 5]),sum(Diets[Diets$category == "Vegetable oils", 6]), sum(Diets[Diets$category == "Vegetable oils", 7]),
+#                                            sum(Diets[Diets$category == "Vegetable oils", 8]), sum(Diets[Diets$category == "Vegetable oils", 9])),
+#                    "Milk"              = c(sum(Diets[Diets$category == "Milk & products", 5]), sum(Diets[Diets$category == "Milk & products", 6]), sum(Diets[Diets$category == "Milk & products", 7]),
+#                                            sum(Diets[Diets$category == "Milk & products", 8]), sum(Diets[Diets$category == "Milk & products", 9])),
+#                    "Eggs"              = c(sum(Diets[Diets$category == "Eggs", 5]), sum(Diets[Diets$category == "Eggs", 6]), sum(Diets[Diets$category == "Eggs", 7]), 
+#                                            sum(Diets[Diets$category == "Eggs", 8]), sum(Diets[Diets$category == "Eggs", 9])),
+#                    "Fish"              = c(sum(Diets[Diets$category == "Fish", 5]), sum(Diets[Diets$category == "Fish", 6]), sum(Diets[Diets$category == "Fish", 7]), 
+#                                            sum(Diets[Diets$category == "Fish", 8]), sum(Diets[Diets$category == "Fish", 9])),
+#                    "Meat"              = c(sum(Diets[Diets$category == "Meat", 5]), sum(Diets[Diets$category == "Meat", 6]), sum(Diets[Diets$category == "Meat", 7]), 
+#                                            sum(Diets[Diets$category == "Meat", 8]), sum(Diets[Diets$category == "Meat", 9])),
+#                    "Sugar_Alcohol"     = c(sum(Diets[Diets$category == "Sugar & Alcohol", 5]),sum(Diets[Diets$category == "Sugar & Alcohol", 6]), sum(Diets[Diets$category == "Sugar & Alcohol", 7]), 
+#                                            sum(Diets[Diets$category == "Sugar & Alcohol", 8]), sum(Diets[Diets$category == "Sugar & Alcohol", 9])),
+#                    row.names = c('Status Quo', 'National recommendations', 'EAT Lancet sustainable reference diet', 'Plant based reference diet', 'EAT veg'))
+
+# ##############
+# data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 5]), sum(Diets[Diets$category == "Cereals ", 6]), sum(Diets[Diets$category == "Cereals ", 7]), 
+#                                            sum(Diets[Diets$category == "Cereals ", 8]), sum(Diets[Diets$category == "Cereals ", 9])),
+#                     "Potatoes"        = c(sum(Diets[Diets$category == "Potatoes & roots", 5]), sum(Diets[Diets$category == "Potatoes & roots", 6]), sum(Diets[Diets$category == "Potatoes & roots", 7]), 
+#                                           sum(Diets[Diets$category == "Potatoes & roots", 8]), sum(Diets[Diets$category == "Potatoes & roots", 9])),
+#                     "Vegetables"       = c(sum(Diets[Diets$category == "Vegetables", 5]), sum(Diets[Diets$category == "Vegetables", 6]), sum(Diets[Diets$category == "Vegetables", 7]), 
+#                                            sum(Diets[Diets$category == "Vegetables", 8]), sum(Diets[Diets$category == "Vegetables", 9])),
+#                     "Fruits"           = c(sum(Diets[Diets$category == "Fruits", 5]), sum(Diets[Diets$category == "Fruits", 6]), sum(Diets[Diets$category == "Fruits", 7]), 
+#                                            sum(Diets[Diets$category == "Fruits", 8]), sum(Diets[Diets$category == "Fruits", 9])),
+#                     "Pulses_beans_nuts" = c(sum(Diets[Diets$category == "Pulses, beans & nuts", 5]), sum(Diets[Diets$category == "Pulses, beans & nuts", 6]), sum(Diets[Diets$category == "Pulses, beans & nuts", 7]), 
+#                                             sum(Diets[Diets$category == "Pulses, beans & nuts", 8]), sum(Diets[Diets$category == "Pulses, beans & nuts", 9])),
+#                     "Vegetable_oils"    = c(sum(Diets[Diets$category == "Vegetable oils", 5]),sum(Diets[Diets$category == "Vegetable oils", 6]), sum(Diets[Diets$category == "Vegetable oils", 7]),
+#                                             sum(Diets[Diets$category == "Vegetable oils", 8]), sum(Diets[Diets$category == "Vegetable oils", 9])),
+#                     "Milk"              = c(sum(Diets[Diets$category == "Milk & products", 5]), sum(Diets[Diets$category == "Milk & products", 6]), sum(Diets[Diets$category == "Milk & products", 7]),
+#                                             sum(Diets[Diets$category == "Milk & products", 8]), sum(Diets[Diets$category == "Milk & products", 9])),
+#                     "Eggs"              = c(sum(Diets[Diets$category == "Eggs", 5]), sum(Diets[Diets$category == "Eggs", 6]), sum(Diets[Diets$category == "Eggs", 7]), 
+#                                             sum(Diets[Diets$category == "Eggs", 8]), sum(Diets[Diets$category == "Eggs", 9])),
+#                     "Fish"              = c(sum(Diets[Diets$category == "Fish", 5]), sum(Diets[Diets$category == "Fish", 6]), sum(Diets[Diets$category == "Fish", 7]), 
+#                                             sum(Diets[Diets$category == "Fish", 8]), sum(Diets[Diets$category == "Fish", 9])),
+#                     "Meat"              = c(sum(Diets[Diets$category == "Meat", 5]), sum(Diets[Diets$category == "Meat", 6]), sum(Diets[Diets$category == "Meat", 7]), 
+#                                             sum(Diets[Diets$category == "Meat", 8]), sum(Diets[Diets$category == "Meat", 9])),
+#                     "Sugar_Alcohol"     = c(sum(Diets[Diets$category == "Sugar & Alcohol", 5]),sum(Diets[Diets$category == "Sugar & Alcohol", 6]), sum(Diets[Diets$category == "Sugar & Alcohol", 7]), 
+#                                             sum(Diets[Diets$category == "Sugar & Alcohol", 8]), sum(Diets[Diets$category == "Sugar & Alcohol", 9])),
+#                     row.names = c('Status Quo', 'National recommendations', 'EAT Lancet sustainable reference diet', 'Plant based reference diet', 'EAT veg'))
+########################
 
 data <- cbind(y, data)
 
@@ -36,51 +87,51 @@ data <- cbind(y, data)
 p <- plot_ly(data, x = ~Cereals, y = y, type = 'bar', orientation = 'h', name = 'Cereals',
              marker = list(color = 'rgba(212, 162, 106, 0.6)',
                            line = list(color = 'rgba(2212, 162, 106, 1.0)',
-                                       width = 2))) %>%
+                                       width = 0))) %>%
   add_trace(x = ~Potatoes, name = 'Potatoes & roots',
             marker = list(color = 'rgba(128, 77, 21, 0.6)',
                           line = list(color = 'rgba(128, 77, 21, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Vegetables, name = 'Vegetables',
             marker = list(color = 'rgba(0, 61, 25, 0.6)',
                           line = list(color = 'rgba(0, 61, 25, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Fruits, name = 'Fruits',
             marker = list(color = 'rgba(41, 122, 74, 0.6)',
                           line = list(color = 'rgba(41, 122, 74, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Pulses_beans_nuts, name = 'Pulses, beans & nuts',
             marker = list(color = 'rgba(2, 38, 54, 0.6)',
                           line = list(color = 'rgba(2, 38, 54, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Vegetable_oils, name = 'Vegetable oils',
             marker = list(color = 'rgba(39, 87, 107, 0.6)',
                           line = list(color = 'rgba(112, 80, 80, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Milk, name = 'Milk & producs',
             marker = list(color = 'rgba(212, 127, 106, 0.6)',
                           line = list(color = 'rgba(212, 127, 106, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Eggs, name = 'Eggs',
             marker = list(color = 'rgba(170, 78, 57, 0.6)',
                           line = list(color = 'rgba(170, 78, 57, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Fish, name = 'Fish',
             marker = list(color = 'rgba(128, 42, 21, 0.6)',
                           line = list(color = 'rgba(128, 42, 21, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Meat, name = 'Meat',
             marker = list(color = 'rgba(85, 16, 0, 0.6)',
                           line = list(color = 'rgba(85, 16, 0,  1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   add_trace(x = ~Sugar_Alcohol, name = 'Sugar & Alcohol',
             marker = list(color = 'rgba(107, 117, 159, 0.6)',
                           line = list(color = 'rgba(107, 117, 159, 1.0)',
-                                      width = 2))) %>%
+                                      width = 0))) %>%
   
   layout(barmode = 'stack',
-         xaxis = list(title = ""),
-         yaxis = list(title =""))
+         xaxis = list(title = "", size = 30),
+         yaxis = list(title = ""))
 
 p
 
@@ -103,5 +154,5 @@ p <- plot_ly(data, x = ~SF_Zoo, y = ~y, type = 'bar', orientation = 'h', name = 
                                       width = 3))) %>%
   layout(barmode = 'stack',
          xaxis = list(title = ""),
-         yaxis = list(title =""))
+         yaxis = c('Status Quo ', 'National rec. ', 'EAT Lancet ', 'German plant-based '))
 p

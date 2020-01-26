@@ -1,21 +1,28 @@
 ################
 ### This script export the "Diets" for SQ and DGE_rec (before kcal standardization)
+### It converts Y-vector to a data-frame of product names and nutrient values
 ################
 
 index <- read.csv2(file = "data/14.8.2019/index_data_frame.csv")
 
-Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv") # the Y matrix for eaten!TO BE USED! (Generated in 3_Y_modifier)
+
+Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv") # the Y matrix for eaten! (Generated in 3_Y_modifier or from Waste min/max)
+Y_SQ_eaten <- Y_SQ_eaten[,2]
+
+Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten_maxW.csv") # used for scenarios of minimum oor maximum FWL-levels, from 2b_quantities (uncertainty analysis) 
 Y_SQ_eaten <- Y_SQ_eaten[,2]
 
 Y_DGErec_eaten <- read.csv2("data/Y_DGErec_eaten.csv") # the Y matrix for eaten!TO BE USED!
 Y_DGErec_eaten <- Y_DGErec_eaten[,2]
 
-#sum(Y_SQ_diet)
-#sum(Y_DGErec_diet)
+
 
 # Converting unit (from tonnes/year) to: eaten food grams/person/day
 Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365
 Y_DGErec_diet <- Y_DGErec_eaten * 1000000 / population / 365
+
+sum(Y_SQ_diet)
+sum(Y_DGErec_diet)
 
 # load nutritional data and save is as per gram specifications
 items <- read.csv2(file = "data/Items_nutr_.csv", stringsAsFactors = FALSE)
@@ -26,6 +33,7 @@ items$G_fat <- as.numeric(items$G_fat) /100
 # structure in Data frame
 
 Diets_df <- data.frame(product   = items$Item,
+                       Item_code = items$Item.Code,
                        dietgroup = rep(NA, nrow(items)),
                        SQ_g      = rep(NA, nrow(items)),
                        SQ_kcal   = rep(NA, nrow(items)),
@@ -57,13 +65,17 @@ for (i in 1:nrow(items)) {
 }
 
 # MAIN FILE:
-Diets_df <- rbind(Diets_df, data.frame(product ="Sum", dietgroup="NA" , t(sapply(Diets_df[,3:10], sum, na.rm = TRUE)), 
+Diets_df <- rbind(Diets_df, data.frame(product ="Sum", Item_code = "NA", dietgroup="NA" , t(sapply(Diets_df[,4:11], sum, na.rm = TRUE)), 
                                        kcal_data = NA, prot_data = NA, fat_data = NA))
 #write.csv2(Diets_df, file = "output/Diets_master.csv")
 
+
+sum(Diets_df$DGErec_g)
+
+
 # Main file without "excluded":
 Diets_df <- Diets_df[!(Diets_df$dietgroup == "excluded"), ]
-write.csv2(Diets_df, file = "output/Diets_analysis.csv")
+write.csv2(Diets_df, file = "output/Diets_SQ_MAX_WASTE.csv")
 
 
 #prepare For visualization
@@ -129,6 +141,8 @@ Diets_summary <- data.frame(cereals_potatoes = c(sum(Diets_df$SQ_g[Diets_df$diet
 
 Diets_summary$Sum <- rowSums(Diets_summary)
 Diets_summary <- data.frame(t(Diets_summary))
+
+write.csv2(Diets_summary, file = "Diet_output")
 
 #sums <- colSums(Diets_df[,3:ncol(Diets_df)])
 #rbind(Diets_df, data.frame(product ='Sum', dietgroup=NA, income = sum(x$income)))

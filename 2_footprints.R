@@ -23,15 +23,16 @@ index <- read.csv2("data/index_data_frame.csv")
 # --------------- RUN FUNCTIONS ------------------ #
 #### Function to calculate flows per step  #####
 step.calculator <- function(waste_step, FP){                      # waste_step is a column in the data-frame "waste", eg. waste$harvest_production?
-  FP_waste <- FP * waste_step / 100
+  FP_waste <- t(t(FP) * (waste_step / 100))
   FP_cont <- FP  - FP_waste              
   FP_step <- c(sum(FP_cont), sum(FP_waste), NA, NA)
   output <- list(FP_step, FP_cont)                                # gives one vector with 4 elements & a new footprint-matrix (or Y-matrix)
   return(output)
 }
 
+
 step.calculator2 <- function(waste_step, FP){                      # waste_step is column in waste, eg. waste$harvest_production?
-  FP_waste <- FP * waste_step / 100
+  FP_waste <- t(t(FP) * (waste_step / 100))
   FP_cont <- FP  - FP_waste              
   FP_step <- c(sum(FP_cont), sum(FP_waste))
   output <- list(FP_step, FP_cont)                                # gives a vector with only 2 elements
@@ -174,7 +175,7 @@ rm(Output_consumption)
 
 
 ########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_BIOMASS_MILK_MEAT_SQ.csv")     # write to file in output-folder! 
+write.csv2(supply_chain_FP, file = "output/supply_chain_BIOMASS_SQ_test.csv")     # write to file in output-folder! 
 
 
 

@@ -8,7 +8,7 @@
 # --------------- RUN FUNCTIONS ------------------ #
 #### Function to calculate flows per step  #####
 step.calculator3 <- function(waste_step, FP){                      # waste_step is a column in the data-frame "waste", eg. waste$harvest_production?
-  FP_waste <- FP * waste_step / 100
+  FP_waste <- t(t(FP) * (waste_step / 100))
   FP_cont <- FP  - FP_waste              
   FP_step <- c(sum(FP_cont), sum(FP_waste), NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA) # nrow of matrix
   output <- list(FP_step, FP_cont)                                # gives one vector with 4 elements & a new footprint-matrix (or Y-matrix)
@@ -65,9 +65,7 @@ supply_chain_FP <- data.frame(chain_type = c("Cereals", "Cereals", "Potatoes & r
   #Y_prod <- Y_vectors[i]
 
 ###### NEW PRODUCT (1) ##########
-
-#FP_cereals <- t(t(MP) * Y_cereals)  
-FP_cereals <-  Y_cereals #only for mass calculations (comment out previous line)
+FP_cereals <- t(t(MP) * Y_cereals)  
 
 # Storage
 Output_storage    <- step.calculator3(waste$storage_transport, FP_cereals)      # Last argument takes either Y_cereals (for mass calculations) or FP_cereals
@@ -93,8 +91,7 @@ rm(Output_distribution)
 rm(Output_consumption)
 
 ###### NEW PRODUCT (2) ##########
-# FP_roots <- t(t(MP) * Y_roots) 
-FP_roots <- Y_roots  #only for mass calculations
+FP_roots <- t(t(MP) * Y_roots) 
 
 # Storage
 Output_storage    <- step.calculator2(waste$storage_transport, FP_roots)
@@ -117,8 +114,7 @@ rm(Output_consumption)
 
 
 ###### NEW PRODUCT (3) ########## 
-#FP_veg <- t(t(MP) * Y_veg) 
-FP_veg <- Y_veg  #only for mass calculations
+FP_veg <- t(t(MP) * Y_veg) 
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_veg)
 supply_chain_FP$storage_transport[5:6]  <- Output_storage[[1]]
@@ -140,8 +136,8 @@ rm(Output_consumption)
 
 
 ###### NEW PRODUCT (4) ##########
-#FP_fruits <- t(t(MP) * Y_fruits) 
-FP_fruits <- Y_fruits # only for mass calculations
+FP_fruits <- t(t(MP) * Y_fruits) 
+
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_fruits)
 supply_chain_FP$storage_transport[7:8]  <- Output_storage[[1]]
@@ -163,8 +159,8 @@ rm(Output_consumption)
 
 
 ###### NEW PRODUCT (5) ##########
-#FP_beans  <- t(t(MP) * Y_beans) 
-FP_beans <- Y_beans # only for mass calculations 
+FP_beans  <- t(t(MP) * Y_beans) 
+
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_beans)  # Storage
 supply_chain_FP$storage_transport[9:10]  <- Output_storage[[1]]
@@ -186,8 +182,8 @@ rm(Output_consumption)
 #
 
 ###### NEW PRODUCT (6) ##########
-#FP_oils  <- t(t(MP) * Y_oils) 
-FP_oils  <- Y_oils  #only for mass calculations
+FP_oils  <- t(t(MP) * Y_oils) 
+
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_oils)   # Storage
 supply_chain_FP$storage_transport[11:12]  <- Output_storage[[1]]
@@ -208,8 +204,8 @@ rm(Output_distribution)
 rm(Output_consumption)
 
 ###### NEW PRODUCT (7) ##########
-#FP_milk   <- t(t(MP) * Y_milk) 
-FP_milk  <- Y_milk  #only for mass calculations
+FP_milk   <- t(t(MP) * Y_milk) 
+
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_milk)   # Storage
 supply_chain_FP$storage_transport[13:14]  <- Output_storage[[1]]
@@ -232,8 +228,8 @@ rm(Output_consumption)
 
 
 ###### NEW PRODUCT (8) ##########
-#FP_eggs  <- t(t(MP) * Y_eggs) 
-FP_eggs  <- Y_eggs
+FP_eggs  <- t(t(MP) * Y_eggs) 
+
 
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_eggs)  # Storage
@@ -256,7 +252,6 @@ rm(Output_consumption)
 
 ###### NEW PRODUCT (9) ##########
 FP_fish  <- t(t(MP) * Y_fish) 
-#FP_fish  <- Y_fish
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_fish)  # Storage
 supply_chain_FP$storage_transport[17:18]  <- Output_storage[[1]]
@@ -277,8 +272,8 @@ rm(Output_distribution)
 rm(Output_consumption)
 
 ###### NEW PRODUCT (10) ##########
-#FP_meat  <- t(t(MP) * Y_meat) 
-FP_meat  <- Y_meat
+FP_meat  <- t(t(MP) * Y_meat) 
+
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_meat)   # Storage
 supply_chain_FP$storage_transport[19:20]  <- Output_storage[[1]]
@@ -298,8 +293,8 @@ rm(Output_distribution)
 rm(Output_consumption)
 
 ###### NEW PRODUCT (11) ##########
-#FP_sugalc  <- t(t(MP) * Y_sugalc) 
-FP_sugalc  <-  Y_sugalc
+FP_sugalc  <- t(t(MP) * Y_sugalc) 
+
 
 Output_storage    <- step.calculator2(waste$storage_transport, FP_sugalc) # Storage
 supply_chain_FP$storage_transport[21:22]  <- Output_storage[[1]]
@@ -321,5 +316,5 @@ rm(Output_consumption)
 
 
 ########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/Waste_footprint_analysis/product_supply_chain_MASS_SQ.csv")     # write to file in output-folder! 
+write.csv2(supply_chain_FP, file = "output/Waste_footprint_analysis/product_supply_chain_BIOMASS_SQ_test2.csv")     # write to file in output-folder! 
 

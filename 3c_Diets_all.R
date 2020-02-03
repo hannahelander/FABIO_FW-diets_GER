@@ -1,12 +1,34 @@
 #################################
-# This script reads data for diet references as Y-vectors
-# Structure them for visualisation 
+# This script reads data for diet references 
 # SQ is taken from script: 2b_quantities and converted.
-
 # notes: eaten is used to refer to national data but the step after consumption ("eaten")
 # diet refer to gram per person and day
 
-### Y vectors on eaten food ##
+# Step 1: read Y_eaten SQ from file, read diet scenarios from file 
+# Step 2: create Y-vectors for Diet Scenarios
+# Step 3: create Y-vectors for different FW-scenarios (whole Germany per year)
+
+#########################################################
+### ----------------- Functions --------------- ###
+#########################################################
+# Function to add the consumer waste to eaten (step 3):
+
+add.consumer.waste <- function(Yeaten){
+  Yreal <- Yeaten/(100-waste$final_consumption)*100
+  Yreal <- Yreal/(100-waste$distribution)*100
+  Yreal <- Yreal/(100-waste$processing)*100
+  Yreal <- Yreal/(100-waste$storage_transport)*100
+  return(Yreal)
+}
+
+###############################################################
+### Step 1. ------- Read Y_Eaten SQ from file --------------###
+###############################################################
+# Eaten are diets upscaled to national level and given per year
+# Y_eaten SQ is generated based on SQ-data, assuming different FW levels (see......)
+
+
+### -----   Y vectors on eaten food SQ ------- ##
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv")
 Y_SQ_eaten <- Y_SQ_eaten[,2]
 Y_SQ_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
@@ -16,42 +38,37 @@ sum(Y_SQ_eaten) # = 62117393
 sum(Y_SQ_diet) # 2110.278
 
 
-### Y vectors on eaten food for minimum-/maximum waste scenarios ####
+#####----READ DIETS FROM FILE-----------########
+
+Diets <- read.csv2(file ="input/Diets.csv" ) # file include SQ and all other diets
+Diets[,1] <- as.character(Diets[, 1])
+
+
+###   -----  Sensitivity analysis for SQ   -------- #####
+
+### Y vectors on eaten food for minimum-/maximum waste scenarios SQ
 Y_SQ_eaten_minW <- read.csv2(file = "data/Y_SQ_eaten_minW.csv")
 Y_SQ_eaten_minW <- Y_SQ_eaten_minW[,2]
 Y_SQ_eaten_minW[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
 Y_SQ_diet_minW <- Y_SQ_eaten_minW * 1000000 / population / 365 #Converting unit (from "national tons/y" to "eaten food g/p/day")
 
-sum(Y_SQ_eaten_minW) # = 62117393
-sum(Y_SQ_diet_minW) # 2110.278
+#sum(Y_SQ_eaten_minW) # = 62117393
+#sum(Y_SQ_diet_minW) # 2110.278
 
-##############################################
-#----READ DIETS FROM FILE-----------#
+################################################################################
+### Step 2   ------   construct Y-vectors for Diet Scenarios    ---------    ###
+################################################################################
+# A: Y-vectors for diets (per person and day)
+# B: Y-vectors for eaten food (Germany 2013)
 
-Diets <- read.csv2(file ="input/Diets.csv" )
-Diets[,1] <- as.character(Diets[, 1])
+#####  ----  Step 2A: Y vectors for diets (=per person and day)   ----  #####
 
-
-
-# Function to add the consumer waste to eaten (step 3):
-add.consumer.waste <- function(Yeaten){
-  Yreal <- Yeaten/(100-waste$final_consumption)*100
-  Yreal <- Yreal/(100-waste$distribution)*100
-  Yreal <- Yreal/(100-waste$processing)*100
-  Yreal <- Yreal/(100-waste$storage_transport)*100
-  return(Yreal)
-}
-
-
-#############construct Y-vectors for Diets ###############
 # construct Y vector for DGE rec (2796 kcal)
 Y_DGErec_diet <- Y_SQ_diet
 for (i in 1:nrow(Diets)){
-  #Sum_i <- sum(Y_SQ_diet[which(index$product %in% Diets$product[i])])
   Y_DGErec_diet[which(index$item_code %in% Diets$Item_code[i])] <- Diets$DGErec_g[i]*
     (Y_SQ_diet[which(index$item_code %in% Diets$Item_code[i])]/
        sum(Y_SQ_diet[which(index$item_code %in% Diets$Item_code[i])]))
-  #cat(paste0("for i=",i," sum is ",(sum(Y_DGErec_diet[which(index$product %in% Diets$product[i])]))), "\n")
 }
 Y_DGErec_diet[is.na(Y_DGErec_diet)] <- 0 # delete NaNs
 sum(Y_DGErec_diet)    # gives 1927.2 =D
@@ -68,6 +85,7 @@ Y_lancet_diet[is.na(Y_lancet_diet)] <- 0
 sum(Y_lancet_diet)    # gives 1707.6 !!
 
 
+
 # construct Y-vector for EAT_veg (2796 kcal)
 Y_EATveg_diet <- Y_SQ_diet
 for (i in 1:nrow(Diets)) {
@@ -80,16 +98,32 @@ sum(Y_EATveg_diet)    #1706.401
 
 
 # Save as diets
-write.csv2(Y_SQ_diet, file = "data/diets/Y_SQ_diet.csv") 
-write.csv2(Y_DGErec_diet, file = "data/diets/Y_DGE_diet.csv") 
-write.csv2(Y_lancet_diet, file = "data/diets/Y_lancet_diet.csv") 
-write.csv2(Y_EATveg_diet, file = "data/diets/Y_EATveg_diet.csv") 
+#write.csv2(Y_SQ_diet, file = "data/diets/Y_SQ_diet.csv") 
+#write.csv2(Y_DGErec_diet, file = "data/diets/Y_DGE_diet.csv") 
+#write.csv2(Y_lancet_diet, file = "data/diets/Y_lancet_diet.csv") 
+#write.csv2(Y_EATveg_diet, file = "data/diets/Y_EATveg_diet.csv") 
 
 
-# Convert to a national Y-matrix
+
+######-- Step 2B: Y-vectors for eaten food (whole Germany per year) -- #########
+
+# Convert to a national Y-matrix (= Eaten)
 Y_DGE_eaten <- Y_DGErec_diet / 1000000 * population * 365         #Converting unit (from "eaten food grams/person/day" to "national tonnes/year") 
 Y_lancet_eaten <-Y_lancet_diet / 1000000 * population * 365
 Y_EATveg_eaten <- Y_EATveg_diet / 1000000 * population * 365
+
+
+#################################################################################################
+######   Step 3: creating Y-vectors for different FW- scenarios (whole Germany per year) -- #####
+#################################################################################################
+# A: Only Diet Scenarios
+# B: Minimum and maximum for Diet senarios (sensitivy analysis)
+# c: FW-reduction scenarios for each dietary scenario
+# D: Minimum and maximum for Diet senarios (sensitivy analysis)
+
+
+### Step 3A ------- Y-vectors Consumption, dietary scenarios ----- ####
+
 
 # add waste to reflect consumption step (for FOOTPRINT and supply-chain calculations):
 waste <- read.csv2(file = "data/waste_data.csv") # also possible to choose minimum or maximum levels for the uncertainty analysis
@@ -102,8 +136,46 @@ sum(Y[,"DEU_Food"])
 
 # save as Y-matrices for footprint calculation (Y for consumption step)
 write.csv2(Y_DGE, file = "data/Y_DGE.csv")
-write.csv2(Y_lancet, file = "data/Y_lancet_maximumWaste.csv") 
-write.csv2(Y_EATveg, file = "data/Y_EATveg_maximumWaste.csv") 
+#write.csv2(Y_lancet, file = "data/Y_lancet_maximumWaste.csv") 
+#write.csv2(Y_EATveg, file = "data/Y_EATveg_maximumWaste.csv") 
+
+
+### Step 3B ----- Y-vectors Consumption, dietary scenarios MAX and MIN ----- ####
+
+# choose waste scenario (MAX/MIN or HalfingFW_MAX/MIN) :
+waste <- read.csv2(file = "data/waste_data_maximum.csv") # choose FW-data!
+
+
+Y_DGE_maxW <- add.consumer.waste(Y_DGE_eaten)
+Y_lancet_maxW <- add.consumer.waste(Y_lancet_eaten)
+Y_EATveg_maxW <- add.consumer.waste(Y_EATveg_eaten)
+
+sum(Y_DGE)   # control    -with new food data is Y_DGE slightly smaller (used to show that sum Y_DGE is slightly bigger -> realistic due to increased food waste)
+sum(Y[,"DEU_Food"])
+
+# save as Y-matrices for footprint calculation (Y for consumption step)
+write.csv2(Y_DGE_maxW, file = "data/Y_DGE.csv")
+write.csv2(Y_lancet_maxW, file = "data/Y_lancet_maximumWaste.csv") 
+write.csv2(Y_EATveg_maxW, file = "data/Y_EATveg_maximumWaste.csv")
+
+
+
+##### Step 3 -------- Scenarios for Halfing food waste   --------- #######
+
+
+# Add food waste to Y_eaten according to scenarios of halfing food waste
+
+waste <- read.csv2(file = "data/waste_data_halfingFW.csv") # files were generated in "1b_prep_food_waste_data.R"
+waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
+waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
+
+Y_DGE50 <- add.consumer.waste(Y_DGE_eaten)
+Y_lancet50 <- add.consumer.waste(Y_lancet_eaten)
+Y_EATveg50 <- add.consumer.waste(Y_EATveg_eaten)
+
+write.csv2(Y_DGE50, file = "data/Y_DGE_50_MIN.csv")
+write.csv2(Y_lancet50, file = "data/Y_lancet_50_MIN.csv") 
+write.csv2(Y_EATveg50, file = "data/Y_EATveg_50_MIN.csv") 
 
 
 

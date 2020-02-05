@@ -28,7 +28,15 @@ data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals 
                                             sum(Diets[Diets$category == "Sugar & Alcohol", 7]),  sum(Diets[Diets$category == "Sugar & Alcohol", 9])),
                     row.names = c('Status Quo', 'National recommendations', 'EAT Lancet sustainable reference diet', 'EAT veg'))
 
+
+conv_milk <- 0.368655939
   
+data$Milk <- data$Milk * conv_milk
+data$Milk <- data$Milk * conv_milk
+data$Milk <- data$Milk * conv_milk
+
+
+
 # y <- c('Status Quo ', 'German Rec. ',  'EAT Lancet rec.', 'German alternative ', 'EAT Lancet alt ')
 # data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 5]), sum(Diets[Diets$category == "Cereals ", 6]), sum(Diets[Diets$category == "Cereals ", 7]), 
 #                                            sum(Diets[Diets$category == "Cereals ", 8]), sum(Diets[Diets$category == "Cereals ", 9])),
@@ -108,7 +116,7 @@ p <- plot_ly(data, x = ~Cereals, y = y, type = 'bar', orientation = 'h', name = 
             marker = list(color = 'rgba(39, 87, 107, 0.6)',
                           line = list(color = 'rgba(112, 80, 80, 1.0)',
                                       width = 0))) %>%
-  add_trace(x = ~Milk, name = 'Milk & producs',
+  add_trace(x = ~Milk, name = 'Milk & products',
             marker = list(color = 'rgba(212, 127, 106, 0.6)',
                           line = list(color = 'rgba(212, 127, 106, 1.0)',
                                       width = 0))) %>%

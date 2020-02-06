@@ -6,11 +6,11 @@
 
 ########
 #Y_eaten <- Y_eaten_food # or read from data/14.8.2019/Y_eaten_food
-Y_SQ_eaten <- read.csv2(file = "data/9.9.2019/Y_SQ_eaten.csv")
-Y_eaten <- Y_SQ_eaten[,2]
-Y_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
+Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv")
+Y_SQ_eaten <- Y_SQ_eaten[,2]
+Y_SQ_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
 
-sum(Y_eaten)
+sum(Y_SQ_eaten) # 62117393
 
 # load index!
 
@@ -32,43 +32,29 @@ add.percentage <- function(diet){  # take a data frame as input and return it wi
 
 ########### Scenario 1 - DGE recommended Diet ##########
 # Using index$DGE_group (see 1a_generate_index.R for details)
+# Including alcohol and suger, but limit to 10%
 
-### DGE diet redistribution that excludes alcohol and regulates sugar (halving suggar from SQ)
-# Y_eaten[index$diet_group == "alcohol"] <- 0  # need to adjust some inconsistency in data
-# sugar <- 0.025 
-# 
-# SQ_DGEgroups <- data.frame(cereals_potatoes = c(sum(Y_eaten[index$DGE_group == "Cereals and potatoes"]) / population, NA, 0.3*(1-sugar)), #order of columns must stay the same)
-#                            excluded      = c(0, NA, 0),
-#                            vegetables_legumes = c(sum(Y_eaten[index$DGE_group == "vegetables incl. legumes"]) / population, NA, 0.26*(1-sugar)),
-#                            fruits        = c(sum(Y_eaten[index$DGE_group == "Fruits"]) / population, NA, 0.17*(1-sugar)), 
-#                            alcohol_sugar = c(sum(Y_eaten[index$DGE_group == "Alcohol, sugar and honey"]) / population, NA, sugar),                             
-#                            veg_oils      = c(sum(Y_eaten[index$DGE_group == "Vegetable oils"]) / population, NA, 0.02*(1-sugar)),
-#                            #milk         = c(0.069715, NA, 0.18* (1-sugar)),                           # data from NEOMIT
-#                            milk          = c(sum(Y_eaten[index$DGE_group == "Milk"]) / population, NA, 0.18*(1-sugar)),
-#                            meat_egg_fish = c(sum(Y_eaten[index$DGE_group == "Meat, sausages, fish, eggs"]) / population, NA, 0.07*(1-sugar)),
-#                            row.names = c("SQ_capita", "SQ_percentage", "DGE_rec"))
-
-
-##### Including alcohol and suger, but limit to 10%
 empty_cal <- 0.1
+Milk_exclButter <- 7297058.899 # from BMEL (Milcherzeugnis zusammen minus buttermilcherzeugnis)
+
+# covert milk (primary product equivalents) in Y_eaten to consumed weight
+conv_rate <- sum(Y_eaten[index$DGE_group == "Milk"])/Milk_exclButter
+Y_eaten <- Y_SQ_eaten # "final" weight of milk products (weight of milk products)
+Y_eaten[index$DGE_group == "Milk"] <- Y_SQ_eaten[index$DGE_group == "Milk"] / conv_rate
+
+
 SQ_DGEgroups <- data.frame(cereals_potatoes = c(sum(Y_eaten[index$DGE_group == "Cereals and potatoes"]) / population, NA, 0.3*(1-empty_cal)), #order of columns must stay the same)
                               excluded      = c(0, NA, 0),
                               vegetables_legumes = c(sum(Y_eaten[index$DGE_group == "vegetables incl. legumes"]) / population, NA, 0.26*(1-empty_cal)),
                               fruits        = c(sum(Y_eaten[index$DGE_group == "Fruits"]) / population, NA, 0.17*(1-empty_cal)),
                               alcohol_sugar = c(sum(Y_eaten[index$DGE_group == "Alcohol, sugar and honey"]) / population, NA, empty_cal),
                               veg_oils      = c(sum(Y_eaten[index$DGE_group == "Vegetable oils"]) / population, NA, 0.02*(1-empty_cal)),
-                              #milk         = c(0.069715, NA, 0.18* (1-empty_cal)),                           # data from NEOMIT
+                              #milk         = c(Milk_exclButter / population, NA, 0.18* (1-empty_cal)),                           # data from NEOMIT
                               milk          = c(sum(Y_eaten[index$DGE_group == "Milk"]) / population, NA, 0.18*(1-empty_cal)),
                               meat_egg_fish = c(sum(Y_eaten[index$DGE_group == "Meat, sausages, fish, eggs"]) / population, NA, 0.07*(1-empty_cal)),
                               row.names = c("SQ_capita", "SQ_percentage", "DGE_rec"))
 
 
-
-
-#shares <- index %>%
-#  group_by(DGE_group) %>%
-#  summarise(sum = sum(Y_eaten)) %>%
-#  mutate(DGE_group_share = sum/sum(Y_eaten))
 
 SQ_DGEgroups <- add.percentage(SQ_DGEgroups)# add values to SQ_percentage
 SQ_DGEgroups <- data.frame(t(SQ_DGEgroups))[1:8,]
@@ -76,15 +62,24 @@ SQ_DGEgroups$DGE_group <- as.character(unique(index$DGE_group)) # add DGE-groups
 
 
 ###### NEW Y-MATRIX for DGE Recommendations : EATEN ############## 
+
 # create new Y-matrix for DGE recommendations:
-Y_DGE_rec <- Y_eaten / SQ_DGEgroups$SQ_percentage[match(index$DGE_group,SQ_DGEgroups$DGE_group)] * 
+Y_DGErec_MP <- Y_eaten_MP / SQ_DGEgroups$SQ_percentage[match(index$DGE_group,SQ_DGEgroups$DGE_group)] * 
   SQ_DGEgroups$DGE_rec[match(index$DGE_group, SQ_DGEgroups$DGE_group)]                          
-Y_DGE_rec[!is.finite(Y_DGE_rec)] <- 0
+Y_DGErec_MP[!is.finite(Y_DGErec_MP)] <- 0
 
-sum(Y_DGE_rec)       
-sum(Y_eaten)
 
-write.csv2(Y_eaten, file = "data/Y_SQ_eaten.csv")        # correct and saved 10.9.2019
-write.csv2(Y_DGE_rec, file = "data/Y_DGErec_eaten.csv")  # correct and saved 10.9.2019
+
+# convert Y_DGErec to Primary product 
+Y_DGErec <- Y_DGErec_MP
+Y_DGErec[index$DGE_group == "Milk"] <- Y_DGE_rec[index$DGE_group == "Milk"] * conv_rate
+sum(Y_DGErec[index$DGE_group == "Milk"])
+sum(Y_eaten[index$DGE_group == "Milk"])
+
+sum(Y_DGErec)       
+sum(Y_SQ_eaten)
+
+      
+write.csv2(Y_DGErec, file = "data/Y_DGErec_eaten.csv")   
 
 

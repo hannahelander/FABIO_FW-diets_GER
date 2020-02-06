@@ -1,39 +1,39 @@
 library(plotly)
 library(tidyr)
 
-Diets <- read.csv2(file ="input/Diets.csv" )
+Diets <- read.csv2(file ="input/Diets_3.0.csv" )
 
 y <- c('D. Status Quo ', 'C. German Rec. ',  'B. Sust. Diet ', 'A. Vegetarian ')
 data <- data.frame( "Cereals"          = c(sum(Diets[Diets$category == "Cereals ", 5]), sum(Diets[Diets$category == "Cereals ", 6]), 
-                                           sum(Diets[Diets$category == "Cereals ", 7]),  sum(Diets[Diets$category == "Cereals ", 9])),
+                                           sum(Diets[Diets$category == "Cereals ", 7]),  sum(Diets[Diets$category == "Cereals ", 8])),
                     "Potatoes"        = c(sum(Diets[Diets$category == "Potatoes & roots", 5]), sum(Diets[Diets$category == "Potatoes & roots", 6]), 
-                                          sum(Diets[Diets$category == "Potatoes & roots", 7]),  sum(Diets[Diets$category == "Potatoes & roots", 9])),
+                                          sum(Diets[Diets$category == "Potatoes & roots", 7]),  sum(Diets[Diets$category == "Potatoes & roots", 8])),
                     "Vegetables"       = c(sum(Diets[Diets$category == "Vegetables", 5]), sum(Diets[Diets$category == "Vegetables", 6]), 
-                                           sum(Diets[Diets$category == "Vegetables", 7]), sum(Diets[Diets$category == "Vegetables", 9])),
+                                           sum(Diets[Diets$category == "Vegetables", 7]), sum(Diets[Diets$category == "Vegetables", 8])),
                     "Fruits"           = c(sum(Diets[Diets$category == "Fruits", 5]), sum(Diets[Diets$category == "Fruits", 6]), 
-                                           sum(Diets[Diets$category == "Fruits", 7]), sum(Diets[Diets$category == "Fruits", 9])),
+                                           sum(Diets[Diets$category == "Fruits", 7]), sum(Diets[Diets$category == "Fruits", 8])),
                     "Pulses_beans_nuts" = c(sum(Diets[Diets$category == "Pulses, beans & nuts", 5]), sum(Diets[Diets$category == "Pulses, beans & nuts", 6]),
-                                            sum(Diets[Diets$category == "Pulses, beans & nuts", 7]),  sum(Diets[Diets$category == "Pulses, beans & nuts", 9])),
+                                            sum(Diets[Diets$category == "Pulses, beans & nuts", 7]),  sum(Diets[Diets$category == "Pulses, beans & nuts", 8])),
                     "Vegetable_oils"    = c(sum(Diets[Diets$category == "Vegetable oils", 5]),sum(Diets[Diets$category == "Vegetable oils", 6]), 
-                                            sum(Diets[Diets$category == "Vegetable oils", 7]), sum(Diets[Diets$category == "Vegetable oils", 9])),
+                                            sum(Diets[Diets$category == "Vegetable oils", 7]), sum(Diets[Diets$category == "Vegetable oils", 8])),
                     "Milk"              = c(sum(Diets[Diets$category == "Milk & products", 5]), sum(Diets[Diets$category == "Milk & products", 6]),
-                                            sum(Diets[Diets$category == "Milk & products", 7]), sum(Diets[Diets$category == "Milk & products", 9])),
+                                            sum(Diets[Diets$category == "Milk & products", 7]), sum(Diets[Diets$category == "Milk & products", 8])),
                     "Eggs"              = c(sum(Diets[Diets$category == "Eggs", 5]), sum(Diets[Diets$category == "Eggs", 6]),
-                                            sum(Diets[Diets$category == "Eggs", 7]), sum(Diets[Diets$category == "Eggs", 9])),
+                                            sum(Diets[Diets$category == "Eggs", 7]), sum(Diets[Diets$category == "Eggs", 8])),
                     "Fish"              = c(sum(Diets[Diets$category == "Fish", 5]), sum(Diets[Diets$category == "Fish", 6]), 
-                                            sum(Diets[Diets$category == "Fish", 7]), sum(Diets[Diets$category == "Fish", 9])),
+                                            sum(Diets[Diets$category == "Fish", 7]), sum(Diets[Diets$category == "Fish", 8])),
                     "Meat"              = c(sum(Diets[Diets$category == "Meat", 5]), sum(Diets[Diets$category == "Meat", 6]), 
-                                            sum(Diets[Diets$category == "Meat", 7]), sum(Diets[Diets$category == "Meat", 9])),
+                                            sum(Diets[Diets$category == "Meat", 7]), sum(Diets[Diets$category == "Meat", 8])),
                     "Sugar_Alcohol"     = c(sum(Diets[Diets$category == "Sugar & Alcohol", 5]),sum(Diets[Diets$category == "Sugar & Alcohol", 6]), 
-                                            sum(Diets[Diets$category == "Sugar & Alcohol", 7]),  sum(Diets[Diets$category == "Sugar & Alcohol", 9])),
+                                            sum(Diets[Diets$category == "Sugar & Alcohol", 7]),  sum(Diets[Diets$category == "Sugar & Alcohol", 8])),
                     row.names = c('Status Quo', 'National recommendations', 'EAT Lancet sustainable reference diet', 'EAT veg'))
 
-
-conv_milk <- 0.368655939
+# covert milk (primary product equivalents) in Y_eaten to consumed weight
+Milk_exclButter <- 7297058.899 # from BMEL (Milcherzeugnis zusammen minus buttermilcherzeugnis)
+conv_rate <- sum(Y_SQ_eaten[index$DGE_group == "Milk"])/Milk_exclButter
   
-data$Milk <- data$Milk * conv_milk
-data$Milk <- data$Milk * conv_milk
-data$Milk <- data$Milk * conv_milk
+data$Milk <- data$Milk /conv_rate # do hopefully apply to all!
+
 
 
 

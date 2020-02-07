@@ -38,7 +38,8 @@ empty_cal <- 0.1
 Milk_exclButter <- 7297058.899 # from BMEL (Milcherzeugnis zusammen minus buttermilcherzeugnis)
 
 # covert milk (primary product equivalents) in Y_eaten to consumed weight
-conv_rate <- sum(Y_eaten[index$DGE_group == "Milk"])/Milk_exclButter
+conv_rate <- sum(Y_SQ_eaten[index$DGE_group == "Milk"])/Milk_exclButter
+
 Y_eaten <- Y_SQ_eaten # "final" weight of milk products (weight of milk products)
 Y_eaten[index$DGE_group == "Milk"] <- Y_SQ_eaten[index$DGE_group == "Milk"] / conv_rate
 

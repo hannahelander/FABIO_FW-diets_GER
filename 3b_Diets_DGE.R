@@ -3,14 +3,14 @@
 ### It converts Y-vector to a data-frame of product names and nutrient values
 ################
 
-index <- read.csv2(file = "data/14.8.2019/index_data_frame.csv")
+index <- read.csv2(file = "data/index_data_frame.csv")
 
 
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv") # the Y matrix for eaten! (Generated in 3_Y_modifier or from Waste min/max)
 Y_SQ_eaten <- Y_SQ_eaten[,2]
 
-Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten_maxW.csv") # used for scenarios of minimum oor maximum FWL-levels, from 2b_quantities (uncertainty analysis) 
-Y_SQ_eaten <- Y_SQ_eaten[,2]
+#Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten_maxW.csv") # used for scenarios of minimum oor maximum FWL-levels, from 2b_quantities (uncertainty analysis) 
+#Y_SQ_eaten <- Y_SQ_eaten[,2]
 
 Y_DGErec_eaten <- read.csv2("data/Y_DGErec_eaten.csv") # the Y matrix for eaten!TO BE USED!
 Y_DGErec_eaten <- Y_DGErec_eaten[,2]
@@ -23,6 +23,10 @@ Y_DGErec_diet <- Y_DGErec_eaten * 1000000 / population / 365
 
 sum(Y_SQ_diet)
 sum(Y_DGErec_diet)
+
+
+
+
 
 # load nutritional data and save is as per gram specifications
 items <- read.csv2(file = "data/Items_nutr_.csv", stringsAsFactors = FALSE)
@@ -71,11 +75,12 @@ Diets_df <- rbind(Diets_df, data.frame(product ="Sum", Item_code = "NA", dietgro
 
 
 sum(Diets_df$DGErec_g)
+sum(Diets_df$SQ_g)
 
 
 # Main file without "excluded":
 Diets_df <- Diets_df[!(Diets_df$dietgroup == "excluded"), ]
-write.csv2(Diets_df, file = "output/Diets_SQ_MAX_WASTE.csv")
+write.csv2(Diets_df, file = "output/Diets_SQ_DGErec_v2.csv")
 
 
 #prepare For visualization

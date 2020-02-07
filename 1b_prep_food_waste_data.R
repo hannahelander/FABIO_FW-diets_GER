@@ -42,13 +42,13 @@ waste$final_consumption  <- waste_shares$final_consumption [match(paste0(waste$g
 #write.csv2(waste, file = "data/waste_data_maximum.csv")    
 #write.csv2(waste, file = "data/waste_data_minimum.csv")    
 
-############# Half Food waste #####################
+############# Halfing Food waste #####################
 
 waste_halfingFW <- waste
 waste_halfingFW$distribution[waste_halfingFW$country == "Germany"] <-  waste$distribution[waste$country == "Germany"] / 2
 waste_halfingFW$final_consumption[waste_halfingFW$country == "Germany"] <-  waste$final_consumption[waste$country == "Germany"] / 2
 
-#write.csv2(waste_halfingFW, file = "data/waste_data_maximum_halfingFW.csv")     # write to file in data-folder! 
-write.csv2(waste_halfingFW, file = "data/waste_data_halfingFW_MAX.csv")     # write to file in data-folder! 
-
+#write.csv2(waste_halfingFW, file = "data/waste_data_maximum_halfingFW.csv")    
+#write.csv2(waste_halfingFW, file = "data/waste_data_halfingFW_MAX.csv")    
+#write.csv2(waste_halfingFW, file = "data/waste_data_halfingFW_MAX.csv")  
 

@@ -30,8 +30,6 @@ Y_SQ_eaten <- Y_SQ_eaten[,2]
 Y_SQ_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
 
 sum(Y_SQ_eaten) # 62117393
-#sum(Y_eaten)/population                      # gives ~ 0.77 tonnes (~2.11 kg /capita / day)
-
 
 
 
@@ -76,17 +74,16 @@ sum(Y_DGErec_MP) * 1000000 /(population *365) # 1684.191 (actual weight of eaten
 # convert Y_DGErec back to Primary product (->DGE eaten BEFORE scaling)
 Y_DGErec_eaten <- Y_DGErec_MP
 Y_DGErec_eaten[index$DGE_group == "Milk"] <- Y_DGErec_MP[index$DGE_group == "Milk"] * conv_rate # DGE eaten BEFORE scaling
-sum(Y_DGErec_eaten[index$DGE_group == "Milk"])
-sum(Y_SQ_eaten[index$DGE_group == "Milk"])
 
 
 
 #####
+
 #Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten_maxW.csv") # used for scenarios of minimum oor maximum FWL-levels, from 2b_quantities (uncertainty analysis) 
 #Y_SQ_eaten <- Y_SQ_eaten[,2]
 
 
-###### PART 2 - creating diets for output to Excel ##########
+###### PART 2 - Creating diets for output to Excel ##########
 
 # Converting unit (from tonnes/year) to: eaten food grams/person/day
 Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365
@@ -142,10 +139,6 @@ for (i in 1:nrow(items)) {
 Diets_df <- rbind(Diets_df, data.frame(product ="Sum", Item_code = "NA", dietgroup="NA" , t(sapply(Diets_df[,4:11], sum, na.rm = TRUE)), 
                                        kcal_data = NA, prot_data = NA, fat_data = NA))
 
-
-
-sum(Diets_df$DGErec_g)
-sum(Diets_df$SQ_g)
 
 
 # Main file without "excluded":

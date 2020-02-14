@@ -8,7 +8,26 @@
 #Y     <- readRDS(paste0(path,"2013_Y.rds"))
 #waste <- read.csv2(file = "data/waste_data_frame.csv")
 # index <- read.csv2(file = "data/index_data_frame.csv")
+#########################################################
 
+# --------------- RUN FUNCTIONS ------------------ #
+#### Function to calculate flows per step  #####
+step.calculator <- function(waste_step, Y_Q){                      # waste_step is a column in the data-frame "waste", eg. waste$harvest_production?
+  YQ_waste <- t(t(Y_Q)* (waste_step / 100))
+  YQ_cont <- Y_Q  - YQ_waste              
+  YQ_step <- c(sum(YQ_cont), sum(YQ_waste), NA, NA)
+  output <- list(YQ_step, YQ_cont)                                # gives one vector with 4 elements & a new footprint-matrix (or Y-matrix)
+  return(output)
+}
+
+
+step.calculator2 <- function(waste_step, Y_Q){                      # waste_step is column in waste, eg. waste$harvest_production?
+  YQ_waste <- t(t(Y_Q) * (waste_step / 100))
+  YQ_cont <- Y_Q  - YQ_waste              
+  YQ_step <- c(sum(YQ_cont), sum(YQ_waste))
+  output <- list(YQ_step, YQ_cont)                                # gives a vector with only 2 elements
+  return(output)
+}
 
 #########################################################
 # along the Supply Chain - Status Quo 

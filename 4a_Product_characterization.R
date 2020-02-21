@@ -7,6 +7,7 @@
 ############# ----- Functions -------##########
 
 step.calculator2 <- function(waste_step, Y_Q){                    
+  YQ_waste <- Y_Q * (waste_step / 100)
   YQ_cont <- Y_Q - YQ_waste              
   YQ_step <- c(sum(YQ_cont), sum(YQ_waste))
   output <- list(YQ_step, YQ_cont)                                # gives a vector with only 2 elements
@@ -114,11 +115,11 @@ for (i in 1:length(product_Y_list)){
 }
 
 
+write.csv2(prod_character, file = "output/product_characterization.csv")
 
 
 
-
-##### B) Supply chain quantities ##############
+################### B) Supply chain quantities ########################
 
 ###### create a df using the same product categories as in Diets (based on index$com_group & products #########
 supply_chain <- data.frame(chain_type = c("Cereals", "Cereals", "Potatoes & roots",  "Potatoes & roots", "Vegetables", "Vegetables", "Fruits", "Fruits",
@@ -130,21 +131,20 @@ supply_chain <- data.frame(chain_type = c("Cereals", "Cereals", "Potatoes & root
                           processing   = rep(NA, length(product_Y_list)*2),
                           distribution = rep(NA, length(product_Y_list)*2),
                           consumption  = rep(NA, length(product_Y_list)*2))
-#for (i in 1:ncol(Y_vectors)){
-#Y_prod <- Y_vectors[i]
+
 
 for (i in 1:length(product_Y_list)){
   Y_tot <- product_Y_list[[i]]  # choose scenario consistent with waste scenario
   Output_storage    <- step.calculator2(waste$storage_transport, Y_tot)  # Storage
-  supply_chain$storage_transport[2*i-1:2*i]  <- Output_storage[[1]] 
+  supply_chain$storage_transport[((2*i)-1):(2*i)]  <- Output_storage[[1]] 
   Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]]) # Processing
-  supply_chainprocessing[2*i-1:2*i]         <- Output_processing[[1]]
+  supply_chain$processing[((2*i)-1):(2*i)]         <- Output_processing[[1]]
   rm(Output_storage)
   Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]]) # Distribution
-  supply_chain$distribution[2*i-1:2*i]      <- Output_distribution[[1]]
+  supply_chain$distribution[((2*i)-1):(2*i)]      <- Output_distribution[[1]]
   rm(Output_processing)
   Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]]) # Consumption
-  supply_chain$consumption        <- Output_consumption[[1]]
+  supply_chain$consumption[((2*i)-1):(2*i)]        <- Output_consumption[[1]]
   rm(Output_distribution)
   rm(Output_consumption)
 }
@@ -152,6 +152,6 @@ for (i in 1:length(product_Y_list)){
 
 
 ########### Write to File #############
-write.csv2(supply_chain, file = "output/product_characteristics_supply_chain_quantities.csv")     # write to file in output-folder! 
+write.csv2(supply_chain, file = "output/product_characteristics_supply_chain_quantities.csv")
 
 

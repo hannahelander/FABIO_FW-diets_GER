@@ -50,14 +50,14 @@ sum(waste$final_consumption) # 57866.6
 
 
 waste <- read.csv2("data/waste_data_minimum.csv")
-waste_halfingFW <- waste
-waste_halfingFW$distribution <-  waste$distribution / 2
-waste_halfingFW$final_consumption <-  waste$final_consumption / 2
+waste_halfFW <- waste
+waste_halfFW$distribution <-  waste$distribution / 2
+waste_halfFW$final_consumption <-  waste$final_consumption / 2
 
 sum(waste$distribution)
 sum(waste_halfingFW$distribution)
 
-#write.csv2(waste_halfingFW, file = "data/waste_data_halfingFW.csv")    
-#write.csv2(waste_halfingFW, file = "data/waste_data_halfingFW_MAX.csv")    
-write.csv2(waste_halfingFW, file = "data/waste_data_halfingFW_MIN.csv")  
+#write.csv2(waste_halfFW, file = "data/waste_data_halfingFW.csv")    
+#write.csv2(waste_halfFW, file = "data/waste_data_halfingFW_MAX.csv")    
+write.csv2(waste_halfFW, file = "data/waste_data_halfingFW_MIN.csv")  
 

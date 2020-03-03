@@ -1,8 +1,8 @@
 library(plotly)
 library(tidyr)
-library(scales)
-install.packages("ggplot2")
-library(ggplot2)
+#library(scales)
+#install.packages("ggplot2")
+#library(ggplot2)
 
 prod_cat <- read.csv2("input/product_characteristics.csv")
 prod_cat <- prod_cat[-9,]
@@ -27,8 +27,8 @@ color_values = c(rgb(212, 162, 106,  maxColorValue = 255),rgb(128, 77, 21,  maxC
            rgb(85, 16, 0,  maxColorValue = 255),rgb(107, 117, 159,  maxColorValue = 255))
 
 prod_cat$X <- factor(prod_cat$X, levels = c("Cereals" , 'Potatoes & roots','Vegetables', 
-                                            'Fruits','Pulses,beans & nuts', 'Vegetable oils' ,
-                                            'Milk & products','Eggs', 'Meat',"Alcohol & Sugar"))
+                                            'Fruits',"Pulses, beans & nuts", 'Vegetable oils' ,
+                                            'Milk & products','Eggs', 'Meat',"Sugar & Alcohol"))
 
 f <- list(
   family = "Arial",

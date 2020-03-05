@@ -8,6 +8,10 @@
 #Y     <- readRDS(paste0(path,"2013_Y.rds"))
 #waste <- read.csv2(file = "data/waste_data_frame.csv")
 # index <- read.csv2(file = "data/index_data_frame.csv")
+
+
+
+
 #########################################################
 
 # --------------- RUN FUNCTIONS ------------------ #
@@ -69,8 +73,8 @@ sum(Y_SQ)
 
 
 ### Choose scenario
-Y_tot <- Y_lancet_maxW
-waste <- read.csv2(file = "data/waste_data_maximum.csv") # must be consistent with scenario (note that for SQ the diet depend on wastage levels)
+Y_tot <- Y_SQ
+waste <- read.csv2(file = "data/waste_data.csv") # must be consistent with scenario (note that for SQ the diet depend on wastage levels)
 
 # create output matrix
 supply_chain_Y <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
@@ -138,9 +142,11 @@ supply_chain_Y$Consumption[3:4]        <- Output_consumption[[1]]
 rm(Output_distribution)
 
 
+### save the Y matrix that represent only "eaten food":
+eaten_food_lvst <- Output_consumption[[2]]
 
-write.csv2(supply_chain_Y, file = "output/supply_chain_mass_lancet_maxW.csv")
 
+write.csv2(supply_chain_Y, file = "output/supply_chain_mass_SQ_18.2.csv")
 
 
 
@@ -249,6 +255,7 @@ write.csv2(supply_chain_Y, file = "output/supply_chain_mass_EATveg_minW.csv")
 Y_SQ_eaten <- eaten_food_plants + eaten_food_lvst
 write.csv2(Y_SQ_eaten, file = "data/Y_SQ_eaten.csv") # for minimum Waste (SQ eaten depends on waste levels)
 
+sum(Y_SQ_eaten)
 
 
 

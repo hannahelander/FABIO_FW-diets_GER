@@ -48,7 +48,7 @@ Y_sugalc[!index$diet_group %in% c("Sugar, sweeteners", "Alcohol")] <- 0
 
 ###### Choose Footprint #######
 ## Prepare extension and define footprint (if needed)
-e <- E$Biomass / X
+e <- E$Blue_water / X
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
 rm(L)
@@ -316,5 +316,5 @@ rm(Output_consumption)
 
 
 ########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/Waste_footprint_analysis/product_supply_chain_BIOMASS_SQ_test2.csv")     # write to file in output-folder! 
+write.csv2(supply_chain_FP, file = "output/Waste_footprint_analysis/product_supply_chain_WATER_SQ.csv")     # write to file in output-folder! 
 

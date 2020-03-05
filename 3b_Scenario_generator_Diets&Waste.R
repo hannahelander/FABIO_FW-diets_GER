@@ -32,7 +32,7 @@ add.consumer.waste <- function(Yeaten){
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv")
 Y_SQ_eaten <- Y_SQ_eaten[,2]
 Y_SQ_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
-sum(Y_SQ_eaten) # = 62117393
+sum(Y_SQ_eaten) # = 62117393??
 
 Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365 # generates SQ diet as Y-vector 
 
@@ -173,19 +173,20 @@ write.csv2(Y_EATveg50, file = "data/Y_EATveg_50.csv")
 
 # ---- Uncertainty analysis for halfing food waste ----
 
-#waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
-waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
+waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
+#waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
 
 #Y_SQ50_MAX <- add.consumer.waste(Y_SQ_eaten)
 
-Y_DGE50_mW <- add.consumer.waste(Y_DGE_eaten)
-Y_lancet50_mW <- add.consumer.waste(Y_lancet_eaten)
-Y_EATveg50_mW <- add.consumer.waste(Y_EATveg_eaten)
+Y_SQ50_mW <- add.consumer.waste(Y_SQ_eaten)
+#Y_DGE50_mW <- add.consumer.waste(Y_DGE_eaten)
+#Y_lancet50_mW <- add.consumer.waste(Y_lancet_eaten)
+#Y_EATveg50_mW <- add.consumer.waste(Y_EATveg_eaten)
 
-sum(Y_DGE50)
-sum(Y_DGE50_mW)
+#sum(Y_DGE50)
+#sum(Y_DGE50_mW)
 
-#write.csv2(Y_SQ50_MAX, file = "data/Y_SQ_50_MAX.csv")
+write.csv2(Y_SQ50_mW, file = "data/Y_SQ_50_MAX.csv")
 
 write.csv2(Y_DGE50_mW, file = "data/Y_DGE_50_MIN.csv")
 write.csv2(Y_lancet50_mW, file = "data/Y_lancet_50_MIN.csv") 

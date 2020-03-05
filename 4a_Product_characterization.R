@@ -50,6 +50,7 @@ waste <- read.csv2(file = "data/waste_data.csv")
 
 
 ######
+Y_SQ <- Y[ ,"DEU_Food"]   
 product_Ylist_SQ <- product_Y_list.creator(Y_SQ)
 
 # Create data frame

@@ -5,9 +5,8 @@
 # Calculate Footprints along the supply chain. 
 ##########################################################
 
-# --------------- LOAD DATA ----------------- #
 ## Prepare extension and define footprint (if needed)
-e <- E$Landuse / X
+e <- E$Biomass / X
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
 
@@ -16,8 +15,6 @@ rm(E)
 
 ## Load index and waste data
 index <- read.csv2("data/index_data_frame.csv")
-
-
 
 
 # --------------- RUN FUNCTIONS ------------------ #
@@ -29,7 +26,6 @@ step.calculator <- function(waste_step, FP){                      # waste_step i
   output <- list(FP_step, FP_cont)                                # gives one vector with 4 elements & a new footprint-matrix (or Y-matrix)
   return(output)
 }
-
 
 step.calculator2 <- function(waste_step, FP){                      # waste_step is column in waste, eg. waste$harvest_production?
   FP_waste <- t(t(FP) * (waste_step / 100))
@@ -52,7 +48,7 @@ Y_lancet <- read.csv2(file = "data/Y_lancet.csv")
 Y_lancet <- Y_lancet[,2] 
 Y_EATveg <- read.csv2(file = "data/Y_EATveg.csv")
 Y_EATveg <- Y_EATveg[,2] 
-# Load Y-matrices for FWL minimum and maximum
+
 Y_DGE_minW <- read.csv2(file = "data/Y_DGE_minW.csv")      # DGE recommendation scenario (adapted to calories demand)
 Y_DGE_minW <- Y_DGE_minW[,2]
 Y_lancet_minW <- read.csv2(file = "data/Y_lancet_minW.csv")
@@ -73,8 +69,6 @@ Y_SQ50_MAX <- read.csv2(file = "data/Y_SQ_50_MAX.csv")
 Y_SQ50_MAX <- Y_SQ50_MAX[,2]
 Y_SQ50_MIN <- read.csv2(file = "data/Y_SQ_50_MIN.csv")
 Y_SQ50_MIN <- Y_SQ50_MIN[,2]
-sum(Y_SQ50_MAX)
-sum(Y_SQ50_MIN)
 
 Y_DGE50 <- read.csv2(file = "data/Y_DGE_50.csv")      # DGE + 50% FW reduction
 Y_DGE50 <- Y_DGE50[,2]
@@ -90,7 +84,6 @@ Y_lancet50_MIN <- Y_lancet50_MIN[,2]
 Y_lancet50_MAX <- read.csv2(file = "data/Y_lancet_50_MAX.csv")  # uncertainty analysis (MAX)
 Y_lancet50_MAX <- Y_lancet50_MAX[,2]
 
-
 Y_EATveg50 <- read.csv2(file = "data/Y_EATveg_50.csv")      # Vegetarian scenario with 50% FW reduction 
 Y_EATveg50 <- Y_EATveg50[,2]
 Y_EATveg50_MIN <- read.csv2(file = "data/Y_EATveg_50_MIN.csv")  # uncertainty analysis (MIN)
@@ -99,623 +92,119 @@ Y_EATveg50_MAX <- read.csv2(file = "data/Y_EATveg_50_MAX.csv")  #  # uncertainty
 Y_EATveg50_MAX <- Y_EATveg50_MAX[,2]
 
 
-
-sum(Y_DGE50_MIN)
 sum(Y_DGE)
-
-sum(Y_DGE50)
-
 sum(Y_DGE50_MAX)
 sum(Y_SQ)
 sum(Y_lancet_maxW)
 sum(Y_EATveg)
 
+Y_list <- list(Y_SQ, Y_DGE, Y_lancet, Y_EATveg,
+               Y_DGE_maxW, Y_lancet_maxW, Y_EATveg_maxW, 
+               Y_DGE_minW, Y_lancet_minW, Y_EATveg_minW, 
+               Y_SQ50, Y_DGE50, Y_lancet50, Y_EATveg50,
+               Y_SQ50_MAX ,  Y_DGE50_MAX, Y_lancet50_MAX, Y_EATveg50_MAX,
+               Y_SQ50_MIN, Y_DGE50_MIN, Y_lancet50_MIN, Y_EATveg50_MIN)
 
 
+# load waste data
+waste_dat <- read.csv2(file = "data/waste_data.csv")
+wasteMAX <- read.csv2(file = "data/waste_data_maximum.csv")
+wasteMIN <- read.csv2(file = "data/waste_data_minimum.csv")
+waste50  <- read.csv2(file = "data/waste_data_halfingFW.csv")
+waste50MAX <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
+waste50MIN <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
+
+waste_all <- list(waste, wasteMAX, wasteMIN, waste50, waste50MAX, waste50MIN)
+
+Scenario_names <- c("Y_SQ", "Y_DGE", "Y_lancet", "Y_EATveg",
+                    "Y_DGE_max", "Y_lancet_max", "Y_EATveg_max", 
+                    "Y_DGE_min", "Y_lancet_min", "Y_EATveg_min", 
+                    "Y_SQ50", "Y_DGE50", "Y_lancet50", "Y_EATveg50",
+                    "Y_SQ50_max" ,  "Y_DGE50_max", "Y_lancet50_max", "Y_EATveg50_max",
+                    "Y_SQ50_min", "Y_DGE50_min", "Y_lancet50_min", "Y_EATveg50_min")
 
 
-#############################
+######### LOOP FOR ALL SCENARIOS ####################
 
-##### SCENARIO CHOISE ###########
-waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv") # need to be consistent with diet scenario! 
-Y_tot <- Y_SQ50_MAX  # choose scenario consistent with waste scenario
+for (i in 1:length(Y_list)){
+  Y_tot <- Y_list[[i]]
+  if (i <= 4){
+    waste <- waste_all[[1]]
+  }
+  if (i >= 5 & i <= 7){
+    waste <- waste_all[[2]]
+  }
+  if (i >=8 & i <= 10){
+    waste <- waste_all[[3]]
+  }
+  if (i >= 11 & i <= 14){
+  waste <- waste_all[[4]]
+  }
+  if (i >= 15 & i <= 18){
+    waste <- waste_all[[5]]
+  }
+  if (i >= 19 & i <= 22){
+    waste <- waste_all[[6]]
+  }
+  
+  FP_tot <- t(t(MP) * Y_tot)   # Total footprint   
 
-
-# Total footprint -
-FP_tot <- t(t(MP) * Y_tot)           
-
-########## create output matrix ###########################
+# create output matrix 
 supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
                               flow = c("cont", "waste", "cont", "waste"))
 
-
-##############################################
-# For Plant-based products--------------------
-
-# Create a Y-matrix where all animal-products are 0
-Y_plant <- Y_tot 
-Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
+# For Plant-based products
+Y_plant <- Y_tot # Create a Y-matrix where all animal-products are 0
+Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0  
 
 FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
-#FP_plant_capita <- sum(FP_plant) / population
 
-
-# Storage
-Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
+Output_storage    <- step.calculator(waste$storage_transport, FP_plant)     # Storage # calculate
 supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
 rm(FP_plant)                                                                # remove big data to save space
 
-# Processing
-Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
+Output_processing       <- step.calculator(waste$processing, Output_storage[[2]]) # Processing
 supply_chain_FP$processing         <- Output_processing[[1]]
 rm(Output_storage)
 
-# Distribution
-Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]])
+Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]]) # Distribution
 supply_chain_FP$distribution       <- Output_distribution[[1]]
 rm(Output_processing)
 
-# Consumption
-Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]])
+Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]]) # Consumption
 supply_chain_FP$Consumption        <- Output_consumption[[1]]
 rm(Output_distribution)
 rm(Output_consumption)
 
 
-
-##############################################################
-# For animal based products (Livestock) ----------------------
-##############################################################
-
-# Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y_tot
-Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
-
-
-FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
-#supply_chain_FP$harvest_production[3:4] <- c(sum(FP_lvst), FP_prod_waste) # column has 4 rows # FAO production data reflect 'cont' flow
-
-# Storage and transport
-Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
-supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
-rm(FP_lvst)
-
-# Processing
-Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_LAND_SQ50MAX.csv")     # write to file in output-folder! 
-
-
-
-
-##############################################################################
-
-
-
-##### SCENARIO CHOISE ###########
-waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv") # need to be consistent with diet scenario! 
-Y_tot <- Y_SQ50_MIN  # choose scenario consistent with waste scenario
-
-
-# Total footprint -
-FP_tot <- t(t(MP) * Y_tot)           
-
-########## create output matrix ###########################
-supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
-                              flow = c("cont", "waste", "cont", "waste"))
-
-
-##############################################
-# For Plant-based products--------------------
-
-# Create a Y-matrix where all animal-products are 0
-Y_plant <- Y_tot 
-Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
-
-FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
-#FP_plant_capita <- sum(FP_plant) / population
-
-
-# Storage
-Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
-supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
-rm(FP_plant)                                                                # remove big data to save space
-
-# Processing
-Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-
-##############################################################
-# For animal based products (Livestock) ----------------------
-##############################################################
-
-# Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y_tot
-Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
-
-
-FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
-#supply_chain_FP$harvest_production[3:4] <- c(sum(FP_lvst), FP_prod_waste) # column has 4 rows # FAO production data reflect 'cont' flow
-
-# Storage and transport
-Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
-supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
-rm(FP_lvst)
-
-# Processing
-Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_LAND_SQ50_MIN.csv")     # write to file in output-folder! 
-
-
-###############################################################################################################
-
-
-
-
-
-
-
-##### SCENARIO CHOISE ###########
-waste <- read.csv2(file = "data/waste_data_maximum.csv") # need to be consistent with diet scenario! 
-Y_tot <- Y_DGE_maxW  # choose scenario consistent with waste scenario
-
-
-# Total footprint -
-FP_tot <- t(t(MP) * Y_tot)           
-
-
-
-########## create output matrix ###########################
-supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
-                              flow = c("cont", "waste", "cont", "waste"))
-
-
-##############################################
-# For Plant-based products--------------------
-###############################################
-
-# Create a Y-matrix where all animal-products are 0
-Y_plant <- Y_tot 
-Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
-
-FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
-
-# Storage
-Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
-supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
-rm(FP_plant)                                                                # remove big data to save space
-
-# Processing
-Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-##############################################################
-# For animal based products (Livestock) ----------------------
-##############################################################
-
-# Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y_tot
+###### For animal based products (Livestock) #########
+Y_lvst <- Y_tot # Create Y matrix that only includes animal-based products (Livestock)
 Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
 
 FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
 
-# Storage and transport
-Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
+Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst) # Storage and transport
 supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
 rm(FP_lvst)
 
-# Processing
-Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]])
+Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]]) # Processing
 supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
 rm(Output_storage)
 
-# Distribution
-Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]])
+Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]]) # Distribution
 supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
 rm(Output_processing)
 
-# Consumption
-Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]])
+Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]]) # Consumption
 supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
 rm(Output_distribution)
 rm(Output_consumption)
 
-
-########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE_MAX.csv")    
-
-#
-#
-#
-#
-#
-#
-#####################################################################
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-
-#
-################################################################################################################
-
-
-
-##### SCENARIO CHOISE ###########
-waste <- read.csv2(file = "data/waste_data_minimum.csv") # need to be consistent with diet scenario! 
-Y_tot <- Y_DGE_minW  # choose scenario consistent with waste scenario
-
-
-# Total footprint -
-FP_tot <- t(t(MP) * Y_tot)           
-
-########## create output matrix ###########################
-supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
-                              flow = c("cont", "waste", "cont", "waste"))
-
-
-##############################################
-# For Plant-based products--------------------
-
-# Create a Y-matrix where all animal-products are 0
-Y_plant <- Y_tot 
-Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
-
-FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
-#FP_plant_capita <- sum(FP_plant) / population
-
-
-# Storage
-Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
-supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
-rm(FP_plant)                                                                # remove big data to save space
-
-# Processing
-Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-
-##############################################################
-# For animal based products (Livestock) ----------------------
-##############################################################
-
-# Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y_tot
-Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
-
-
-FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
-#supply_chain_FP$harvest_production[3:4] <- c(sum(FP_lvst), FP_prod_waste) # column has 4 rows # FAO production data reflect 'cont' flow
-
-# Storage and transport
-Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
-supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
-rm(FP_lvst)
-
-# Processing
-Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE_MIN.csv")     # write to file in output-folder! 
-
-
-##################################################################################################
-
-
-
-
-
-
-
-
-##### SCENARIO CHOISE ###########
-waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv") # need to be consistent with diet scenario! 
-Y_tot <- Y_DGE50_MAX  # choose scenario consistent with waste scenario
-
-
-# Total footprint -
-FP_tot <- t(t(MP) * Y_tot)           
-
-########## create output matrix ###########################
-supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
-                              flow = c("cont", "waste", "cont", "waste"))
-
-
-##############################################
-# For Plant-based products--------------------
-
-# Create a Y-matrix where all animal-products are 0
-Y_plant <- Y_tot 
-Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
-
-FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
-#FP_plant_capita <- sum(FP_plant) / population
-
-
-# Storage
-Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
-supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
-rm(FP_plant)                                                                # remove big data to save space
-
-# Processing
-Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-##############################################################
-# For animal based products (Livestock) ----------------------
-##############################################################
-
-# Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y_tot
-Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
-
-
-FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
-
-
-# Storage and transport
-Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
-supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
-rm(FP_lvst)
-
-# Processing
-Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE50_MAX.csv")     # write to file in output-folder! 
-
-
-
-
-
-
-
-
-
-
-
-
-###############################################################################################################
-
-
-
-
-
-
-
-##### SCENARIO CHOISE ###########
-waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv") # need to be consistent with diet scenario! 
-Y_tot <- Y_DGE50_MIN  # choose scenario consistent with waste scenario
-
-
-# Total footprint -
-FP_tot <- t(t(MP) * Y_tot)           
-
-
-# per capita footprint
-#FP_capita <- sum(FP_tot) / population             # gives ~3 tonnes for Biomass and SQ and 1.8248 for DGErec
-#sum(FP_tot)                                       # 159 *10^6 for DGErec Biomass
-
-########## create output matrix ###########################
-supply_chain_FP <- data.frame(chain_type = c("plant_based", "plant_based", "animal_based", "animal_based"),
-                              flow = c("cont", "waste", "cont", "waste"))
-
-
-##############################################
-# For Plant-based products--------------------
-###############################################
-
-# Create a Y-matrix where all animal-products are 0
-Y_plant <- Y_tot 
-Y_plant[index$product_group %in% c("Livestock products", "Fish")] <- 0
-
-FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based products
-
-
-# Storage
-Output_storage    <- step.calculator(waste$storage_transport, FP_plant)      # calculate
-supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
-rm(FP_plant)                                                                # remove big data to save space
-
-# Processing
-Output_processing       <- step.calculator(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-
-##############################################################
-# For animal based products (Livestock) ----------------------
-##############################################################
-
-# Create Y matrix that only includes animal-based products (Livestock)
-Y_lvst <- Y_tot
-Y_lvst[index$product_group %in% c("Crop products", "Primary crops")] <- 0  # Set Y to 0 for all plant-based products
-
-
-FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based products
-
-# Storage and transport
-Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst)
-supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
-rm(FP_lvst)
-
-# Processing
-Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]])
-supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
-rm(Output_storage)
-
-# Distribution
-Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]])
-supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
-rm(Output_processing)
-
-# Consumption
-Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]])
-supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
-rm(Output_distribution)
-rm(Output_consumption)
-
-
-########### Write to File #############
-write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE50_MIN.csv")     # write to file in output-folder! 
-
-
-
-
-
-
-
-###############################################################################################################
-
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-
-#
-
-
-
-
-
+##Write to File 
+write.csv2(supply_chain_FP, file = paste0("output/", Scenario_names[i],".csv")) 
+  
+}
+  
 
 
 
@@ -726,11 +215,11 @@ write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE50_MIN.csv")   
 #######################################################
 
 #FP_Continent <- data.frame(continent = unique(FP$continent), 
-                           SQ = rep(NA, length(unique(FP$continent))), 
-                           DGE = rep(NA, length(unique(FP$continent))), 
-                           lancet = rep(NA, length(unique(FP$continent))), 
-                           plantbased = rep(NA, length(unique(FP$continent))),
-                           EATveg = rep(NA, length(unique(FP$continent))))
+#                           SQ = rep(NA, length(unique(FP$continent))), 
+#                           DGE = rep(NA, length(unique(FP$continent))), 
+#                           lancet = rep(NA, length(unique(FP$continent))), 
+#                           plantbased = rep(NA, length(unique(FP$continent))),
+#                           EATveg = rep(NA, length(unique(FP$continent))))
 
 
 #Y_tot <- Y_EATveg  # choose scenario
@@ -764,6 +253,7 @@ write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE50_MIN.csv")   
 
 #write.csv2(FP_Continent, file = "output/FP_Landuse_continents.csv")
 
+
 ########## notes ################
 
 # FP_plant <- sum(colSums(MP) * Y_plant) # 
@@ -773,13 +263,4 @@ write.csv2(supply_chain_FP, file = "output/supply_chain_WATER_DGE50_MIN.csv")   
 #FP__chain <- data.frame(Scenario = rep("SQ", NrOfProducts),
 #                        products = rep(index$product, each = NrOfProducts),
 #                        product_group = rep(index$product_group, each = NrOfProducts))
-
-
-### Create function!?  ####
-#step.calculator <- function(waste_step, FP){                      # waste_step is column in waste, eg. waste$harvest_production?
-#  FP_step <- c(sum(FP * waste_step),               
-#               sum(FP - (FP * waste_step)), NA, NA)
-#  FP_cont <- FP  - (FP* waste_step)                  
-#  return(list(FP_step,FP_cont))
-#}
 

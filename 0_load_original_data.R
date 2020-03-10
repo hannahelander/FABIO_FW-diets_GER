@@ -21,12 +21,6 @@ Y <- readRDS(paste0(path,"2013_Y.rds"))
 E <- readRDS(paste0(path,"2013_E.rds"))
 X <- readRDS(paste0(path,"2013_X.rds"))
 
-# prepare FABIO extension for Biomass
-e <- E$Biomass / X
-e[!is.finite(e)] <- 0
-MP <- e * L
 
 
-rm(L) # to save RAM
-rm(E) 
 

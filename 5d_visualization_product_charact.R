@@ -1,8 +1,10 @@
+#install.packages("ggplot2")
+install.packages("plotly")
 library(plotly)
 library(tidyr)
 
 
-prod_cat <- read.csv2("input/product_characteristics.csv")
+prod_cat <- read.csv("input/product_characteristics.csv",na.strings = "NaN", colClasses = c("factor",rep("numeric",10)), sep=";" )
 prod_cat <- prod_cat[-9,]
 
 
@@ -35,11 +37,16 @@ y <- list(
   titlefont = f)
 
 
-p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW, y = ~Biomass, color= ~X,
+
+p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Biomass_kg.kcal, color= ~X,
             colors = color_values,  size = I(150))  %>%
  layout(xaxis = x, yaxis = y)
 
 p
+
+### Alternative plot
+#plot(as.numeric(prod_cat$FW_shares),as.numeric(prod_cat$Biomass_kg.kcal), pch=19, col=color_values, cex=2, bty="n")
+#grid(10,10, col="lightgray", lty = 1)
 
 
 
@@ -53,7 +60,7 @@ y <- list(
   titlefont = f)
 
 
-p <- plot_ly(data = prod_cat,  type='scatter', mode = 'markers', x = ~FW, y = ~Land, color= ~X, 
+p <- plot_ly(data = prod_cat,  type='scatter', mode = 'markers', x = ~FW_shares, y = ~Land_h.kcal, color= ~X, 
              colors =  color_values, size = I(150)) %>% 
   
   layout(xaxis = x, yaxis = y)
@@ -71,7 +78,7 @@ y <- list(
   titlefont = f)
 
 
-p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW, y = ~Water, color= ~X, 
+p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Water_m3.kcal, color= ~X, 
              colors = color_values, size = I(150)) %>%
   layout(xaxis = x, yaxis = y)
 

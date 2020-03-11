@@ -31,17 +31,17 @@ add.consumer.waste <- function(Yeaten){
 ### -----   Y vectors on eaten food SQ ------- ##
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv")
 Y_SQ_eaten <- Y_SQ_eaten[,2]
-Y_SQ_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
-sum(Y_SQ_eaten) # = 62117393??
+sum(Y_SQ_eaten) # 60519278
 
 Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365 # generates SQ diet as Y-vector 
 
 #####----READ DIETS FROM FILE-----------########
 
-Diets <- read.csv2(file ="input/Diets_3.0.csv" ) # file include SQ and all other diets
+Diets <- read.csv(file ="input/Diets_final.csv", sep = ";") # file include SQ and all other diets
+prod_cat <- read.csv("input/product_characteristics.csv",na.strings = "NaN", colClasses = c("factor",rep("numeric",10)), sep=";" )
 Diets[,1] <- as.character(Diets[, 1])
 
-sum(Diets$DGErec_g)
+sum(Diets$DGErec_g) # 2189.092
 
 ################################################################################
 ### Step 2   ------   construct Y-vectors for Diet Scenarios    ---------    ###
@@ -59,7 +59,7 @@ for (i in 1:nrow(Diets)){
        sum(Y_SQ_diet[which(index$item_code %in% Diets$Item_code[i])]))
 }
 Y_DGErec_diet[is.na(Y_DGErec_diet)] <- 0 # delete NaNs
-sum(Y_DGErec_diet)    # gives 2198.913 =D
+sum(Y_DGErec_diet)    # gives 2189.092 =D (old value: 2198.913) 
 
 
 # construct Y-vector for eat lancet (2796 kcal)
@@ -70,7 +70,7 @@ for (i in 1:nrow(Diets)){
        sum(Y_SQ_diet[which(index$item_code %in% Diets$Item_code[i])]))
 }
 Y_lancet_diet[is.na(Y_lancet_diet)] <- 0
-sum(Y_lancet_diet)    # gives 1691.59 !!
+sum(Y_lancet_diet)    # 1691.963!! (old 1691.59)
 
 
 
@@ -82,7 +82,7 @@ for (i in 1:nrow(Diets)) {
        sum(Y_SQ_diet[which(index$item_code %in% Diets$Item_code[i])]))
 }
 Y_EATveg_diet[is.na(Y_EATveg_diet)] <- 0
-sum(Y_EATveg_diet)    #1690.353
+sum(Y_EATveg_diet)    # 1690.706 (1690.353)
 
 
 # Save as diets
@@ -119,7 +119,7 @@ Y_DGE <- add.consumer.waste(Y_DGE_eaten)
 Y_lancet <- add.consumer.waste(Y_lancet_eaten)
 Y_EATveg <- add.consumer.waste(Y_EATveg_eaten)
 
-sum(Y_DGE)   # control    -with new food data is Y_DGE slightly smaller (used to show that sum Y_DGE is slightly bigger -> realistic due to increased food waste)
+sum(Y_DGE)   # control    -with new food data is Y_DGE slightly bigger -> realistic due to increased food waste)
 sum(Y[,"DEU_Food"])
 
 # save as Y-matrices for footprint calculation (Y for consumption step)
@@ -131,10 +131,8 @@ write.csv2(Y_EATveg, file = "data/Y_EATveg.csv")
 
 ### Step 3B ----- Y-vectors Consumption, dietary scenarios MAX and MIN ----- ####
 
-# choose waste scenario (MAX/MIN) :
+# maximum waste :
 waste <- read.csv2(file = "data/waste_data_maximum.csv") # choose FW-data!
-
-
 Y_DGE_mW <- add.consumer.waste(Y_DGE_eaten)
 Y_lancet_mW <- add.consumer.waste(Y_lancet_eaten)
 Y_EATveg_mW <- add.consumer.waste(Y_EATveg_eaten)
@@ -146,6 +144,19 @@ write.csv2(Y_DGE_mW, file = "data/Y_DGE_maxW.csv")
 write.csv2(Y_lancet_mW, file = "data/Y_lancet_maxW.csv") 
 write.csv2(Y_EATveg_mW, file = "data/Y_EATveg_maxW.csv")
 
+# minimum waste:
+waste <- read.csv2(file = "data/waste_data_minimum.csv") # choose FW-data!
+Y_DGE_mW <- add.consumer.waste(Y_DGE_eaten)
+Y_lancet_mW <- add.consumer.waste(Y_lancet_eaten)
+Y_EATveg_mW <- add.consumer.waste(Y_EATveg_eaten)
+
+sum(Y_DGE_mW)   # 73735536 control
+
+# save as Y-matrices for footprint calculation (Y for consumption step)
+write.csv2(Y_DGE_mW, file = "data/Y_DGE_minW.csv")
+write.csv2(Y_lancet_mW, file = "data/Y_lancet_minW.csv") 
+write.csv2(Y_EATveg_mW, file = "data/Y_EATveg_minW.csv")
+
 
 
 ##### Step 3 -------- Scenarios for Halfing food waste   --------- #######
@@ -154,8 +165,6 @@ write.csv2(Y_EATveg_mW, file = "data/Y_EATveg_maxW.csv")
 # Add food waste to Y_eaten according to scenarios of halfing food waste
 
 waste <- read.csv2(file = "data/waste_data_halfingFW.csv") # files were generated in "1b_prep_food_waste_data.R"
-#waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
-#waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
 
 Y_SQ50 <- add.consumer.waste(Y_SQ_eaten)
 Y_DGE50 <- add.consumer.waste(Y_DGE_eaten)
@@ -173,21 +182,19 @@ write.csv2(Y_EATveg50, file = "data/Y_EATveg_50.csv")
 
 # ---- Uncertainty analysis for halfing food waste ----
 
-waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
-#waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
-
-#Y_SQ50_MAX <- add.consumer.waste(Y_SQ_eaten)
+# Choose scenario (MIN/MAX)
+waste <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
+#waste <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
 
 Y_SQ50_mW <- add.consumer.waste(Y_SQ_eaten)
-#Y_DGE50_mW <- add.consumer.waste(Y_DGE_eaten)
-#Y_lancet50_mW <- add.consumer.waste(Y_lancet_eaten)
-#Y_EATveg50_mW <- add.consumer.waste(Y_EATveg_eaten)
+Y_DGE50_mW <- add.consumer.waste(Y_DGE_eaten)
+Y_lancet50_mW <- add.consumer.waste(Y_lancet_eaten)
+Y_EATveg50_mW <- add.consumer.waste(Y_EATveg_eaten)
 
-#sum(Y_DGE50)
-#sum(Y_DGE50_mW)
+sum(Y_DGE50)
+sum(Y_DGE50_mW)
 
-write.csv2(Y_SQ50_mW, file = "data/Y_SQ_50_MAX.csv")
-
+write.csv2(Y_SQ50_mW, file = "data/Y_SQ_50_MIN.csv")
 write.csv2(Y_DGE50_mW, file = "data/Y_DGE_50_MIN.csv")
 write.csv2(Y_lancet50_mW, file = "data/Y_lancet_50_MIN.csv") 
 write.csv2(Y_EATveg50_mW, file = "data/Y_EATveg_50_MIN.csv") 

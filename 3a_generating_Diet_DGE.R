@@ -27,13 +27,12 @@ population <- 80645605 #2013 Source: World bank
 #Y_eaten <- Y_eaten_food # or read from data/14.8.2019/Y_eaten_food
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv") # this is generated in Y_quantities
 Y_SQ_eaten <- Y_SQ_eaten[,2]
-Y_SQ_eaten[index$DGE_group == "excluded"] <- 0  # need to adjust some inconsistency in data
 
-sum(Y_SQ_eaten) # 62117393
-
+sum(Y_SQ_eaten) # 60519278 (instead of the "old" 62117393)
 
 
 ########### Create Y-eaten according to DGE nutrition circle (before scaling to kcal) ##########
+
 # Using index$DGE_group (see 1a_generate_index.R for details)
 # Including alcohol and suger, but limit to 10%
 
@@ -44,6 +43,8 @@ Milk_exclButter <- 7297058.899 # from BMEL (Milcherzeugnis zusammen minus butter
 conv_rate <- sum(Y_SQ_eaten[index$DGE_group == "Milk"])/Milk_exclButter
 Y_eaten <- Y_SQ_eaten # "final" weight of milk products (weight of milk products)
 Y_eaten[index$DGE_group == "Milk"] <- Y_SQ_eaten[index$DGE_group == "Milk"] / conv_rate
+
+#sum(Y_eaten[index$DGE_group=="Milk"])
 
 
 SQ_DGEgroups <- data.frame(cereals_potatoes = c(sum(Y_eaten[index$DGE_group == "Cereals and potatoes"]) / population, NA, 0.3*(1-empty_cal)), #order of columns must stay the same)
@@ -64,24 +65,23 @@ SQ_DGEgroups <- data.frame(t(SQ_DGEgroups))[1:8,]
 SQ_DGEgroups$DGE_group <- as.character(unique(index$DGE_group)) # add DGE-groups as column
 
 
+
 ###### NEW Y-MATRIX for DGE Recommendations : EATEN ############## 
 Y_DGErec_MP <- Y_eaten / SQ_DGEgroups$SQ_percentage[match(index$DGE_group,SQ_DGEgroups$DGE_group)] * 
   SQ_DGEgroups$DGE_rec[match(index$DGE_group, SQ_DGEgroups$DGE_group)]                          
 Y_DGErec_MP[!is.finite(Y_DGErec_MP)] <- 0
 
 sum(Y_DGErec_MP) * 1000000 /(population *365) # 1684.191 (actual weight of eaten food unscaled (therefore same as SQ))
+sum(Y_eaten) * 1000000 /(population *365)
 
 # convert Y_DGErec back to Primary product (->DGE eaten BEFORE scaling)
 Y_DGErec_eaten <- Y_DGErec_MP
 Y_DGErec_eaten[index$DGE_group == "Milk"] <- Y_DGErec_MP[index$DGE_group == "Milk"] * conv_rate # DGE eaten BEFORE scaling
 
 
-
 #####
-
 #Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten_maxW.csv") # used for scenarios of minimum oor maximum FWL-levels, from 2b_quantities (uncertainty analysis) 
 #Y_SQ_eaten <- Y_SQ_eaten[,2]
-
 
 ###### PART 2 - Creating diets for output to Excel ##########
 
@@ -89,10 +89,8 @@ Y_DGErec_eaten[index$DGE_group == "Milk"] <- Y_DGErec_MP[index$DGE_group == "Mil
 Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365
 Y_DGErec_diet <- Y_DGErec_eaten * 1000000 / population / 365
 
-sum(Y_SQ_diet)       # in primary products
-sum(Y_DGErec_diet)   # in primary products
-
-
+sum(Y_SQ_diet)       # 2055.986 in primary products
+sum(Y_DGErec_diet)   # 2092.349 in primary products
 
 
 # load nutritional data and save is as per gram specifications
@@ -102,7 +100,6 @@ items$G_prot <- as.numeric(items$G_prot) /100
 items$G_fat <- as.numeric(items$G_fat) /100
 
 # structure in Data frame
-
 Diets_df <- data.frame(product   = items$Item,
                        Item_code = items$Item.Code,
                        dietgroup = rep(NA, nrow(items)),
@@ -143,8 +140,7 @@ Diets_df <- rbind(Diets_df, data.frame(product ="Sum", Item_code = "NA", dietgro
 
 # Main file without "excluded":
 Diets_df <- Diets_df[!(Diets_df$dietgroup == "excluded"), ]
-write.csv2(Diets_df, file = "output/Diets_SQ_DGErec_v2.csv")
-
+write.csv(Diets_df, file = "output/Diets_SQ_DGErec_v3.csv")
 
 
 

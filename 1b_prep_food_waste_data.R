@@ -6,14 +6,12 @@
 # For Germany, national data is used, based on two sources (Schmidt et al 2019 and WWF).
 
 # load food waste data
-waste_shares <- read.csv2("input/waste_shares_ger.csv")  # change source!
-
-# uncertatinty analysis
-#waste_shares <- read.csv2("input/foodwaste_shares_minimum.csv") # waste data minimum
-#waste_shares <- read.csv2("input/foodwaste_shares_maximum.csv") # waste data maximum
-
-waste_shares[is.na(waste_shares)] <- 0                            # set NA to 0
-
+waste_shares <- read.csv2("input/waste_shares_ger.csv")  
+waste_shares[is.na(waste_shares)] <- 0           # set NA to 0
+#waste_shares <- read.csv2("input/foodwaste_shares_minimum.csv")  
+#waste_shares[is.na(waste_shares)] <- 0           # set NA to 0
+#waste_shares <- read.csv2("input/waste_shares_maximum.csv")  
+#waste_shares[is.na(waste_shares)] <- 0           # set NA to 0
 
 ################## - WASTE DATA - #########################
 # create data frame for waste (for each country, for all products in each stage)
@@ -36,7 +34,7 @@ waste$distribution       <- waste_shares$distribution      [match(paste0(waste$g
 waste$final_consumption  <- waste_shares$final_consumption [match(paste0(waste$group,waste$com_code),paste0(waste_shares$Region,waste_shares$Com.Code))]
 
 
-write.csv2(waste, file = "data/waste_data.csv")     # write to file in data-folder! 
+write.csv2(waste, file = "data/waste_data_old.csv")     # write to file in data-folder! 
 #write.csv2(waste, file = "data/waste_data_maximum.csv")    
 #write.csv2(waste, file = "data/waste_data_minimum.csv")    
 
@@ -45,9 +43,8 @@ waste <- read.csv2("data/waste_data_maximum.csv")
 sum(waste$final_consumption) # 173599.8
 waste <- read.csv2("data/waste_data.csv")
 sum(waste$final_consumption) #115733.2
-waste <- read.csv2("data/waste_data_minimum.csv")
+waste <- read.csv2("data/waste_data_mininum.csv")
 sum(waste$final_consumption) # 57866.6
-
 
 waste <- read.csv2("data/waste_data_minimum.csv")
 waste_halfFW <- waste

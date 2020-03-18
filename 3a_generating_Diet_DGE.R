@@ -40,9 +40,9 @@ empty_cal <- 0.1
 
 # covert milk (primary product equivalents) in Y_eaten to consumed weight
 Milk_exclButter <- 7297058.899 # from BMEL (Milcherzeugnis zusammen minus buttermilcherzeugnis)
-conv_rate <- sum(Y_SQ_eaten[index$DGE_group == "Milk"])/Milk_exclButter
+conv_rate <- sum(Y_SQ_eaten[index$product == "Milk - Excluding Butter"])/Milk_exclButter
 Y_eaten <- Y_SQ_eaten # "final" weight of milk products (weight of milk products)
-Y_eaten[index$DGE_group == "Milk"] <- Y_SQ_eaten[index$DGE_group == "Milk"] / conv_rate
+Y_eaten[index$product == "Milk - Excluding Butter"] <- Y_SQ_eaten[index$product == "Milk - Excluding Butter"] / conv_rate
 
 #sum(Y_eaten[index$DGE_group=="Milk"])
 
@@ -53,7 +53,6 @@ SQ_DGEgroups <- data.frame(cereals_potatoes = c(sum(Y_eaten[index$DGE_group == "
                            fruits        = c(sum(Y_eaten[index$DGE_group == "Fruits"]) / population, NA, 0.17*(1-empty_cal)),
                            alcohol_sugar = c(sum(Y_eaten[index$DGE_group == "Alcohol, sugar and honey"]) / population, NA, empty_cal),
                            veg_oils      = c(sum(Y_eaten[index$DGE_group == "Vegetable oils"]) / population, NA, 0.02*(1-empty_cal)),
-                           #milk         = c(Milk_exclButter / population, NA, 0.18* (1-empty_cal)),                           # data from NEOMIT
                            milk          = c(sum(Y_eaten[index$DGE_group == "Milk"]) / population, NA, 0.18*(1-empty_cal)),
                            meat_egg_fish = c(sum(Y_eaten[index$DGE_group == "Meat, sausages, fish, eggs"]) / population, NA, 0.07*(1-empty_cal)),
                            row.names = c("SQ_capita", "SQ_percentage", "DGE_rec"))
@@ -76,7 +75,7 @@ sum(Y_eaten) * 1000000 /(population *365)
 
 # convert Y_DGErec back to Primary product (->DGE eaten BEFORE scaling)
 Y_DGErec_eaten <- Y_DGErec_MP
-Y_DGErec_eaten[index$DGE_group == "Milk"] <- Y_DGErec_MP[index$DGE_group == "Milk"] * conv_rate # DGE eaten BEFORE scaling
+Y_DGErec_eaten[index$product == "Milk - Excluding Butter"] <- Y_DGErec_MP[index$product == "Milk - Excluding Butter"] * conv_rate # DGE eaten BEFORE scaling
 
 
 #####

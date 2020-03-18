@@ -5,6 +5,8 @@
 # Calculate Footprints along the supply chain. 
 ##########################################################
 
+L <- readRDS(paste0(path,"2013_L_mass.rds"))
+E <- readRDS(paste0(path,"2013_E.rds"))
 ## Prepare extension and define footprint (if needed)
 e <- E$Biomass / X
 e[!is.finite(e)] <- 0
@@ -13,6 +15,7 @@ MP <- e * L                           # L needed
 rm(L)
 rm(E)
 
+gc()
 ## Load index and waste data
 index <- read.csv2("data/index_data_frame.csv")
 
@@ -99,8 +102,8 @@ sum(Y_lancet_maxW)
 sum(Y_EATveg)
 
 Y_list <- list(Y_SQ, Y_DGE, Y_lancet, Y_EATveg,
-               Y_DGE_maxW, Y_lancet_maxW, Y_EATveg_maxW, 
-               Y_DGE_minW, Y_lancet_minW, Y_EATveg_minW, 
+               Y_SQ, Y_DGE_maxW, Y_lancet_maxW, Y_EATveg_maxW, 
+               Y_SQ, Y_DGE_minW, Y_lancet_minW, Y_EATveg_minW, 
                Y_SQ50, Y_DGE50, Y_lancet50, Y_EATveg50,
                Y_SQ50_MAX ,  Y_DGE50_MAX, Y_lancet50_MAX, Y_EATveg50_MAX,
                Y_SQ50_MIN, Y_DGE50_MIN, Y_lancet50_MIN, Y_EATveg50_MIN)
@@ -114,11 +117,11 @@ waste50  <- read.csv2(file = "data/waste_data_halfingFW.csv")
 waste50MAX <- read.csv2(file = "data/waste_data_halfingFW_MAX.csv")
 waste50MIN <- read.csv2(file = "data/waste_data_halfingFW_MIN.csv")
 
-waste_all <- list(waste, wasteMAX, wasteMIN, waste50, waste50MAX, waste50MIN)
+waste_all <- list(waste_dat, wasteMAX, wasteMIN, waste50, waste50MAX, waste50MIN)
 
 Scenario_names <- c("Y_SQ", "Y_DGE", "Y_lancet", "Y_EATveg",
-                    "Y_DGE_max", "Y_lancet_max", "Y_EATveg_max", 
-                    "Y_DGE_min", "Y_lancet_min", "Y_EATveg_min", 
+                    "Y_SQ_max", "Y_DGE_max", "Y_lancet_max", "Y_EATveg_max", 
+                    "Y_SQ_min", "Y_DGE_min", "Y_lancet_min", "Y_EATveg_min", 
                     "Y_SQ50", "Y_DGE50", "Y_lancet50", "Y_EATveg50",
                     "Y_SQ50_max" ,  "Y_DGE50_max", "Y_lancet50_max", "Y_EATveg50_max",
                     "Y_SQ50_min", "Y_DGE50_min", "Y_lancet50_min", "Y_EATveg50_min")
@@ -131,19 +134,19 @@ for (i in 1:length(Y_list)){
   if (i <= 4){
     waste <- waste_all[[1]]
   }
-  if (i >= 5 & i <= 7){
+  if (i >= 5 & i <= 8){
     waste <- waste_all[[2]]
   }
-  if (i >=8 & i <= 10){
+  if (i >=9 & i <= 12){
     waste <- waste_all[[3]]
   }
-  if (i >= 11 & i <= 14){
+  if (i >= 13 & i <= 16){
   waste <- waste_all[[4]]
   }
-  if (i >= 15 & i <= 18){
+  if (i >= 17 & i <= 20){
     waste <- waste_all[[5]]
   }
-  if (i >= 19 & i <= 22){
+  if (i >= 21 & i <= 24){
     waste <- waste_all[[6]]
   }
   
@@ -162,20 +165,23 @@ FP_plant <- t(t(MP) * Y_plant)        # Total footprint of all plant-based produ
 Output_storage    <- step.calculator(waste$storage_transport, FP_plant)     # Storage # calculate
 supply_chain_FP$storage_transport  <- Output_storage[[1]]                    # add values to table
 rm(FP_plant)                                                                # remove big data to save space
+gc()
 
 Output_processing       <- step.calculator(waste$processing, Output_storage[[2]]) # Processing
 supply_chain_FP$processing         <- Output_processing[[1]]
 rm(Output_storage)
+gc()
 
 Output_distribution     <- step.calculator(waste$distribution, Output_processing[[2]]) # Distribution
 supply_chain_FP$distribution       <- Output_distribution[[1]]
 rm(Output_processing)
+gc()
 
 Output_consumption  <- step.calculator(waste$final_consumption, Output_distribution[[2]]) # Consumption
 supply_chain_FP$Consumption        <- Output_consumption[[1]]
 rm(Output_distribution)
 rm(Output_consumption)
-
+gc()
 
 ###### For animal based products (Livestock) #########
 Y_lvst <- Y_tot # Create Y matrix that only includes animal-based products (Livestock)
@@ -186,22 +192,27 @@ FP_lvst <- t(t(MP) * Y_lvst)        # Total footprint of all animal-based produc
 Output_storage    <- step.calculator2(waste$storage_transport, FP_lvst) # Storage and transport
 supply_chain_FP$storage_transport[3:4]  <- Output_storage[[1]]
 rm(FP_lvst)
+gc()
 
 Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]]) # Processing
 supply_chain_FP$processing[3:4]         <- Output_processing[[1]]
 rm(Output_storage)
+gc()
 
 Output_distribution     <- step.calculator2(waste$distribution, Output_processing[[2]]) # Distribution
 supply_chain_FP$distribution[3:4]       <- Output_distribution[[1]]
 rm(Output_processing)
+gc()
 
 Output_consumption  <- step.calculator2(waste$final_consumption, Output_distribution[[2]]) # Consumption
 supply_chain_FP$Consumption[3:4]        <- Output_consumption[[1]]
 rm(Output_distribution)
 rm(Output_consumption)
+gc()
 
 ##Write to File 
-write.csv2(supply_chain_FP, file = paste0("output/", Scenario_names[i],".csv")) 
+write.table(supply_chain_FP, file = paste0("output/biomass/", Scenario_names[i],".csv"), dec = ".", sep = ";") 
+  print(i)
   
 }
   

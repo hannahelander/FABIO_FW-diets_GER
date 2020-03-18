@@ -14,7 +14,8 @@ step.calculator2 <- function(waste_step, Y_Q){
   return(output)
 }
 
-product_Y_list.creator <- function(Y_tot){
+# create Y-vectors for each product groups (using com_groups and diet_groups)
+product_Y_list.creator <- function(Y_tot){  
   Y_cereals <- Y_tot
   Y_cereals[index$com_group != "Cereals"] <- 0
   Y_roots <- Y_tot
@@ -41,17 +42,18 @@ product_Y_list.creator <- function(Y_tot){
   return(product_Y_list)
 }
 
+
 ## Load index and waste data
 index <- read.csv2("data/index_data_frame.csv")
 waste <- read.csv2(file = "data/waste_data.csv")
 
-####### create Y-vectors for each product groups (using com_groups and diet_groups)########
+
 
 
 
 ######
 Y_SQ <- Y[ ,"DEU_Food"]   
-product_Ylist_SQ <- product_Y_list.creator(Y_SQ)
+product_Ylist_SQ <- product_Y_list.creator(Y_SQ) # create Y-vectors for each product groups
 
 # Create data frame
 prod_character <- data.frame(product_group = c("Cereals", "Potatoes & roots", "Vegetables", "Fruits", 
@@ -86,7 +88,6 @@ for (i in 1:length(product_Ylist_SQ)){
   prod_character$Biomass[i] <- sum(FP_tot)/prod_character$Kg_ger[i]
 }
 
-
 ## Landuse
 L <- readRDS(paste0(path,"2013_L_mass.rds"))
 E <- readRDS(paste0(path,"2013_E.rds"))
@@ -97,8 +98,8 @@ MP <- e * L
 rm(L)
 rm(E)
 
-for (i in 1:length(product_Y_list)){
-  Y_tot <- product_Y_list[[i]]  
+for (i in 1:length(product_Ylist_SQ)){
+  Y_tot <- product_Ylist_SQ[[i]]  
   FP_tot <- t(t(MP) * Y_tot)
   prod_character$Land[i] <- sum(FP_tot)/prod_character$Kg_ger[i]
 }
@@ -114,14 +115,14 @@ MP <- e * L
 rm(L)
 rm(E)
 
-for (i in 1:length(product_Y_list)){
-  Y_tot <- product_Y_list[[i]]
+for (i in 1:length(product_Ylist_SQ)){
+  Y_tot <- product_Ylist_SQ[[i]]
   FP_tot <- t(t(MP) * Y_tot)
   prod_character$Water[i] <- sum(FP_tot)/prod_character$Kg_ger[i]
 }
 
 
-write.csv2(prod_character, file = "output/product_characterization.csv")
+write.table(prod_character, file = "output/product_characterization.csv", sep = ";", dec = ".", row.numbers = FALSE)
 
 
 
@@ -155,7 +156,9 @@ supply_chain <- data.frame(chain_type = c("Cereals", "Cereals", "Potatoes & root
 
 
 for (i in 1:length(product_Ylist_SQ)){
-  Y_tot <- product_Ylist_SQ[[i]]  # choose scenario consistent with waste scenario
+  
+  Y_tot <- product_Ylist_VEG[[i]]  # choose scenario consistent with waste scenario
+  
   Output_storage    <- step.calculator2(waste$storage_transport, Y_tot)  # Storage
   supply_chain$storage_transport[((2*i)-1):(2*i)]  <- Output_storage[[1]] 
   Output_processing       <- step.calculator2(waste$processing, Output_storage[[2]]) # Processing
@@ -173,6 +176,8 @@ for (i in 1:length(product_Ylist_SQ)){
 
 
 ########### Write to File #############
-#write.csv2(supply_chain, file = "output/product_FW_supply_chain_DGE.csv")
-#write.csv2(supply_chain, file = "output/product_FW_supply_chain_lancet.csv")
-write.csv2(supply_chain, file = "output/product_FW_supply_chain_SQ.csv")
+#write.table(supply_chain, file = "output/product_FW_supply_chain_SQ.csv", sep = ";", dec = ".", row.numbers = FALSE)
+#write.table(supply_chain, file = "output/product_FW_supply_chain_DGE.csv", sep = ";", dec = ".", row.numbers = FALSE)
+#write.table(supply_chain, file = "output/product_FW_supply_chain_lancet.csv", sep = ";", dec = ".", row.numbers = FALSE)
+write.table(supply_chain, file = "output/product_FW_supply_chain_VEG.csv", sep = ";", dec = ".", row.numbers = FALSE)
+

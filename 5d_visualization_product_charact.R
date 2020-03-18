@@ -65,7 +65,7 @@ prod_cat$X <- factor(prod_cat$X, levels = c('Cereals' , 'Potatoes & roots','Vege
                                             )
 f <- list(
   family = "Arial",
-  size = 18,
+  size = 14,
   color = "black")
 
 
@@ -119,7 +119,7 @@ y1 <- list(
   title = "Biomass footprint (kg/1000 kcal)",
   titlefont = f)
 
-p1 <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Biomass_kg.kkcal, color= ~X,
+p1 <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~kcal.kg, y = ~Biomass_kg.kkcal, color= ~X,
             colors = color_values,  size = I(150))  %>%
  layout(xaxis = x, yaxis = y1)
 
@@ -130,7 +130,7 @@ y2 <- list(
   title = "Cropland footprint (h/1000 kcal)",
   titlefont = f)
 
-p2 <- plot_ly(data = prod_cat,  type='scatter', mode = 'markers', x = ~FW_shares, y = ~Land_h.kkcal, color= ~X, 
+p2 <- plot_ly(data = prod_cat,  type='scatter', mode = 'markers', x = ~kcal.kg, y = ~Land_h.kkcal, color= ~X, 
              colors =  color_values, size = I(150)) %>% 
   layout(xaxis = x, yaxis = y2)
 p2
@@ -140,7 +140,7 @@ y3 <- list(
   title = "Blue water footprint (l/1000 kcal)",
   titlefont = f)
 
-p3 <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Water_l.kkcal, color= ~X, 
+p3 <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~kcal.kg, y = ~Water_l.kkcal, color= ~X, 
              colors = color_values, size = I(150)) %>%
   layout(xaxis = x, yaxis = y3)
 p3
@@ -165,7 +165,7 @@ y <- list(
   title = "Biomass footprint (kg/100g prot)", # specify!
   titlefont = f)
 
-p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Biomass_kg.100gprot, color= ~X,
+p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~prot.kg, y = ~Biomass_kg.100gprot, color= ~X,
              colors = color_values,  size = I(150))  %>%
   layout(xaxis = x, yaxis = y)
 p
@@ -175,7 +175,7 @@ y <- list(
   title = "Land footprint (m2/100g prot)",
   titlefont = f)
 
-p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Land_m2.100gProt, color= ~X, 
+p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~prot.kg, y = ~Land_m2.100gProt, color= ~X, 
              colors = color_values, size = I(150)) %>%
   layout(xaxis = x, yaxis = y)
 p
@@ -185,7 +185,7 @@ y <- list(
   title = "Blue water footprint (l/100g prot)",
   titlefont = f)
 
-p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~FW_shares, y = ~Water_l.100gprot, color= ~X, 
+p <- plot_ly(data = prod_cat, type='scatter', mode = 'markers', x = ~prot.kg, y = ~Water_l.100gprot, color= ~X, 
              colors = color_values, size = I(150)) %>%
   layout(xaxis = x, yaxis = y)
 p

@@ -101,7 +101,7 @@ items$G_fat <- as.numeric(items$G_fat) /100
 # structure in Data frame
 Diets_df <- data.frame(product   = items$Item,
                        Item_code = items$Item.Code,
-                       dietgroup = rep(NA, nrow(items)),
+                       DGEgroup = rep(NA, nrow(items)),
                        SQ_g      = rep(NA, nrow(items)),
                        SQ_kcal   = rep(NA, nrow(items)),
                        SQ_prot   = rep(NA, nrow(items)), 
@@ -117,7 +117,7 @@ Diets_df <- data.frame(product   = items$Item,
 
 
 for (i in 1:nrow(items)) {
-  Diets_df$dietgroup[i]  <- as.character(index$DGE_group[match(items$Item.Code[i],index$item_code)])
+  Diets_df$DGEgroup[i]  <- as.character(index$DGE_group[match(items$Item.Code[i],index$item_code)])
   Diets_df$SQ_g[i]       <- sum(Y_SQ_diet[index$item_code==items$Item.Code[i]])
   Diets_df$SQ_kcal[i] <- items$Kcal[i]   * sum(Y_SQ_diet[index$item_code==items$Item.Code[i]])
   Diets_df$SQ_prot[i] <- items$G_prot[i] * sum(Y_SQ_diet[index$item_code==items$Item.Code[i]])

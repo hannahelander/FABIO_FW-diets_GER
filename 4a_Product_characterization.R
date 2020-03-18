@@ -15,7 +15,7 @@ step.calculator2 <- function(waste_step, Y_Q){
 }
 
 # create Y-vectors for each product groups (using com_groups and diet_groups)
-product_Y_list.creator <- function(Y_tot){  
+product_Y_list.creator <- function(Y_){  
   Y_cereals <- Y_tot
   Y_cereals[index$com_group != "Cereals"] <- 0
   Y_roots <- Y_tot
@@ -47,28 +47,71 @@ product_Y_list.creator <- function(Y_tot){
 index <- read.csv2("data/index_data_frame.csv")
 waste <- read.csv2(file = "data/waste_data.csv")
 
-
-
+#nutr_data <- read.csv(file = "output/Diets_SQ_DGErec_v3.csv")
+#nutr_data <- nutr_data[,2:8]
 
 
 ######
-Y_SQ <- Y[ ,"DEU_Food"]   
-product_Ylist_SQ <- product_Y_list.creator(Y_SQ) # create Y-vectors for each product groups
+
 
 # Create data frame
 prod_character <- data.frame(product_group = c("Cereals", "Potatoes & roots", "Vegetables", "Fruits", 
                                                "Pulses, beans & nuts",  "Vegetable oils",  "Milk & products", 
                                                "Eggs", "Fish", "Meat", "Sugar & Alcohol"),
-                            Kg_ger  = rep(NA, length(product_Ylist_SQ)), 
-                            Biomass = rep(NA, length(product_Ylist_SQ)), 
-                            Land    = rep(NA, length(product_Ylist_SQ)),
-                            Water   = rep(NA, length(product_Ylist_SQ)))
+                            Y_Kg_ger = rep(NA, length(product_Ylist_SQ)),
+                            Kg_eaten = rep(NA, length(product_Ylist_SQ)),
+                            Biomass  = rep(NA, length(product_Ylist_SQ)), 
+                            Land     = rep(NA, length(product_Ylist_SQ)),
+                            Water    = rep(NA, length(product_Ylist_SQ)),
+                            kcal.kg  = rep(NA, length(product_Ylist_SQ)),
+                            prot.kg  = rep(NA, length(product_Ylist_SQ)))
 
-############## Quantities ################
+############## Total Quantities ################
 
-for (i in 1:length(product_Ylist_SQ)){
-  prod_character$Kg_ger[i] <- sum(product_Ylist_SQ[[i]])
+Y_SQ <- Y[ ,"DEU_Food"]   
+product_Ylist_SQ <- product_Y_list.creator(Y_SQ) # create Y-vectors for each product group
+
+for (i in 1:length(product_Ylist_SQ)){ 
+  prod_character$Y_Kg_ger[i] <- sum(product_Ylist_SQ[[i]])
 }
+
+############## Eaten Quantities ################
+
+Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv")
+Y_SQ_eaten <- Y_SQ_eaten[,2]
+sum(Y_SQ_eaten) # 60519278
+product_Ylist_eaten <- product_Y_list.creator(Y_SQ_eaten) # create Y_eaten-vectors for each product group
+
+for (i in 1:length(product_Ylist_eaten)){ 
+  prod_character$Kg_eaten[i] <- sum(product_Ylist_eaten[[i]])
+}
+
+######### Eaten nutrients ##############
+
+# load nutritional data and save is as per gram specifications
+items <- read.csv2(file = "data/Items_nutr_.csv", stringsAsFactors = FALSE)
+items$Kcal <- as.numeric(items$Kcal) /100
+items$G_prot <- as.numeric(items$G_prot) /100
+items$G_fat <- as.numeric(items$G_fat) /100
+
+#Y_list creator
+
+#for each product_Ylist_eaten[i]: calculate kcal, sum and add to data-frame! (behöver loop i loop)
+for (i in 1:length(product_Ylist_eaten)){ 
+
+# data frame für jeder produkt-gruppe machen 
+nutr_SQ_product <- data.frame(kcal   = rep(NA, nrow(items)),
+                              prot   = rep(NA, nrow(items)))
+
+for (j in 1:nrow(items)) { # j is each product-item within a product group (e.g. oat, wheat)
+  nutr_SQ_product$kcal[j] <- items$Kcal[j]   * sum(product_Ylist_eaten[[i]][index$item_code==items$Item.Code[j]])
+  nutr_SQ_product$prot[j] <- items$G_prot[j] * sum(product_Ylist_eaten[[i]][index$item_code==items$Item.Code[j]])
+                                           }
+
+  prod_character$kcal.kg[i] <- sum(nutr_SQ_product$kcal, na.rm=T) / prod_character$Kg_eaten[i]
+  prod_character$prot.kg[i] <- sum(nutr_SQ_product$prot, na.rm=T) / prod_character$Kg_eaten[i]
+}
+
 
 ############## Footprints #################
 
@@ -85,7 +128,7 @@ rm(E)
 for (i in 1:length(product_Ylist_SQ)){
   Y_tot <- product_Ylist_SQ[[i]]  
   FP_tot <- t(t(MP) * Y_tot)
-  prod_character$Biomass[i] <- sum(FP_tot)/prod_character$Kg_ger[i]
+  prod_character$Biomass[i] <- sum(FP_tot)/prod_character$Kg_eaten[i]
 }
 
 ## Landuse
@@ -101,7 +144,7 @@ rm(E)
 for (i in 1:length(product_Ylist_SQ)){
   Y_tot <- product_Ylist_SQ[[i]]  
   FP_tot <- t(t(MP) * Y_tot)
-  prod_character$Land[i] <- sum(FP_tot)/prod_character$Kg_ger[i]
+  prod_character$Land[i] <- sum(FP_tot)/prod_character$Kg_eaten[i]
 }
 
 
@@ -118,7 +161,7 @@ rm(E)
 for (i in 1:length(product_Ylist_SQ)){
   Y_tot <- product_Ylist_SQ[[i]]
   FP_tot <- t(t(MP) * Y_tot)
-  prod_character$Water[i] <- sum(FP_tot)/prod_character$Kg_ger[i]
+  prod_character$Water[i] <- sum(FP_tot)/prod_character$Kg_eaten[i]
 }
 
 

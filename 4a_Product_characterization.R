@@ -15,7 +15,7 @@ step.calculator2 <- function(waste_step, Y_Q){
 }
 
 # create Y-vectors for each product groups (using com_groups and diet_groups)
-product_Y_list.creator <- function(Y_){  
+product_Y_list.creator <- function(Y_tot){  
   Y_cereals <- Y_tot
   Y_cereals[index$com_group != "Cereals"] <- 0
   Y_roots <- Y_tot
@@ -75,6 +75,7 @@ for (i in 1:length(product_Ylist_SQ)){
   prod_character$Y_Kg_ger[i] <- sum(product_Ylist_SQ[[i]])
 }
 
+
 ############## Eaten Quantities ################
 
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv")
@@ -94,8 +95,6 @@ items$Kcal <- as.numeric(items$Kcal) /100
 items$G_prot <- as.numeric(items$G_prot) /100
 items$G_fat <- as.numeric(items$G_fat) /100
 
-#Y_list creator
-
 #for each product_Ylist_eaten[i]: calculate kcal, sum and add to data-frame! (behöver loop i loop)
 for (i in 1:length(product_Ylist_eaten)){ 
 
@@ -113,7 +112,7 @@ for (j in 1:nrow(items)) { # j is each product-item within a product group (e.g.
 }
 
 
-############## Footprints #################
+############## Footprints per unit of EATEN food #################
 
 ## Biomass
 L <- readRDS(paste0(path,"2013_L_mass.rds"))
@@ -200,7 +199,7 @@ supply_chain <- data.frame(chain_type = c("Cereals", "Cereals", "Potatoes & root
 
 for (i in 1:length(product_Ylist_SQ)){
   
-  Y_tot <- product_Ylist_VEG[[i]]  # choose scenario consistent with waste scenario
+  Y_tot <- product_Ylist_SQ[[i]]  # choose scenario consistent with waste scenario
   
   Output_storage    <- step.calculator2(waste$storage_transport, Y_tot)  # Storage
   supply_chain$storage_transport[((2*i)-1):(2*i)]  <- Output_storage[[1]] 
@@ -224,3 +223,15 @@ for (i in 1:length(product_Ylist_SQ)){
 #write.table(supply_chain, file = "output/product_FW_supply_chain_lancet.csv", sep = ";", dec = ".", row.numbers = FALSE)
 write.table(supply_chain, file = "output/product_FW_supply_chain_VEG.csv", sep = ";", dec = ".", row.numbers = FALSE)
 
+########## For SQ: add to prod_character #########
+
+for (i in 1:nrow(supply_chain)){
+  if ((i %% 2) == 0){
+    prod_character$FW_shares[i/2] <- (supply_chain$distribution[i] + supply_chain$consumption[i]) / prod_character$Y_Kg_ger[i/2]
+  }
+  else{
+    print(i)
+  }
+}
+
+write.table(prod_character, file = "output/product_characterization.csv", sep = ";", dec = ".", row.names= FALSE)

@@ -1,0 +1,55 @@
+Code structure and documentation
+ 
+This Project relate to the study:  (link will follow)
+
+Units: Y: tons, E$Biomass: tons, E$Land_use: hectars, E$Blue_water: m3
+
+Script names and functions:
+
+0_load_original_data.R
+
+- load FABIO-data: E, L, X and Y-matrices
+
+1a_generate_index.R
+
+- create an index df to access data in matrices
+
+1b_prep_food_waste_data.R
+
+- This script is used to construct the different tables of food waste data that feed in to both the 
+generation of Y-vectors (for different scenarios) and the footprint calculations. It reads FWL data 
+from files.
+
+
+2_footprints.R
+
+- This script calculates the footprints along the supply chains. It generates footprints and losses 
+at each stage for vegetal- and animal products seperately. 
+
+2b_quantities.R
+
+-FWL was quantified along the supply chain in terms of mass. This serves to compare mass and footprints. 
+In this script we also generated the Y-vector for eaten food for SQ, e.i. subtracting the FWL to identify 
+what is eaten, and thus also calculate the current average diet. 
+
+3a_generate_diet_DGE 
+
+-This script create a Y-eaten matrix for DGE-recommendation by using percentage of product groups. It 
+also generate a first version of the DGE nutrition circle, which is later scaled according to energy 
+demand in excel. Based on this diet and nutrition table, the other diets are later generated in excel. 
+
+3b_Diets_all.R
+
+- Reads diets from excel. Generate Y-vectors for the different scenarios (diets and waste scenarios + 
+min/max-levels of waste). 
+
+4a_Product_characterization
+- Part A: Calculate Biomass, Cropland and Water footprint associated with each food category.
+- Part B: Quantify the amount of food waste of each food category that is associated with each diet.
+- Part A & B together are used to create the input data to "5d_visualization_product_charact.R" Where Product
+characteristics are ploted. 
+
+5_Visualization
+
+
+5d_visualization_product_charact.R

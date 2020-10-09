@@ -28,7 +28,7 @@ population <- 80645605 #2013 Source: World bank
 Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten.csv") # this is generated in Y_quantities
 Y_SQ_eaten <- Y_SQ_eaten[,2]
 
-sum(Y_SQ_eaten) # 60519278 (instead of the "old" 62117393)
+sum(Y_SQ_eaten) # 60519278 
 
 
 ########### Create Y-eaten according to DGE nutrition circle (before scaling to kcal) ##########
@@ -76,7 +76,7 @@ sum(Y_eaten) * 1000000 /(population *365)
 # convert Y_DGErec back to Primary product (->DGE eaten BEFORE scaling)
 Y_DGErec_eaten <- Y_DGErec_MP
 Y_DGErec_eaten[index$product == "Milk - Excluding Butter"] <- Y_DGErec_MP[index$product == "Milk - Excluding Butter"] * conv_rate # DGE eaten BEFORE scaling
-
+#sum(Y_DGErec_eaten)
 
 #####
 #Y_SQ_eaten <- read.csv2(file = "data/Y_SQ_eaten_maxW.csv") # used for scenarios of minimum oor maximum FWL-levels, from 2b_quantities (uncertainty analysis) 
@@ -89,7 +89,13 @@ Y_SQ_diet <- Y_SQ_eaten * 1000000 / population / 365
 Y_DGErec_diet <- Y_DGErec_eaten * 1000000 / population / 365
 
 sum(Y_SQ_diet)       # 2055.986 in primary products
-sum(Y_DGErec_diet)   # 2092.349 in primary products
+sum(Y_DGErec_diet)   # 2092.349 in primary products (Before scaling) # 2075.151 by 17.9.2020
+
+
+
+############################################################
+####---------Calculation of nutrients -----------------#####
+############################################################
 
 
 # load nutritional data and save is as per gram specifications
@@ -136,10 +142,9 @@ Diets_df <- rbind(Diets_df, data.frame(product ="Sum", Item_code = "NA", dietgro
                                        kcal_data = NA, prot_data = NA, fat_data = NA))
 
 
-
 # Main file without "excluded":
-Diets_df <- Diets_df[!(Diets_df$dietgroup == "excluded"), ]
-write.csv(Diets_df, file = "output/Diets_SQ_DGErec_v3.csv")
+Diets_df <- Diets_df[!(Diets_df$DGEgroup == "excluded"), ]
+#write.csv(Diets_df, file = "output/Diets_SQ_DGErec_v4.csv")
 
 
 

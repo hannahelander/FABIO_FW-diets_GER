@@ -122,13 +122,12 @@ rm(Output_distribution)
 ### save the Y matrix that represent only "eaten food":
 eaten_food_lvst <- Output_consumption[[2]]
 
-
-write.csv2(supply_chain_Y, file = "output/supply_chain_mass_SQ.csv")
+write.table(supply_chain_Y, file = "output/supply_chain_mass_SQ.csv", dec = ".", sep = ";", row.names = FALSE) 
 
 
 # save Y_SQ_eaten for development of diets
 Y_SQ_eaten <- eaten_food_plants + eaten_food_lvst
-Y_SQ_eaten[index$DGE_group == "excluded"] <- 0 # need to adjust some inconsistency in data
+Y_SQ_eaten[index$DGE_group == "excluded"] <- 0 # removing products not eaten by humans
 sum(Y_SQ_eaten)     # 60519278
 write.csv2(Y_SQ_eaten, file = "data/Y_SQ_eaten.csv") # for minimum Waste (SQ eaten depends on waste levels)
 

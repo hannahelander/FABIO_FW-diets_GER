@@ -63,8 +63,8 @@ prod_character <- data.frame(product_group = c("Cereals", "Potatoes & roots", "V
                             Biomass  = rep(NA, length(product_Ylist_SQ)), 
                             Land     = rep(NA, length(product_Ylist_SQ)),
                             Water    = rep(NA, length(product_Ylist_SQ)),
-                            kcal.kg  = rep(NA, length(product_Ylist_SQ)),
-                            prot.kg  = rep(NA, length(product_Ylist_SQ)))
+                            kcal     = rep(NA, length(product_Ylist_SQ)),
+                            prot     = rep(NA, length(product_Ylist_SQ)))
 
 ############## Total Quantities ################
 
@@ -107,8 +107,8 @@ for (j in 1:nrow(items)) { # j is each product-item within a product group (e.g.
   nutr_SQ_product$prot[j] <- items$G_prot[j] * sum(product_Ylist_eaten[[i]][index$item_code==items$Item.Code[j]])
                                            }
 
-  prod_character$kcal.kg[i] <- sum(nutr_SQ_product$kcal, na.rm=T) / prod_character$Kg_eaten[i]
-  prod_character$prot.kg[i] <- sum(nutr_SQ_product$prot, na.rm=T) / prod_character$Kg_eaten[i]
+  prod_character$kcal[i] <- sum(nutr_SQ_product$kcal, na.rm=T) / prod_character$Kg_eaten[i]
+  prod_character$prot[i] <- sum(nutr_SQ_product$prot, na.rm=T) / prod_character$Kg_eaten[i]
 }
 
 
@@ -164,7 +164,7 @@ for (i in 1:length(product_Ylist_SQ)){
 }
 
 
-write.table(prod_character, file = "output/product_characterization.csv", sep = ";", dec = ".", row.numbers = FALSE)
+write.table(prod_character, file = "output/product_characterization.csv", sep = ";", dec = ".", row.names() = FALSE)
 
 
 

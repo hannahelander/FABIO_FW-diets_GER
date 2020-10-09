@@ -8,7 +8,7 @@
 L <- readRDS(paste0(path,"2013_L_mass.rds"))
 E <- readRDS(paste0(path,"2013_E.rds"))
 ## Prepare extension and define footprint (if needed)
-e <- E$Biomass / X
+e <- E$Blue_water / X
 e[!is.finite(e)] <- 0
 MP <- e * L                           # L needed
 
@@ -211,7 +211,7 @@ rm(Output_consumption)
 gc()
 
 ##Write to File 
-write.table(supply_chain_FP, file = paste0("output/biomass/", Scenario_names[i],".csv"), dec = ".", sep = ";") 
+write.table(supply_chain_FP, file = paste0("output/water/", Scenario_names[i],".csv"), dec = ".", sep = ";", row.names = FALSE) 
   print(i)
   
 }

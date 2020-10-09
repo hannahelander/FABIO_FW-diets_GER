@@ -3,10 +3,11 @@
 ###########################################################################
 
 
+
 ######### Country-specific footprints #####################
 
 # FOOTPRINT FUNCTION ------------------------------------------------------------------
-footprint1 <- function(indicator, Y_vector){ # indicator is e.g. E§Biomass, Y_vector= e.g. Y_SQ or Y_roots
+footprint1 <- function(indicator, Y_vector){ # indicator is e.g. E?Biomass, Y_vector= e.g. Y_SQ or Y_roots
   e <- as.vector(indicator) / X
   e[!is.finite(e)] <- 0
   
@@ -130,7 +131,7 @@ footprint <- function(product_group =  , var = integer()){
 }
 
 
-#### Planera hur jag vill svara datan och gör en data.frame - > lägg till data från varje loop till data-framen.
+#### Planera hur jag vill svara datan och g?r en data.frame - > l?gg till data fr?n varje loop till data-framen.
 for (i in 1:length(product_Y_list)){
   data <- footprint(product_Y_list[i]
                     )

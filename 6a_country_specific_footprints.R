@@ -10,14 +10,16 @@
 footprint1 <- function(indicator, Y_vector){ # indicator is e.g. E?Biomass, Y_vector= e.g. Y_SQ or Y_roots
   e <- as.vector(indicator) / X
   e[!is.finite(e)] <- 0
+  rm(indicator)
   
   # calculate multipliers
   L <- readRDS(paste0(path,"2013_L_mass.rds"))
   MP <- e * L
   rm(L)
-  gc()
   FP <- t(t(MP) * Y_vector)
-
+  rm(MP)
+  gc()
+  
   rownames(FP) <- colnames(FP) <- paste0(rep(countries$iso3c, each=130), "_", rep(products$Item, 192)) # statt soll meine INDEX- matrix benutzt werden ->
   
   FP <- as.matrix(FP)
@@ -32,45 +34,81 @@ footprint1 <- function(indicator, Y_vector){ # indicator is e.g. E?Biomass, Y_ve
 return(results)
 }
 
+# footprint2 <- function(product_group, var = integer(), Y_vector){
+#   e <- as.vector(E[,var]) / X
+#   e[!is.finite(e)] <- 0
+#   
+#   # calculate multipliers
+#   L <- readRDS(paste0(path,"2013_L_mass.rds"))
+#   MP <- e * L
+#   rm(L)
+#   gc()
+#   FP <- t(t(MP) * Y)
+#   
+#   rownames(FP) <- colnames(FP) <- paste0(rep(regions$iso3c, each=130), "_", rep(items$item, 192))
+#   
+#   FP <- as.matrix(FP)
+#   FP <- reshape2::melt(FP)
+#   
+#   results <- FP %>%
+#     mutate(year = 2013, emissions = E_var[var], type = "food", value = round(value, 4)) %>% 
+#     filter(value != 0) %>% 
+#     separate(Var1, sep = "_", into = c("source_iso", "source_item")) %>% 
+#     separate(Var2, sep = "_", into = c("final_iso", "final_item"))
+#   return(results)
+# }
+
 ################# Main code ###############################
 
 Y_SQ <- Y[ ,"DEU_Food"]                       # might need to check if all products are what I consider food
 E <- readRDS(paste0(path,"2013_E.rds"))
 
-# land
+#### ---------- Cropland use ---------------
 ind <- E$Landuse
 rm(E)
+gc()
 
 FP_results <- footprint1(ind, Y_SQ) 
 data <- FP_results %>% group_by(source_iso) %>% summarise(land = sum(value))
 FP_output <- data
-sum(data$land) # 17613993
-length(data$source_iso) #179/181 for land, 157 for water, 181 for biomass
+#sum(data$land) # 17613993
+#length(data$source_iso) #179/181 for land, 157 for water, 181 for biomass
+rm(data)
 
-# water
-E <- readRDS(paste0(path,"2013_E.rds"))
-ind <- E$Blue_water
-rm(E)
+# -------- water scarcity footprint (WSF)---------
+E_wsf <- read.csv2(paste0(path,"E_wsf.csv"))
+ind <- as.numeric(E_wsf$WSF)    
+rm(E_wsf)
+gc()
 
 FP <- footprint1(ind, Y_SQ)
-data <- FP %>% group_by(source_iso) %>% summarise(water = sum(value))
-output <- merge(output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+data <- FP %>% group_by(source_iso) %>% summarise(water_scarcity = sum(value))
+FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+
   
-#biomass
+# ---------- biomass ---------------------
 E <- readRDS(paste0(path,"2013_E.rds"))
 ind <- E$Biomass
 rm(E)
 
 FP <- footprint1(ind, Y_SQ)
 data <- FP %>% group_by(source_iso) %>% summarise(biomass = sum(value))
-output2 <- merge(output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
-  
-#GHG emissions
-#footprint1(`2013_E_ghg`[,1], SQ_Y) # rename data-frame and check how to call on this!
+FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+
+
+# ------- GHG emissions ------------------
+load(paste0(path,"E_ghg_2013.RData"))
+ind <- colSums(E_ghg[ , 2:ncol(E_ghg)])
+rm(E_ghg)
+gc()
+
+FP <- footprint1(ind, Y_SQ)
+data <- FP %>% group_by(source_iso) %>% summarise(GHG = sum(value))
+FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
 
 
 ### PRINT TO FILE ######
-write.table(output2, file = "output/spatial_FP/footprints2.csv", dec = ".", sep = ";",row.names = FALSE)  
+write.table(FP_output, file = "output/spatial_FP/footprints_wsf.csv", dec = ".", sep = ";",row.names = FALSE)  
 
 
 
@@ -79,6 +117,9 @@ write.table(output2, file = "output/spatial_FP/footprints2.csv", dec = ".", sep 
 
 # modify Y-matrix to set all the not included product-groups to zero
 # create Y-vectors for each product groups (using com_groups and diet_groups)
+index <- read.csv2("data/index_data_frame.csv")
+
+
 product_Y_list.creator <- function(Y_tot){  
   Y_cereals <- Y_tot
   Y_cereals[index$com_group != "Cereals"] <- 0
@@ -106,36 +147,63 @@ product_Y_list.creator <- function(Y_tot){
   return(product_Y_list)
 }
 
+product_Y_vectrors <- product_Y_list.creator(Y_SQ)
 
-footprint <- function(product_group =  , var = integer()){
-  e <- as.vector(E[,var]) / X
-  e[!is.finite(e)] <- 0
-  
-  # calculate multipliers
-  MP <- e * L
-  # calculate footprints
-  # FP <- MP %*% diag(Y)
-  FP <- t(t(MP) * Y)
-  
-  rownames(FP) <- colnames(FP) <- paste0(rep(regions$iso3c, each=130), "_", rep(items$item, 192))
-  
-  FP <- as.matrix(FP)
-  FP <- reshape2::melt(FP)
-  
-  results <- FP %>%
-    mutate(year = 2013, emissions = E_var[var], type = "food", value = round(value, 4)) %>% 
-    filter(value != 0) %>% 
-    separate(Var1, sep = "_", into = c("source_iso", "source_item")) %>% 
-    separate(Var2, sep = "_", into = c("final_iso", "final_item"))
-  return(results)
-}
+##### land #####
+# define ind
+E <- readRDS(paste0(path,"2013_E.rds"))
+ind <- E$Landuse
+rm(E)
+gc()
 
-
-#### Planera hur jag vill svara datan och g?r en data.frame - > l?gg till data fr?n varje loop till data-framen.
 for (i in 1:length(product_Y_list)){
-  data <- footprint(product_Y_list[i]
-                    )
+  Y_prod_group <- footprint(product_Y_list[i])
+  FP_results <- footprint1(ind, Y_prod_group)                   
+  
 }
+
+
+
+data <- FP_results %>% group_by(source_iso) %>% summarise(land = sum(value))
+FP_output <- data
+sum(data$land) # 17613993
+length(data$source_iso) #179/181 for land, 157 for water, 181 for biomass
+rm(data)
+
+# water
+E <- readRDS(paste0(path,"2013_E.rds"))
+ind <- E$Blue_water
+rm(E)
+gc()
+
+FP <- footprint1(ind, Y_SQ)
+data <- FP %>% group_by(source_iso) %>% summarise(water = sum(value))
+output <- merge(output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+
+#biomass
+E <- readRDS(paste0(path,"2013_E.rds"))
+ind <- E$Biomass
+rm(E)
+
+FP <- footprint1(ind, Y_SQ)
+data <- FP %>% group_by(source_iso) %>% summarise(biomass = sum(value))
+output <- merge(output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+
+#GHG emissions
+load(paste0(path,"E_ghg_2013.RData"))
+ind <- colSums(E_ghg[ , 2:ncol(E_ghg)])
+rm(E_ghg)
+gc()
+
+FP <- footprint1(ind, Y_SQ)
+data <- FP %>% group_by(source_iso) %>% summarise(GHG = sum(value))
+output <- merge(output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+
+
+
+
+
+
 
 ##############################################################################
 # - OLD CODE -----------------------------------------

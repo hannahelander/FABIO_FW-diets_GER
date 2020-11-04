@@ -24,7 +24,7 @@ nrow(excWB) #61 countries
 ######### Step 3: Add footprint data to geographic data ##########
 
 # Read footprints data
-Footprints <- read.csv(file = "output/spatial_FP/footprints_wsf.csv", dec = ".", sep = ";")
+Footprints <- read.csv(file = "output/spatial_FP/footprints_wsf_aware_wsf2.csv", dec = ".", sep = ";")
 class(Footprints) # data.frame
 sapply(Footprints, class)
 #Footprints$land <- as.numeric(Footprints$land)

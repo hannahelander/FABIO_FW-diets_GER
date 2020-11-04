@@ -49,7 +49,7 @@ rm(E)
 gc()
 
 FP_results <- footprint1(ind, Y_SQ) 
-data <- FP_results %>% group_by(source_iso) %>% summarise(land = sum(value))
+data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum)
 FP_output <- data
 #sum(data$land) # 17613993
 #length(data$source_iso) #179/181 for land, 157 for water, 181 for biomass

@@ -44,7 +44,7 @@ Footprints_WB <-   merge(World_boarders@data, Footprints, by.x = "ISO3",
 World_boarders@data = Footprints_WB[order(Footprints_WB$idx),] #idx maintains the order so that polygons and country-data match
 
 # Export back to shapefile
-writeOGR(World_boarders, dsn="C:/Hanna/CIRCULUS/Spatial_footprints/GIS-project", layer = "Footprints_wsf",
+writeOGR(World_boarders, dsn="C:/Hanna/CIRCULUS/Spatial_footprints/GIS-project", layer = "Footprints_wsf2",
          driver="ESRI Shapefile", overwrite_layer= TRUE)    # 8 warnings of "Value 126218553.015699998 of field water of feature 64 not successfully written. Possibly due to too larger number with respect to field width" 
                                                             # need to deal with these numbers at one point.
 

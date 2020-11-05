@@ -152,11 +152,12 @@ product_Y_list_Scen1 <- product_Y_list.creator(Y_Scen1)
 #####  ---------  Cropland  ------------- #####
 
 #product_Y_list_Scen1[[i]]
+i="Eggs"
 
 # ---------- Loop over indicators ------ 
 for (j in names(ind_list)){
   ind <- ind_list[[j]]
-  
+
   # ------ Loop over products -------
 for (i in names(product_Y_list_Scen1)){    # Define Y-lists
   if (i=="Fish") { next                                             # FP_results are empty for "Fish" as there is no data
@@ -180,68 +181,12 @@ write.table(output, file = paste0("output/spatial_FP/footprints_products_",j,"_S
 
 
 #output_land <- output_land[ , -c(10) ]
-# ### --------- Water ------------------###
-# E <- readRDS(paste0(path,"2013_E.rds"))
-# ind <- E$Blue_water
-# rm(E)
-# gc()
-# 
-# FP <- footprint1(ind, Y_SQ)
-# data <- FP %>% group_by(source_iso) %>% summarise(water = sum(value))
-# output <- merge(output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
 
 
-###----------- biomass ----------------###
-E <- readRDS(paste0(path,"2013_E.rds"))
-ind <- E$Biomass
-rm(E)
+#####  ----------- Quantities ------------ #####
+product_Y_list <- product_Y_list_Scen1
 
-
-
-### PRINT TO FILE ######
-write.table(output_biomass, file = "output/spatial_FP/footprints_products_biomass.csv", dec = ".", sep = ";",row.names = FALSE)  
-
-
-
-###---------------- GHG emissions ------------###
-
-load(paste0(path,"E_ghg_2013.RData"))
-ind <- colSums(E_ghg[ , 2:ncol(E_ghg)])
-rm(E_ghg)
-gc()
-
-
-for (i in names(product_Y_list[1:8])){  # bygg in en hoppa-över-funktion för saknad data (FP_results är tom för Fish", ger felmeddelande)
-  FP_results <- footprint1(ind, product_Y_list[[i]])
-  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) # do same thing as "data <- .." above
-  if (i=="Cereals"){
-    output_ghg <- data
-  } else {
-    output_ghg <- merge(output_ghg, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
-  }  
-  names(output_ghg)[names(output_ghg) == 'x'] <- i
-
-}
-
-for (i in names(product_Y_list[10:11])){  # bygg in en hoppa-över-funktion för saknad data (FP_results är tom för Fish", ger felmeddelande)
-  FP_results <- footprint1(ind, product_Y_list[[i]])
-  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) # do same thing as "data <- .." above
-  if (i=="Cereals"){
-    output_ghg <- data
-  } else {
-    output_ghg <- merge(output_ghg, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
-  }  
-  names(output_ghg)[names(output_ghg) == 'x'] <- i
-}
-
-### PRINT TO FILE ######
-write.table(output_ghg, file = "output/spatial_FP/footprints_products_ghg.csv", dec = ".", sep = ";",row.names = FALSE)  
-
-
-
-#####  ------- Quantities ------------ #####
-
-for (i in names(product_Y_list[1:11])){  # bygg in en hoppa-över-funktion för saknad data (FP_results är tom för Fish", ger felmeddelande)
+for (i in names(product_Y_list[1:11])){  
   data = aggregate(product_Y_list[[i]], by=list(index$country), FUN=sum)
   if (i=="Cereals"){
     output_mass <- data
@@ -252,7 +197,7 @@ for (i in names(product_Y_list[1:11])){  # bygg in en hoppa-över-funktion för 
 }
 
 ### PRINT TO FILE ######
-write.table(output_mass, file = "output/spatial_FP/footprints_products_mass.csv", dec = ".", sep = ";",row.names = FALSE)  
+write.table(output_mass, file = "output/spatial_FP/footprints_products_mass_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
 
 
 # ##############################################################################

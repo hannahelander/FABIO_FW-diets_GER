@@ -36,87 +36,79 @@ footprint1 <- function(indicator, Y_vector){ # indicator is e.g. E?Biomass, Y_ve
 return(results)
 }
 
-
-
 ################# Main code ###############################
 
+#load Data
 Y_SQ <- Y[ ,"DEU_Food"]                       # might need to check if all products are what I consider food
+Y_Scen1 <- Y_lancet <- read.csv2(file = "data/Y_lancet.csv")
+Y_Scen1<- Y_lancet[,2] 
 E <- readRDS(paste0(path,"2013_E.rds"))
-
-#### ---------- Cropland use ---------------
-ind <- E$Landuse
-rm(E)
-gc()
-
-FP_results <- footprint1(ind, Y_SQ) 
-data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum)
-FP_output <- data
-#sum(data$land) # 17613993
-#length(data$source_iso) #179/181 for land, 157 for water, 181 for biomass
-rm(data)
-
-# -------- water scarcity footprint (WSF)---------
 E_wsf <- read.csv(paste0(path,"E_wsf.csv"), sep = ";", dec = ".")
-ind <- as.numeric(E_wsf$WSF)    
-rm(E_wsf)
-gc()
-
-FP <- footprint1(ind, Y_SQ)
-data <- FP %>% group_by(source_iso) %>% summarise(water_scarcity = sum(value))
-FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
-
-# ------- consumptive water ---------
-E_wsf <- read.csv(paste0(path,"E_wsf.csv"), sep = ";", dec = ".")
-ind <- as.numeric(E_wsf$cons_water)    
-rm(E_wsf)
-gc()
-
-FP <- footprint1(ind, Y_SQ)
-data <- FP %>% group_by(source_iso) %>% summarise(water_cons = sum(value))
-FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
-
-## WSF version 2:
-FP_output$WSF2 <- FP_output$Agg_CF_irri*FP_output$water_cons
-  
-# ---------- biomass ---------------------
-E <- readRDS(paste0(path,"2013_E.rds"))
-ind <- E$Biomass
-rm(E)
-
-FP <- footprint1(ind, Y_SQ)
-data <- FP %>% group_by(source_iso) %>% summarise(biomass = sum(value))
-FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
-
-
-# ------- GHG emissions ------------------
 load(paste0(path,"E_ghg_2013.RData"))
-ind <- colSums(E_ghg[ , 2:ncol(E_ghg)])
+
+# List indicators
+ind_list <- list("land"= E$Landuse, 
+                 "biomass" = E$Biomass,
+                 "water_cons" = as.numeric(E_wsf$cons_water),
+                 "WSF1" = as.numeric(E_wsf$WSF),
+                 "GHG" = colSums(E_ghg[ , 2:ncol(E_ghg)]))
+rm(E)
 rm(E_ghg)
+rm(E_wsf)
 gc()
 
-FP <- footprint1(ind, Y_SQ)
-data <- FP %>% group_by(source_iso) %>% summarise(GHG = sum(value))
-FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE)
+###### ------- LOOP OVER INDICATORS FOR Status Quo (SQ) -----#######
 
+for (i in names(ind_list)){
+  FP_results <- footprint1(ind_list[[i]], Y_SQ) 
+  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum)
+  if (i=="land"){
+    FP_output <- data
+  } else {
+    FP_output <- merge(FP_output, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
+  }
+  names(FP_output)[names(FP_output) == 'x'] <- i
+  rm(data)
+}
 
+# # --- PREVIOUS CODE in tidyverse ----
+# FP <- footprint1(ind, Y_SQ)
+# data <- FP %>% group_by(source_iso) %>% summarise(water_scarcity = sum(value))
+# FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE
 
-# --------- Add AWARE factors for background map ----------
-E_wsf$iso3 <- countries$iso3c[match(E_wsf$Country, countries$country)] # lägg till iso med hjälp av countries-listan 
+# - Add AWARE factors for background map 
+E_wsf <- read.csv(paste0(path,"E_wsf.csv"), sep = ";", dec = ".")
+E_wsf$iso3 <- countries$iso3c[match(E_wsf$Country, countries$country)]  # add iso using "countries" 
 CF_aware <- subset(E_wsf, select = c(iso3, Agg_CF_irri))
 CF_aware <- CF_aware[!duplicated(CF_aware), ]  
-FP_output <- merge(FP_output, CF_aware, by.x = "source_iso", by.y = "iso3", all.x=T, all.y=F, sort = FALSE)
+FP_output <- merge(FP_output, CF_aware, by.x = "Group.1", by.y = "iso3", all.x=T, all.y=F, sort = FALSE)
 
+## - WSF version 2:
+FP_output$WSF2 <- FP_output$Agg_CF_irri*FP_output$water_cons
 
-# -------- Add full country names and continents ----------
-FP_output2 <- merge(FP_output, countries, by.x = "source_iso", by.y = "iso3c" , all.x=T, all.y=F, sort = FALSE)
-FP_output<- FP_output2[ , -c(7) ]
+# - Add full country names and continents 
+FP_output <- merge(FP_output, countries, by.x = "Group.1", by.y = "iso3c" , all.x=T, all.y=F, sort = FALSE)
+#FP_output<- FP_output[ , -c(7) ]
 
 
 ### PRINT TO FILE ######
-write.table(FP_output, file = "output/spatial_FP/footprints_wsf_aware_wsf2.csv", dec = ".", sep = ";",row.names = FALSE)  
+write.table(FP_output, file = "output/spatial_FP/footprints_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
 
-#FP_output <- read.csv("output/spatial_FP/footprints_wsf.csv", dec = ".", sep = ";")
 
+
+###### ------- LOOP OVER INDICATORS FOR DIETARY CHANGE (Scen1) -------- ####
+
+for (i in names(ind_list[2:5])){
+  FP_results <- footprint1(ind_list[[i]], Y_Scen1) 
+  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum)
+  if (i=="land"){
+    FP_output <- data
+  } else {
+    FP_output <- merge(FP_output, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
+  }
+  names(FP_output)[names(FP_output) == 'x'] <- i
+  rm(data)
+}
 
 ##################### Country and Product-group specific footprint ####################
 
@@ -153,33 +145,41 @@ product_Y_list.creator <- function(Y_tot){
   return(product_Y_list)
 }
 
-product_Y_list <- product_Y_list.creator(Y_SQ)
+product_Y_list_SQ <- product_Y_list.creator(Y_SQ)
+product_Y_list_Scen1 <- product_Y_list.creator(Y_Scen1)
 
 
-#####  ------- Cropland ------------ #####
-# This section has an alternative syntax, but does the same, see e.g. biomass below
+#####  ---------  Cropland  ------------- #####
 
-E <- readRDS(paste0(path,"2013_E.rds"))
-ind <- E$Landuse
-rm(E)
-gc()
+#product_Y_list_Scen1[[i]]
 
-for (i in names(product_Y_list[10:11])){  # bygg in en hoppa-över-funktion för saknad data (FP_results är tom för Fish", ger felmeddelande)
-  FP_results <- footprint1(ind, product_Y_list[[i]])
-  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) # do same thing as "data <- .." above
-  if (i=="Cereals"){
-    output_land <- data
-  } else {
-    output_land <- merge(output_land, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
+# ---------- Loop over indicators ------ 
+for (j in names(ind_list)){
+  ind <- ind_list[[j]]
+  
+  # ------ Loop over products -------
+for (i in names(product_Y_list_Scen1)){    # Define Y-lists
+  if (i=="Fish") { next                                             # FP_results are empty for "Fish" as there is no data
+  }else{
+    FP_results <- footprint1(ind, product_Y_list_Scen1[[i]])
+    data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) 
+    print(i)
   }
-  names(output_land)[names(output_land) == 'x'] <- i
+  if (i=="Cereals"){
+    output <- data
+  } else {
+    output <- merge(output, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
+  }
+  names(output)[names(output) == 'x'] <- i
+}
+#assign(paste0("output_",j), output)
+
+# PRINT TO FILE 
+write.table(output, file = paste0("output/spatial_FP/footprints_products_",j,"_Scen1.csv"), dec = ".", sep = ";",row.names = FALSE)  
 }
 
-### PRINT TO FILE ######
-write.table(output_land, file = "output/spatial_FP/footprints_products_land.csv", dec = ".", sep = ";",row.names = FALSE)  
 
-
-
+#output_land <- output_land[ , -c(10) ]
 # ### --------- Water ------------------###
 # E <- readRDS(paste0(path,"2013_E.rds"))
 # ind <- E$Blue_water
@@ -197,27 +197,6 @@ ind <- E$Biomass
 rm(E)
 
 
-for (i in names(product_Y_list[1:8])){  # bygg in en hoppa-över-funktion för saknad data (FP_results är tom för Fish", ger felmeddelande)
-  FP_results <- footprint1(ind, product_Y_list[[i]])
-  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) # do same thing as "data <- .." above
-  if (i=="Cereals"){
-    output_biomass <- data
-  } else {
-    output_biomass <- merge(output_biomass, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
-  }
-  names(output_biomass)[names(output_biomass) == 'x'] <- i
-}
-
-for (i in names(product_Y_list[10:11])){  # bygg in en hoppa-över-funktion för saknad data (FP_results är tom för Fish", ger felmeddelande)
-  FP_results <- footprint1(ind, product_Y_list[[i]])
-  data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) # do same thing as "data <- .." above
-  if (i=="Cereals"){
-    output_biomass <- data
-  } else {
-    output_biomass <- merge(output_biomass, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
-  }
-  names(output_biomass)[names(output_biomass) == 'x'] <- i
-}
 
 ### PRINT TO FILE ######
 write.table(output_biomass, file = "output/spatial_FP/footprints_products_biomass.csv", dec = ".", sep = ";",row.names = FALSE)  

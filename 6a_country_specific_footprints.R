@@ -2,6 +2,7 @@
 ###----------------------- Spatial footprints ------------------------#####
 ###########################################################################
 library(plyr)
+library(tidyr)
 
 path <- "C:/Hanna/FABIO_FW-diets_GER/input/"
 
@@ -57,6 +58,7 @@ rm(E_ghg)
 rm(E_wsf)
 gc()
 
+
 ###### ------- LOOP OVER INDICATORS FOR Status Quo (SQ) -----#######
 
 for (i in names(ind_list)){
@@ -92,7 +94,7 @@ FP_output <- merge(FP_output, countries, by.x = "Group.1", by.y = "iso3c" , all.
 
 
 ### PRINT TO FILE ######
-write.table(FP_output, file = "output/spatial_FP/footprints_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
+write.table(FP_output, file = "output/spatial_FP/footprints_SQ.csv", dec = ".", sep = ";",row.names = FALSE)  
 
 
 
@@ -109,6 +111,10 @@ for (i in names(ind_list[2:5])){
   names(FP_output)[names(FP_output) == 'x'] <- i
   rm(data)
 }
+
+### PRINT TO FILE ######
+write.table(FP_output, file = "output/spatial_FP/footprints_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
+
 
 ##################### Country and Product-group specific footprint ####################
 
@@ -154,12 +160,16 @@ product_Y_list_Scen1 <- product_Y_list.creator(Y_Scen1)
 #product_Y_list_Scen1[[i]]
 i="Eggs"
 
+j = "GHG"
+
 # ---------- Loop over indicators ------ 
 for (j in names(ind_list)){
   ind <- ind_list[[j]]
 
+i="Cereals"
+  
   # ------ Loop over products -------
-for (i in names(product_Y_list_Scen1)){    # Define Y-lists
+for (i in names(product_Y_list_Scen1[2])){    # Define Y-lists
   if (i=="Fish") { next                                             # FP_results are empty for "Fish" as there is no data
   }else{
     FP_results <- footprint1(ind, product_Y_list_Scen1[[i]])

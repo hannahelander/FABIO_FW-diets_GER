@@ -24,7 +24,9 @@ nrow(excWB) #61 countries
 ######### Step 3: Add footprint data to geographic data ##########
 
 # Read footprints data
-Footprints <- read.csv(file = "output/spatial_FP/footprints_wsf_aware_wsf2.csv", dec = ".", sep = ";")
+# Footprints <- read.csv(file = "output/spatial_FP/footprints_wsf_aware_wsf2.csv", dec = ".", sep = ";")
+
+Footprints <- read.csv(file = "output/spatial_FP/footprints_Scen1.csv", dec = ".", sep = ";")
 class(Footprints) # data.frame
 sapply(Footprints, class)
 #Footprints$land <- as.numeric(Footprints$land)
@@ -44,7 +46,7 @@ Footprints_WB <-   merge(World_boarders@data, Footprints, by.x = "ISO3",
 World_boarders@data = Footprints_WB[order(Footprints_WB$idx),] #idx maintains the order so that polygons and country-data match
 
 # Export back to shapefile
-writeOGR(World_boarders, dsn="C:/Hanna/CIRCULUS/Spatial_footprints/GIS-project", layer = "Footprints_wsf2",
+writeOGR(World_boarders, dsn="C:/Hanna/CIRCULUS/Spatial_footprints/GIS-project", layer = "Footprints_Scen1",
          driver="ESRI Shapefile", overwrite_layer= TRUE)    # 8 warnings of "Value 126218553.015699998 of field water of feature 64 not successfully written. Possibly due to too larger number with respect to field width" 
                                                             # need to deal with these numbers at one point.
 

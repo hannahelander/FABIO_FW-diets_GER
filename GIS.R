@@ -26,7 +26,8 @@ nrow(excWB) #61 countries
 # Read footprints data
 # Footprints <- read.csv(file = "output/spatial_FP/footprints_wsf_aware_wsf2.csv", dec = ".", sep = ";")
 
-Footprints <- read.csv(file = "output/spatial_FP/footprints_Scen1.csv", dec = ".", sep = ";")
+#Footprints <- read.csv(file = "output/spatial_FP/footprints_Scen1.csv", dec = ".", sep = ";")
+Footprints <- FP_output
 class(Footprints) # data.frame
 sapply(Footprints, class)
 #Footprints$land <- as.numeric(Footprints$land)
@@ -38,15 +39,15 @@ sapply(Footprints, class)
 # merge on common variable, here called 'key'
 World_boarders@data$ISO3 <- as.character(World_boarders@data$ISO3)
 World_boarders@data$idx = 1:nrow(World_boarders@data) # add an index to keep the order
-Footprints$source_iso <- as.character(Footprints$source_iso)
+Footprints$Group.1 <- as.character(Footprints$Group.1)
 
 Footprints_WB <-   merge(World_boarders@data, Footprints, by.x = "ISO3", 
-                         by.y="source_iso", all.x=T, all.y=F, sort = FALSE) # given all.y=F I need to check if there are some data excluded
+                         by.y="Group.1", all.x=T, all.y=F, sort = FALSE) # given all.y=F I need to check if there are some data excluded
 # add merged data to "SpatialPolygonsDataFrame"
 World_boarders@data = Footprints_WB[order(Footprints_WB$idx),] #idx maintains the order so that polygons and country-data match
 
 # Export back to shapefile
-writeOGR(World_boarders, dsn="C:/Hanna/CIRCULUS/Spatial_footprints/GIS-project", layer = "Footprints_Scen1",
+writeOGR(World_boarders, dsn="C:/Hanna/CIRCULUS/Spatial_footprints/GIS-project", layer = "Footprints_SQ_Scen1",
          driver="ESRI Shapefile", overwrite_layer= TRUE)    # 8 warnings of "Value 126218553.015699998 of field water of feature 64 not successfully written. Possibly due to too larger number with respect to field width" 
                                                             # need to deal with these numbers at one point.
 

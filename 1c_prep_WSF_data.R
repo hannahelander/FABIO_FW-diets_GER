@@ -12,13 +12,15 @@ E_WF <- E     # rename E (modified data is not the original FABIO extention)
 # OUT_inc = procuct mass*RWC, RWC (relative water content) = moisture content. 
 # Thus, for the E_matrix, only moisture content is needed.
 RWC <- products[, c(2,6)]
+
+#This makes no sense! I cannot add a "rate" to the E-matrix. In that case I kind of need to multiply it with the total production?
 E_WF <- merge(E_WF, RWC, by.x="Item.Code", by.y="item_code", # add moisture to E_WF
               all.x=T, all.y=T, sort = FALSE)
 
 recharge_rate <- 0        # if reharge_rate = 0, max and min is the same
 E_WF$bw_ep <- E_WF$Blue_water * (1 - recharge_rate)  #bw_ep
-E_WF$ep_min <- E_WF$Green_water - E_WF$rwc + bw_ep     # ep_min
-E_WF$ep_max <- E_WF$Green_water - E_WF$rwc + E_WF$Blue_water   #ep_max
+E_WF$ep_min <- E_WF$Green_water - E_WF$rwc + bw_ep     # ep_min ### RECONSIDER
+E_WF$ep_max <- E_WF$Green_water - E_WF$rwc + E_WF$Blue_water   #ep_max ### RECONSIDER
 
 E_WF$WF_min <- E_WF$rwc + E_WF$ep_min
 E_WF$WF_max <- E_WF$rwc + E_WF$ep_max

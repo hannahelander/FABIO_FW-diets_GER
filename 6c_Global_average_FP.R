@@ -7,6 +7,8 @@ GlobalPop <- 7169640140 # From worldbank, tot population 2013 https://data.world
 Y_global <- Y[ ,SUM..."DEU_Food"]                           # Status Quo
 
 
+FP_global = e*L*Y
+
 dimnames(Y)[2]
 # change line below and use it in a loop through the dimnames of Y. generate output with which or if.
 substr("test_Food",nchar("test_Food")-4,nchar("test_Food")) == "_Food"

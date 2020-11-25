@@ -3,9 +3,13 @@
 ###########################################################################
 library(plyr)
 library(tidyr)
+# GHG is given in Gg
+# Biomass is given in Ton?
+# Land use is given in hectars
+# Water is given in m3
+
 
 path <- "C:/Hanna/FABIO_FW-diets_GER/input/"
-
 
 ######### Country-specific footprints #####################
 
@@ -13,6 +17,7 @@ path <- "C:/Hanna/FABIO_FW-diets_GER/input/"
 footprint1 <- function(indicator, Y_vector){ # indicator is e.g. E?Biomass, Y_vector= e.g. Y_SQ or Y_roots
   e <- as.vector(indicator) / X
   e[!is.finite(e)] <- 0
+  e[e<0] <- 0
   rm(indicator)
   
   # calculate multipliers
@@ -44,39 +49,68 @@ Y_SQ <- Y[ ,"DEU_Food"]                       # might need to check if all produ
 Y_Scen1 <- Y_lancet <- read.csv2(file = "data/Y_lancet.csv")
 Y_Scen1<- Y_lancet[,2] 
 E <- readRDS(paste0(path,"2013_E.rds"))
-E_wsf <- read.csv(paste0(path,"E_wsf.csv"), sep = ";", dec = ".")
+#E_wsf <- read.csv(paste0(path,"E_wsf.csv"), sep = ";", dec = ".")
 load(paste0(path,"E_ghg_2013.RData"))
+
+population <- 80645605 #2013 Source: World bank 
 
 # List indicators
 ind_list <- list("land"= E$Landuse, 
                  "biomass" = E$Biomass,
-                 "water_cons" = as.numeric(E_wsf$cons_water),
-                 "WSF1" = as.numeric(E_wsf$WSF),
+                 "blue_water" = E$Green_water,
+                 "green_water" = E$Blue_water,
+                 #"water_cons" = as.numeric(E_wsf$cons_water),
+                 #"WSF1" = as.numeric(E_wsf$WSF),
                  "GHG" = colSums(E_ghg[ , 2:ncol(E_ghg)]))
 rm(E)
 rm(E_ghg)
-rm(E_wsf)
+#rm(E_wsf)
 gc()
 
 
 ###### ------- LOOP OVER INDICATORS FOR Status Quo (SQ) -----#######
 
-for (i in names(ind_list)){
-  FP_results <- footprint1(ind_list[[i]], Y_SQ) 
+for (j in names(ind_list)){
+  FP_results <- footprint1(ind_list[[j]], Y_Scen1) 
   data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum)
-  if (i=="land"){
-    FP_output <- data
-  } else {
+  #if (j=="land"){
+ #   FP_output <- data
+  #} else {
     FP_output <- merge(FP_output, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
-  }
-  names(FP_output)[names(FP_output) == 'x'] <- i
+  #}
+  names(FP_output)[names(FP_output) == 'x'] <- paste0("Scen1.",j) # change according to scenario!
   rm(data)
 }
 
+colSums(FP_output)
 # # --- PREVIOUS CODE in tidyverse ----
 # FP <- footprint1(ind, Y_SQ)
 # data <- FP %>% group_by(source_iso) %>% summarise(water_scarcity = sum(value))
 # FP_output <- merge(FP_output, data, by = intersect("source_iso", "source_iso"), all.x=T, all.y=T, sort = FALSE
+
+# ---- Calculate Water scarcity footprints --- #
+WSF.Calculator <- function(blue_water, green_water, out_inc, recharge_rate){
+  bw_ep <- blue_water * (1-recharge_rate)
+  ep_min <- green_water - out_inc + bw_ep
+  ep_max <- green_water - out_inc + blue_water
+  return(ep_min, ep_max )
+}
+
+recharge_rate <- 0.65
+
+RWC <- products[, c(2,6)]
+
+#This makes no sense! I cannot add a "rate" to the E-matrix. In that case I kind of need to multiply it with the total production?
+E_WF <- merge(E_WF, RWC, by.x="Item.Code", by.y="item_code", # add moisture to E_WF
+              all.x=T, all.y=T, sort = FALSE)
+
+recharge_rate <- 0        # if reharge_rate = 0, max and min is the same
+E_WF$bw_ep <- E_WF$Blue_water * (1 - recharge_rate)  #bw_ep
+E_WF$ep_min <- E_WF$Green_water - E_WF$rwc + bw_ep     # ep_min ### RECONSIDER
+E_WF$ep_max <- E_WF$Green_water - E_WF$rwc + E_WF$Blue_water   #ep_max ### RECONSIDER
+
+E_WF$WF_min <- E_WF$rwc + E_WF$ep_min
+E_WF$WF_max <- E_WF$rwc + E_WF$ep_max
 
 # - Add AWARE factors for background map 
 E_wsf <- read.csv(paste0(path,"E_wsf.csv"), sep = ";", dec = ".")
@@ -85,30 +119,32 @@ CF_aware <- subset(E_wsf, select = c(iso3, Agg_CF_irri))
 CF_aware <- CF_aware[!duplicated(CF_aware), ]  
 FP_output <- merge(FP_output, CF_aware, by.x = "Group.1", by.y = "iso3", all.x=T, all.y=F, sort = FALSE)
 
-## - WSF version 2:
-FP_output$WSF2 <- FP_output$Agg_CF_irri*FP_output$water_cons
+## - WSF version 2: 
+#FP_output$WSF2 <- FP_output$water_cons* FP_output$Agg_CF_irri
 
 # - Add full country names and continents 
 FP_output <- merge(FP_output, countries, by.x = "Group.1", by.y = "iso3c" , all.x=T, all.y=F, sort = FALSE)
 #FP_output<- FP_output[ , -c(7) ]
 
+# Calculate per capita
+FP_output$GHG <- FP_output$GHG/population*1000000 # for GHG: per capita in kg
 
-### PRINT TO FILE ######
-write.table(FP_output, file = "output/spatial_FP/footprints_SQ.csv", dec = ".", sep = ";",row.names = FALSE)  
 
+### PRINT TO FILE 
+write.table(FP_output, file = "output/spatial_FP/footprints_SQ_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
 
 
 ###### ------- LOOP OVER INDICATORS FOR DIETARY CHANGE (Scen1) -------- ####
 
-for (i in names(ind_list[2:5])){
-  FP_results <- footprint1(ind_list[[i]], Y_Scen1) 
+for (j in names(ind_list[2:5])){
+  FP_results <- footprint1(ind_list[[j]], Y_Scen1) 
   data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum)
   if (i=="land"){
     FP_output <- data
   } else {
     FP_output <- merge(FP_output, data, by= intersect("Group.1", "Group.1"), all.x=T, all.y=T, sort = FALSE)
   }
-  names(FP_output)[names(FP_output) == 'x'] <- i
+  names(FP_output)[names(FP_output) == 'x'] <- j
   rm(data)
 }
 
@@ -138,7 +174,7 @@ product_Y_list.creator <- function(Y_tot){
   Y_oils[index$diet_group != "Vegetable oils"] <- 0
   Y_milk <- Y_tot
   Y_milk[index$com_group != "Milk"] <- 0
-  Y_eggs   <- Y_SQ
+  Y_eggs   <- Y_tot
   Y_eggs[index$diet_group != "Eggs"] <- 0
   Y_fish   <- Y_tot
   Y_fish[index$diet_group != "Fish"] <- 0
@@ -155,24 +191,19 @@ product_Y_list_SQ <- product_Y_list.creator(Y_SQ)
 product_Y_list_Scen1 <- product_Y_list.creator(Y_Scen1)
 
 
-#####  ---------  Cropland  ------------- #####
-
 #product_Y_list_Scen1[[i]]
-i="Eggs"
+#i="Eggs"
 
-j = "GHG"
+j = "land"
 
 # ---------- Loop over indicators ------ 
 for (j in names(ind_list)){
-  ind <- ind_list[[j]]
 
-i="Cereals"
-  
   # ------ Loop over products -------
-for (i in names(product_Y_list_Scen1[2])){    # Define Y-lists
+for (i in names(product_Y_list_Scen1[3:11])){    # Define Y-lists
   if (i=="Fish") { next                                             # FP_results are empty for "Fish" as there is no data
   }else{
-    FP_results <- footprint1(ind, product_Y_list_Scen1[[i]])
+    FP_results <- footprint1(ind_list[[j]], product_Y_list_Scen1[[i]])
     data = aggregate(FP_results$value,by=list(FP_results$source_iso),FUN=sum) 
     print(i)
   }
@@ -186,9 +217,12 @@ for (i in names(product_Y_list_Scen1[2])){    # Define Y-lists
 #assign(paste0("output_",j), output)
 
 # PRINT TO FILE 
-write.table(output, file = paste0("output/spatial_FP/footprints_products_",j,"_Scen1.csv"), dec = ".", sep = ";",row.names = FALSE)  
+write.table(output, file = paste0("output/spatial_FP/footprints_products_",j,"_Scen1_10.11.csv"), dec = ".", sep = ";",row.names = FALSE)  
 }
 
+
+bb<- output[rev(order(b$x, na.last = FALSE)), ]
+bb[1:10, ]
 
 #output_land <- output_land[ , -c(10) ]
 
@@ -196,7 +230,8 @@ write.table(output, file = paste0("output/spatial_FP/footprints_products_",j,"_S
 #####  ----------- Quantities ------------ #####
 product_Y_list <- product_Y_list_Scen1
 
-for (i in names(product_Y_list[1:11])){  
+
+for (i in names(product_Y_list)){  
   data = aggregate(product_Y_list[[i]], by=list(index$country), FUN=sum)
   if (i=="Cereals"){
     output_mass <- data
@@ -207,7 +242,7 @@ for (i in names(product_Y_list[1:11])){
 }
 
 ### PRINT TO FILE ######
-write.table(output_mass, file = "output/spatial_FP/footprints_products_mass_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
+write.table(output_mass, file = "output/spatial_FP/products_mass_Scen1.csv", dec = ".", sep = ";",row.names = FALSE)  
 
 
 # ##############################################################################
